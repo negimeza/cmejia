@@ -1,6 +1,6 @@
 // ── CONFIGURACIÓN DE API ──
 const API_URL = "https://script.google.com/macros/s/AKfycby4hAvML44n1iCEQ1OUhZIhVujEfvTH83wIFMqnYc1cw8xNNs0OUHS9TYKi1HegNrdP/exec";
-const WA = "573207101121";
+const WA = "573206419934";
 
 let productos = [];
 let carrito = JSON.parse(localStorage.getItem('lupe_cart')) || [];
