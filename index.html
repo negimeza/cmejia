@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>LupeStyle – Catálogo Premium</title>
+  
+  <!-- CONEXIÓN AL DISEÑO (CSS) -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="badge">📍 Envíos solo a Medellín</div>
+      <h1>Lupe<em>Style</em></h1>
+      <p>Moda que habla por ti. Prendas únicas para hombres y mujeres que quieren destacar sin esfuerzo.</p>
+      <a class="hero-cta" href="#catalogo">Ver catálogo ↓</a>
+    </div>
+  </section>
+
+  <!-- ── BANNER ── -->
+  <div class="shipping">🚚 <span>Envíos disponibles solo en Medellín</span> — Pedidos por WhatsApp</div>
+
+  <!-- ── CATÁLOGO ── -->
+  <section id="catalogo">
+    <div class="section-header">
+      <h2>Nuestro Catálogo</h2>
+      <p>Desliza para ver todas las prendas disponibles · Toca una imagen para más detalles</p>
+    </div>
+    <div class="carousel-wrap">
+      <button class="arrow prev" onclick="move(-1)">←</button>
+      <div class="carousel">
+        <div class="carousel-track" id="track"></div>
+      </div>
+      <button class="arrow next" onclick="move(1)">→</button>
+    </div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <!-- ── POR QUÉ NOSOTROS ── -->
+  <section class="features">
+    <div class="section-header">
+      <h2>¿Por qué elegirnos?</h2>
+      <p>Calidad, estilo y atención personalizada</p>
+    </div>
+    <div class="feats-grid">
+      <div class="feat"><div class="feat-icon">👗</div><h3>Moda actual</h3><p>Tendencias actualizadas cada semana para que siempre vayas a la moda.</p></div>
+      <div class="feat"><div class="feat-icon">💬</div><h3>Atención directa</h3><p>Resolvemos tus dudas al instante por WhatsApp. Sin complicaciones.</p></div>
+      <div class="feat"><div class="feat-icon">🚚</div><h3>Envíos en Medellín</h3><p>Llevamos tu pedido a la puerta de tu casa en toda la ciudad.</p></div>
+      <div class="feat"><div class="feat-icon">✅</div><h3>Calidad garantizada</h3><p>Cada prenda es revisada antes de enviarse. Tu satisfacción, nuestra prioridad.</p></div>
+    </div>
+  </section>
+
+  <!-- ── ESTADO DE CARGA ── -->
+  <div id="loading" style="text-align:center; padding:2rem; font-weight:700; color:var(--mid);">
+    <p>Cargando catálogo desde la nube...</p>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p><strong>LupeStyle</strong> — Catálogo de Ropa</p>
+    <p>📍 Envíos solo en <strong>Medellín</strong></p>
+    <p>📲 Pedidos por WhatsApp: <a href="https://wa.me/573207101121">320 710 1121</a></p>
+    <p style="margin-top:.8rem;font-size:.75rem;color:#555">© 2026 LupeStyle · Todos los derechos reservados</p>
+  </footer>
+
+  <!-- ── CARRITO BUBBLE ── -->
+  <div class="cart-bubble" onclick="toggleCart()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <div class="cart-count" id="cart-count">0</div>
+  </div>
+
+  <!-- ── WA FLOTANTE ── -->
+  <a class="wa-float" href="https://wa.me/573207101121?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos" target="_blank" title="Escríbenos por WhatsApp">
+    <div class="wa-pulse"></div>
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.27 2 2 8.27 2 16c0 2.44.65 4.73 1.77 6.72L2 30l7.5-1.74A13.93 13.93 0 0016 30c7.73 0 14-6.27 14-14S23.73 2 16 2zm6.89 19.11c-.29.82-1.7 1.57-2.33 1.65-.6.08-1.36.11-2.19-.14a19.9 19.9 0 01-1.98-.73c-3.48-1.5-5.75-5.03-5.93-5.26-.17-.23-1.4-1.86-1.4-3.55 0-1.68.88-2.51 1.2-2.85.31-.34.68-.43.9-.43.23 0 .46 0 .66.01.21.01.5-.08.78.6.29.68.99 2.42 1.07 2.6.09.17.15.37.03.6-.12.23-.17.37-.34.57-.17.2-.36.44-.51.59-.17.17-.35.35-.15.69.2.34.88 1.45 1.9 2.35 1.3 1.16 2.4 1.52 2.74 1.69.34.17.54.14.74-.08.2-.23.85-.99 1.07-1.33.23-.34.45-.28.76-.17.31.11 1.97.93 2.31 1.1.34.17.57.25.65.39.09.14.09.8-.2 1.62z"/></svg>
+  </a>
+
+  <!-- ── PANEL CARRITO ── -->
+  <div class="cart-panel" id="cart-panel" onclick="if(event.target===this) toggleCart()">
+    <div class="cart-content">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="font-weight: 800; letter-spacing: -1px;">Mi Pedido</h2>
+        <button onclick="toggleCart()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
+      </div>
+      <div class="cart-items" id="cart-list"></div>
+      <div class="cart-footer">
+        <div style="display:flex; justify-content:space-between; margin-bottom: 1.5rem; font-weight:700;">
+          <span>Artículos:</span>
+          <span id="cart-total-qty">0</span>
+        </div>
+        <button class="btn-send-wa" onclick="enviarPedidoWA()">
+          Enviar Pedido por WA
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL ── -->
+  <div class="overlay" id="overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <button class="modal-x" onclick="closeModal()">✕</button>
+      <img id="modal-img" src="" alt="Producto"/>
+      <div class="modal-body">
+        <h3 id="modal-name"></h3>
+        <p id="modal-desc"></p>
+        <div class="modal-actions">
+          <button class="btn-wa" onclick="agregarAlCarrito(currentProduct)">🛒 Agregar al pedido</button>
+          <button class="btn-close-modal" onclick="closeModal()">Seguir viendo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONEXIÓN A LA LÓGICA (JS) -->
+  <script src="js/app.js"></script>
+</body>
+</html>
