@@ -31,12 +31,17 @@ async function cargarProductos() {
     const response = await fetch(API_URL);
     if (!response.ok) throw new Error("Network response was not ok");
     const data = await response.json();
-    productos = data.map(p => ({
-      id: p.driveId,
-      name: p.name || "Producto LupeStyle",
-      desc: p.desc || "Disponible en Medellín",
-      src: getDriveSrc(p.driveId)
-    }));
+    productos = data.map(p => {
+      // Sanitizamos el nombre y la descripción para asegurar que no quede rastro de "Urban"
+      const name = (p.name || "Producto LupeOutfit").replace(/Urban/gi, "LupeOutfit");
+      const desc = (p.desc || "Disponible en Medellín").replace(/UrbanStyle Medellín/gi, "LupeOutfit").replace(/Urban/gi, "LupeOutfit");
+      return {
+        id: p.driveId,
+        name,
+        desc,
+        src: getDriveSrc(p.driveId)
+      };
+    });
     
     if (productos.length === 0) {
       if (loadingEl) loadingEl.innerHTML = "<p>El catálogo está vacío.</p>";
@@ -126,7 +131,7 @@ function actualizarCarritoUI() {
 function enviarPedidoWA() {
   if (carrito.length === 0) return alert("Agrega al menos una prenda a tu pedido.");
   
-  let msg = "¡Hola LupeStyle! 👋 Me interesan estas prendas de tu catálogo:\n\n";
+  let msg = "¡Hola LupeOutfit! 👋 Me interesan estas prendas de tu catálogo:\n\n";
   carrito.forEach((p, i) => {
     msg += `${i + 1}. *${p.name}*\n   (${p.desc})\n\n`;
   });
