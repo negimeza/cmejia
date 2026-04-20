@@ -1,207 +1,259 @@
-// ── CONFIGURACIÓN DE API ──
-const API_URL = "https://script.google.com/macros/s/AKfycby4hAvML44n1iCEQ1OUhZIhVujEfvTH83wIFMqnYc1cw8xNNs0OUHS9TYKi1HegNrdP/exec";
-const WA = "573206419934";
+/**
+ * app.js — Orquestador del catálogo público Boutique V2.
+ */
 
-let productos = [];
-let carrito = JSON.parse(localStorage.getItem('lupe_cart')) || [];
-const track = document.getElementById('track');
-const dotsEl = document.getElementById('dots');
-const loadingEl = document.getElementById('loading');
-let cur = 0, perPage = 3, currentProduct = null;
+let _currentProduct = null;
+let _products = [];
+let _categories = [];
+let _activeCategory = 'all';
+let _currentSize     = null;
 
-function getDriveSrc(id) {
-  return `https://lh3.googleusercontent.com/d/${id}=s800`;
-}
-
-// ── SKELETONS INICIALES ──
-function showSkeletons() {
-  if (!track) return;
-  track.innerHTML = '';
-  for(let i=0; i<3; i++) {
-    const d = document.createElement('div');
-    d.className = 'card skeleton';
-    d.style.height = '450px';
-    track.appendChild(d);
-  }
-}
-
-async function cargarProductos() {
-  showSkeletons();
+// ── Aplica configuración guardada en localStorage ──
+function applyConfig() {
   try {
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error("Network response was not ok");
-    const data = await response.json();
-    productos = data.map(p => {
-      // Sanitizamos el nombre y la descripción para asegurar que no quede rastro de "Urban"
-      const name = (p.name || "Producto LupeOutfit").replace(/Urban/gi, "LupeOutfit");
-      const desc = (p.desc || "Disponible en Medellín").replace(/UrbanStyle Medellín/gi, "LupeOutfit").replace(/Urban/gi, "LupeOutfit");
-      return {
-        id: p.driveId,
-        name,
-        desc,
-        src: getDriveSrc(p.driveId)
-      };
-    });
-    
-    if (productos.length === 0) {
-      if (loadingEl) loadingEl.innerHTML = "<p>El catálogo está vacío.</p>";
-    } else {
-      if (loadingEl) loadingEl.style.display = 'none';
-      buildCards();
-      buildDots();
+    const saved = localStorage.getItem('lupe_config');
+    if (!saved) return;
+    const cfg = JSON.parse(saved);
+
+    // — Título del navegador —
+    if (cfg.storeName) {
+      document.title = `${cfg.storeName} – Catálogo Premium`;
+      const logo = document.getElementById('header-logo');
+      if (logo) logo.textContent = cfg.storeName;
     }
-  } catch (error) {
-    console.error("Error cargando productos:", error);
-    if (loadingEl) loadingEl.innerHTML = "<p>Error al cargar catálogo. Verifica la conexión.</p>";
-  }
-  actualizarCarritoUI();
+
+    // — Hero —
+    if (cfg.heroTitle) {
+      const el = document.getElementById('hero-title');
+      if (el) el.textContent = cfg.heroTitle;
+    }
+    if (cfg.heroSubtitle) {
+      const el = document.getElementById('hero-sub');
+      if (el) el.textContent = cfg.heroSubtitle;
+    }
+    if (cfg.city) {
+      const badge = document.getElementById('hero-badge');
+      if (badge) badge.textContent = `\uD83D\uDCCD ${cfg.city} \u00b7 Colecci\u00f3n 2026`;
+    }
+
+    // — Carrito / Envío —
+    if (cfg.shippingMsg) {
+      const el = document.getElementById('shipping-msg');
+      if (el) el.textContent = cfg.shippingMsg;
+    }
+
+    // — Footer —
+    const name    = cfg.storeName || 'LupeOutfit';
+    const city    = cfg.city      || 'Medell\u00edn';
+    const waNum   = cfg.waNumber  || '573207101121';
+    const waLocal = waNum.replace(/^57/, '');
+    const igHandle = cfg.instagram || '';
+
+    const footerName = document.getElementById('footer-name');
+    if (footerName) footerName.innerHTML = `<strong>${name}</strong> \u2014 Cat\u00e1logo de Ropa`;
+
+    const footerCity = document.getElementById('footer-city');
+    if (footerCity) footerCity.innerHTML = `Env\u00edos en <strong>${city}</strong>`;
+
+    const footerCopy = document.getElementById('footer-copy');
+    if (footerCopy) footerCopy.textContent = `\u00a9 2026 ${name} \u00b7 Todos los derechos reservados`;
+
+    const waLink = document.getElementById('footer-wa-link');
+    const waText = document.getElementById('footer-wa-text');
+    if (waLink) waLink.href = `https://wa.me/${waNum}`;
+    if (waText) waText.textContent = `+57 ${waLocal.slice(0,3)} ${waLocal.slice(3,6)} ${waLocal.slice(6)}`;
+
+    const igLink = document.getElementById('footer-ig-link');
+    const igText = document.getElementById('footer-ig-text');
+    if (igHandle && igLink) {
+      igLink.href = `https://www.instagram.com/${igHandle}`;
+      if (igText) igText.textContent = `@${igHandle}`;
+      igLink.classList.remove('hidden');
+    } else if (igLink) {
+      igLink.classList.add('hidden');
+    }
+
+    // — Botón flotante WA —
+    const waFloat = document.querySelector('.wa-float');
+    if (waFloat && waNum) {
+      waFloat.href = `https://wa.me/${waNum}?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n`;
+    }
+
+  } catch { /* silencioso */ }
 }
 
-function buildCards(){
-  if (!track) return;
-  track.innerHTML='';
-  productos.forEach((p,i)=>{
-    const d=document.createElement('div');
-    d.className='card';
-    d.style.animation = `fadeUp 0.8s forwards ${i*0.1}s`;
-    d.innerHTML=`
-      <button class="btn-add-cart" onclick="event.stopPropagation(); agregarAlCarrito(productos[${i}])">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-      </button>
-      <img src="${p.src}" alt="${p.name}" loading="lazy"/>
-      <div class="card-label"><h3>${p.name}</h3><p>${p.desc}</p></div>
-    `;
-    d.onclick=()=>openModal(p);
-    track.appendChild(d);
-  });
-}
-
-// ── LÓGICA DE CARRITO ──
-function toggleCart() {
-  const panel = document.getElementById('cart-panel');
-  if (panel) panel.classList.toggle('open');
-}
-
-function agregarAlCarrito(p) {
-  carrito.push(p);
-  localStorage.setItem('lupe_cart', JSON.stringify(carrito));
-  actualizarCarritoUI();
-  
-  // Feedback visual
-  const btn = document.querySelector('.cart-bubble');
-  if (btn) {
-    btn.style.transform = 'scale(1.3)';
-    setTimeout(() => btn.style.transform = '', 200);
-  }
-}
-
-function quitarDelCarrito(index) {
-  carrito.splice(index, 1);
-  localStorage.setItem('lupe_cart', JSON.stringify(carrito));
-  actualizarCarritoUI();
-}
-
-function actualizarCarritoUI() {
-  const list = document.getElementById('cart-list');
-  const count = document.getElementById('cart-count');
-  const totalQty = document.getElementById('cart-total-qty');
-  
-  if (count) count.textContent = carrito.length;
-  if (totalQty) totalQty.textContent = carrito.length;
-  
-  if (list) {
-    list.innerHTML = carrito.length === 0 ? '<p style="text-align:center; color:#aaa; margin-top:2rem;">Tu pedido está vacío</p>' : '';
-    
-    carrito.forEach((p, i) => {
-      const item = document.createElement('div');
-      item.className = 'cart-item';
-      item.innerHTML = `
-        <img src="${p.src}"/>
-        <div class="cart-item-info">
-          <h4>${p.name}</h4>
-          <p>${p.desc}</p>
-          <span class="cart-remove" onclick="quitarDelCarrito(${i})">Eliminar</span>
-        </div>
-      `;
-      list.appendChild(item);
-    });
-  }
-}
-
-function enviarPedidoWA() {
-  if (carrito.length === 0) return alert("Agrega al menos una prenda a tu pedido.");
-  
-  let msg = "¡Hola LupeOutfit! 👋 Me interesan estas prendas de tu catálogo:\n\n";
-  carrito.forEach((p, i) => {
-    msg += `${i + 1}. *${p.name}*\n   (${p.desc})\n\n`;
-  });
-  msg += `📍 Mi ubicación: Medellín\nTotal artículos: ${carrito.length}`;
-  
-  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
-}
-
-function move(dir){
-  if (productos.length === 0) return;
-  const pages=Math.ceil(productos.length/getPerPage());
-  cur=(cur+dir+pages)%pages;
-  updateCarousel();
-}
-
-function updateCarousel(){
-  const perP = getPerPage();
-  const cardW=track.children[0]?.offsetWidth||0;
-  const gap=parseFloat(getComputedStyle(track).gap)||0;
-  track.style.transform=`translateX(-${cur*(cardW+gap)*perP}px)`;
-  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
-}
-
-function getPerPage(){
-  return window.innerWidth<=700?1:window.innerWidth<=950?2:3;
-}
-
-function buildDots(){
-  if (!dotsEl) return;
-  const perP = getPerPage();
-  const pages=Math.ceil(productos.length/perP);
-  dotsEl.innerHTML='';
-  for(let i=0; i<pages; i++){
-    const b=document.createElement('button');
-    b.className='dot'+(i===cur?' active':'');
-    b.onclick=()=>{cur=i;updateCarousel()};
-    dotsEl.appendChild(b);
-  }
-}
-
-function openModal(p){
-  currentProduct = p;
-  const img = document.getElementById('modal-img');
-  const name = document.getElementById('modal-name');
-  const desc = document.getElementById('modal-desc');
-  const overlay = document.getElementById('overlay');
-
-  if (img) img.src = p.src;
-  if (name) name.textContent = p.name;
-  if (desc) desc.textContent = p.desc;
-  if (overlay) overlay.classList.add('open');
-  document.body.style.overflow='hidden';
-}
-
-function closeModal(e){
-  const overlay = document.getElementById('overlay');
-  if(!e || e.target===overlay || 
-     (e.currentTarget && (e.currentTarget.classList.contains('modal-x') || e.currentTarget.classList.contains('btn-close-modal')))) {
-    if (overlay) overlay.classList.remove('open');
-    document.body.style.overflow='';
-  }
-}
-
-// ── EVENTOS ──
-window.addEventListener('resize', ()=>{ 
-  if(productos.length>0){
-    buildDots();
-    updateCarousel();
-  }
+document.addEventListener('DOMContentLoaded', () => {
+  applyConfig();
+  initApp();
 });
 
-// Iniciamos carga al cargar el DOM
-document.addEventListener('DOMContentLoaded', cargarProductos);
+async function initApp() {
+  // 1. Inicializar UI del Carrito
+  if (typeof renderCart === 'function') renderCart(); 
+
+  // 2. Inicializar Interfaz de Catálogo
+  if (window.CatalogUI) {
+    CatalogUI.init({
+      onProductClick: openModal,
+      onAddClick:     addToCart
+    });
+  }
+
+  // 3. Cargar Datos
+  await loadData();
+
+  // 4. Header Effect
+  setupHeaderScroll();
+}
+
+async function loadData() {
+  const loadingEl = document.getElementById('loading');
+  if (window.CatalogUI) CatalogUI.showSkeletons();
+
+  try {
+    // Verificación de seguridad de conexión
+    if (!window.sb) {
+      throw new Error("La conexión con Supabase no se pudo inicializar. Revisa la configuración.");
+    }
+
+    // Cargar categorías y productos en paralelo
+    const [cats, productsRaw] = await Promise.all([
+      ProductService.getCategories(),
+      ProductService.getActive()
+    ]);
+
+    _categories = cats;
+    _products   = mapProducts(productsRaw);
+
+    if (loadingEl) loadingEl.style.display = 'none';
+
+    // Renderizar filtros y grilla
+    if (window.CatalogUI) {
+      CatalogUI.renderFilters(_categories, _activeCategory, handleFilter);
+      CatalogUI.renderGrid(_products);
+    }
+
+  } catch (err) {
+    console.error('Error cargando catálogo:', err);
+    if (loadingEl) {
+      loadingEl.innerHTML = `
+        <div style="color:#e53; padding:2rem; background:rgba(255,0,0,0.05); border-radius:8px;">
+          <p style="font-size:1.2rem; margin-bottom:0.5rem;">⚠️ Error</p>
+          <p style="font-weight:400; font-size:0.9rem;">${err.message}</p>
+          <button onclick="location.reload()" style="margin-top:1rem; padding:0.5rem 1rem; cursor:pointer;">Reintentar</button>
+        </div>`;
+    }
+  }
+}
+
+async function handleFilter(categoryId) {
+  _activeCategory = categoryId;
+  if (window.CatalogUI) CatalogUI.showSkeletons();
+  
+  try {
+    const raw = await ProductService.getActiveByCategory(categoryId);
+    _products = mapProducts(raw);
+    if (window.CatalogUI) CatalogUI.renderGrid(_products);
+  } catch (err) {
+    console.error('Error filtrando:', err);
+  }
+}
+
+function mapProducts(raw) {
+  return raw.map(p => ({
+    id:       p.id,
+    name:     p.name,
+    desc:     p.description || '',
+    src:      p.image_url   || '',
+    price:    p.price,
+    category: p.categories ? p.categories.name : 'General',
+  }));
+}
+
+function setupHeaderScroll() {
+  const header = document.querySelector('.header');
+  if (!header) return;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+      header.style.padding = '0.8rem 0';
+      header.style.background = 'rgba(255, 255, 255, 0.9)';
+    } else {
+      header.classList.remove('scrolled');
+      header.style.padding = '1.2rem 0';
+      header.style.background = 'rgba(255, 255, 255, 0.7)';
+    }
+  });
+}
+
+// ── Lógica de Modal ──
+
+function openModal(product) {
+  _currentProduct = product;
+  const img  = document.getElementById('modal-img');
+  const name = document.getElementById('modal-name');
+  const desc = document.getElementById('modal-desc');
+  const cat  = document.getElementById('modal-category');
+  const price = document.getElementById('modal-price');
+  
+  if (img)   img.src         = product.src;
+  if (name)  name.textContent = product.name;
+  if (desc)  desc.textContent = product.desc;
+  if (cat)   cat.textContent  = product.category;
+  if (price) price.textContent = Number(product.price) === 0 ? '$-' : `$${Number(product.price).toLocaleString('es-CO')}`;
+  
+  const qtyEl = document.getElementById('modal-qty');
+  if (qtyEl) qtyEl.textContent = '1';
+  
+  document.getElementById('overlay')?.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  
+  // Reset talla
+  _currentSize = null;
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+}
+
+function closeModal(e) {
+  const overlay = document.getElementById('overlay');
+  const isOverlay = !e || e.target === overlay;
+  const isCloseBtn = e && e.target && (e.target.classList.contains('modal-x') || e.target.classList.contains('btn-close-modal'));
+  
+  if (isOverlay || isCloseBtn) {
+    overlay?.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function changeModalQty(dir) {
+  const el = document.getElementById('modal-qty');
+  if (!el) return;
+  let qty = parseInt(el.textContent) + dir;
+  if (qty < 1) qty = 1;
+  el.textContent = qty;
+}
+
+function selectSize(size) {
+  _currentSize = size;
+  document.querySelectorAll('.size-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === size);
+  });
+}
+
+function agregarAlCarrito() {
+  if (!_currentSize) {
+    const container = document.querySelector('.modal-sizes');
+    container?.classList.add('shake');
+    setTimeout(() => container?.classList.remove('shake'), 500);
+    return;
+  }
+
+  const qtyEl = document.getElementById('modal-qty');
+  const qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
+  
+  const productWithTalla = { ..._currentProduct, talla: _currentSize };
+
+  for(let i=0; i<qty; i++) {
+    if (typeof addToCart === 'function') addToCart(productWithTalla);
+  }
+  closeModal();
+}
