@@ -78,10 +78,10 @@ function applyConfig() {
     const igHandle = cfg.instagram || '';
 
     const footerName = document.getElementById('footer-name');
-    if (footerName) footerName.innerHTML = `<strong>${name}</strong> \u2014 Cat\u00e1logo de Ropa`;
+    if (footerName) footerName.textContent = name;
 
     const footerCity = document.getElementById('footer-city');
-    if (footerCity) footerCity.innerHTML = `Env\u00edos en <strong>${city}</strong>`;
+    if (footerCity) footerCity.innerHTML = `📍 Envíos en <strong>${city}</strong>`;
 
     const footerCopy = document.getElementById('footer-copy');
     if (footerCopy) footerCopy.textContent = `\u00a9 2026 ${name} \u00b7 Todos los derechos reservados`;
