@@ -408,61 +408,51 @@
   <div id="edit-modal-overlay" class="confirm-overlay hidden" onclick="if(event.target===this)closeEditModal()">
     <div class="edit-modal-box">
 
-      <div class="edit-modal-header">
-        <div class="edit-modal-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-          </svg>
-          <h3>Editar Producto</h3>
-        </div>
-        <button class="edit-modal-close" onclick="closeEditModal()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Imagen actual -->
-      <div class="edit-img-wrap">
-        <img id="edit-img-preview" src="" alt="Imagen actual" class="edit-img-thumb hidden">
-        <span class="edit-img-hint">Imagen actual del producto</span>
-      </div>
 
       <div class="edit-modal-body">
+        <div class="edit-modal-top-row">
+          <!-- Imagen actual -->
+          <div class="edit-img-wrap">
+            <img id="edit-img-preview" src="" alt="Imagen actual" class="edit-img-thumb hidden">
+            <span class="edit-img-hint">Imagen actual</span>
+          </div>
 
-        <div class="input-group">
-          <label for="edit-name">Nombre</label>
-          <input type="text" id="edit-name" placeholder="Nombre del producto" required>
-        </div>
+          <div class="edit-modal-top-fields">
+            <div class="input-group">
+              <label for="edit-name">Nombre</label>
+              <input type="text" id="edit-name" placeholder="Nombre del producto" required>
+            </div>
+            
+            <div class="edit-modal-row" style="margin-bottom: 0;">
+              <div class="input-group">
+                <label for="edit-category">Categoría</label>
+                <select id="edit-category">
+                  <option value="">Sin categoría</option>
+                </select>
+              </div>
+              
+              <div class="input-group">
+                <label for="edit-price">Precio (COP)</label>
+                <div class="input-prefix-wrap">
+                  <span class="input-prefix">$</span>
+                  <input type="number" id="edit-price" min="0" placeholder="45000">
+                </div>
+              </div>
+            </div>
 
-        <div class="input-group">
-          <label for="edit-desc">Descripción</label>
-          <textarea id="edit-desc" rows="3" placeholder="Descripción opcional..."></textarea>
-        </div>
-
-        <div class="edit-modal-row">
-          <div class="input-group">
-            <label for="edit-price">Precio (COP)</label>
-            <div class="input-prefix-wrap">
-              <span class="input-prefix">$</span>
-              <input type="number" id="edit-price" min="0" placeholder="45000">
+            <div class="toggle-field" style="margin-top: 0;">
+              <label class="toggle-switch">
+                <input type="checkbox" id="edit-active">
+                <span class="toggle-track"></span>
+              </label>
+              <span class="toggle-label">Visible en catálogo</span>
             </div>
           </div>
-          <div class="input-group">
-            <label for="edit-category">Categoría</label>
-            <select id="edit-category">
-              <option value="">Sin categoría</option>
-            </select>
-          </div>
         </div>
 
-        <div class="toggle-field">
-          <label class="toggle-switch">
-            <input type="checkbox" id="edit-active">
-            <span class="toggle-track"></span>
-          </label>
-          <span class="toggle-label">Visible en catálogo</span>
+        <div class="input-group" style="margin-top: 0.5rem;">
+          <label for="edit-desc">Descripción detallada</label>
+          <textarea id="edit-desc" rows="3" placeholder="Ingresa detalles, tallas, tela, etc..."></textarea>
         </div>
 
       </div>
