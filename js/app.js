@@ -15,17 +15,45 @@ function applyConfig() {
     if (!saved) return;
     const cfg = JSON.parse(saved);
 
+    // Función auxiliar para mantener el estilo Boutique (negrita + gradiente en la última parte)
+    const formatBoutiqueText = (text) => {
+      if (!text) return '';
+      const t = text.trim();
+      
+      // Caso especial: LupeOutfit (sin espacios) -> Lupe<em>Outfit</em>
+      if (t.toLowerCase() === 'lupeoutfit') return 'Lupe<em>Outfit</em>';
+      
+      // Si hay coma, estilizar lo después de la coma
+      if (t.includes(',')) {
+        const parts = t.split(',');
+        const first = parts[0];
+        const rest  = parts.slice(1).join(',').trim();
+        return `${first}, <em>${rest}</em>`;
+      }
+      
+      // Si hay espacios, estilizar la última palabra
+      const words = t.split(/\s+/);
+      if (words.length > 1) {
+        const last = words.pop();
+        return `${words.join(' ')} <em>${last}</em>`;
+      }
+      
+      // Una sola palabra: mitad normal, mitad itálica/gradiente
+      const mid = Math.floor(t.length / 2);
+      return `${t.substring(0, mid)}<em>${t.substring(mid)}</em>`;
+    };
+
     // — Título del navegador —
     if (cfg.storeName) {
       document.title = `${cfg.storeName} – Catálogo Premium`;
       const logo = document.getElementById('header-logo');
-      if (logo) logo.textContent = cfg.storeName;
+      if (logo) logo.innerHTML = formatBoutiqueText(cfg.storeName);
     }
 
     // — Hero —
     if (cfg.heroTitle) {
       const el = document.getElementById('hero-title');
-      if (el) el.textContent = cfg.heroTitle;
+      if (el) el.innerHTML = formatBoutiqueText(cfg.heroTitle);
     }
     if (cfg.heroSubtitle) {
       const el = document.getElementById('hero-sub');
