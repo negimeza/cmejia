@@ -9,6 +9,7 @@
 let _allProducts = [];
 
 // ── Refs DOM ──
+const adminNav         = document.getElementById('admin-nav');
 const loginSection     = document.getElementById('login-section');
 const dashboardSection = document.getElementById('dashboard-section');
 const loginForm        = document.getElementById('login-form');
@@ -53,6 +54,7 @@ sb.auth.onAuthStateChange((_, session) => {
 function showDashboard(user) {
   loginSection.classList.add('hidden');
   dashboardSection.classList.remove('hidden');
+  adminNav?.classList.remove('hidden');
   userInfo.classList.remove('hidden');
   userEmailEl.textContent  = user.email;
   userAvatarEl.textContent = user.email.charAt(0).toUpperCase();
@@ -63,6 +65,7 @@ function showDashboard(user) {
 function showLogin() {
   loginSection.classList.remove('hidden');
   dashboardSection.classList.add('hidden');
+  adminNav?.classList.add('hidden');
   userInfo.classList.add('hidden');
 }
 

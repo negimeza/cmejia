@@ -9,16 +9,31 @@
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body class="admin-body">
+  <!-- Background Animation Global -->
+  <div class="bg-animation">
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+  </div>
+  
+  <!-- Grid Pattern Global -->
+  <div class="grid-pattern"></div>
+
+  <!-- Decorative Stars Global -->
+  <div class="deco-element deco-star" style="top: 10%; left: 15%;"></div>
+  <div class="deco-element deco-star" style="top: 20%; right: 20%; animation-delay: -1s;"></div>
+  <div class="deco-element deco-star" style="bottom: 15%; left: 25%; animation-delay: -2s;"></div>
+  <div class="deco-element deco-star" style="bottom: 25%; right: 15%; animation-delay: -1.5s;"></div>
 
   <!-- ── NAVBAR ── -->
-  <nav class="admin-nav">
+  <nav class="admin-nav hidden" id="admin-nav">
     <div class="nav-container">
       <div class="nav-brand">
         <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menú">
           <span></span><span></span><span></span>
         </button>
         <div class="brand-icon">A</div>
-        <span class="logo">Ad<em>min</em></span>
+        <span class="logo">Admin</span>
       </div>
       <div id="user-info" class="user-info hidden">
         <div class="user-badge">
@@ -64,21 +79,6 @@
 
   <!-- ── LOGIN SECTION ── -->
   <section id="login-section" class="login-wrapper">
-    <!-- Background Animation -->
-    <div class="bg-animation">
-      <div class="bg-circle"></div>
-      <div class="bg-circle"></div>
-      <div class="bg-circle"></div>
-    </div>
-    
-    <!-- Grid Pattern -->
-    <div class="grid-pattern"></div>
-
-    <!-- Decorative Stars -->
-    <div class="deco-element deco-star" style="top: 10%; left: 15%;"></div>
-    <div class="deco-element deco-star" style="top: 20%; right: 20%; animation-delay: -1s;"></div>
-    <div class="deco-element deco-star" style="bottom: 15%; left: 25%; animation-delay: -2s;"></div>
-    <div class="deco-element deco-star" style="bottom: 25%; right: 15%; animation-delay: -1.5s;"></div>
 
     <div class="login-container">
       <div class="login-card">
@@ -153,7 +153,6 @@
       <div id="tab-products" class="tab-content active">
         <div class="section-title">
           <h2>Nueva Prenda</h2>
-          <p>Completa los datos del producto</p>
         </div>
         <div class="admin-card form-card">
           <form id="product-form" novalidate>
@@ -247,7 +246,6 @@
       <div id="tab-categories" class="tab-content hidden">
         <div class="section-title">
           <h2>Categorías</h2>
-          <p>Organiza tu catálogo</p>
         </div>
         <div class="categories-layout">
 
@@ -290,7 +288,6 @@
       <div id="tab-settings" class="tab-content hidden">
         <div class="section-title">
           <h2>Configuración</h2>
-          <p>Personaliza los datos de tu tienda</p>
         </div>
         <div class="settings-layout">
 
@@ -380,7 +377,6 @@
       <div id="tab-inventory" class="tab-content hidden">
         <div class="section-title">
           <h2>Inventario</h2>
-          <p>Prendas en el catálogo</p>
         </div>
         <div class="admin-card">
           <div class="inventory-toolbar">
