@@ -113,6 +113,15 @@ function togglePassword() {
   }
 }
 
+function toggleCheckbox() {
+  const checkbox = document.querySelector('.checkbox-custom');
+  const hiddenInput = document.getElementById('remember-me');
+  checkbox.classList.toggle('checked');
+  if (hiddenInput) {
+    hiddenInput.checked = checkbox.classList.contains('checked');
+  }
+}
+
 // ══════════════════════════════════════════
 // TABS
 // ══════════════════════════════════════════
