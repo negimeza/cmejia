@@ -456,14 +456,17 @@ function openEditModal(dataStr) {
       .map(o => `<option value="${o.value}" ${o.value === p.categoryId ? 'selected' : ''}>${o.text}</option>`)
       .join('');
 
-  // Mostrar imagen actual
-  const preview = document.getElementById('edit-img-preview');
-  if (p.imageUrl) {
-    preview.src = p.imageUrl;
-    preview.classList.remove('hidden');
-  } else {
-    preview.classList.add('hidden');
-  }
+   // Mostrar imagen actual
+   const preview = document.getElementById('edit-img-preview');
+   const placeholder = document.getElementById('edit-img-placeholder');
+   if (p.imageUrl) {
+     preview.src = p.imageUrl;
+     preview.classList.remove('hidden');
+     if (placeholder) placeholder.style.display = 'none';
+   } else {
+     preview.classList.add('hidden');
+     if (placeholder) placeholder.style.display = '';
+   }
 
   document.getElementById('edit-modal-overlay').classList.remove('hidden');
 }
