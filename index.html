@@ -45,7 +45,7 @@
   </header>
 
   <!-- ── HERO ── -->
-  <section class="hero">
+  <section class="hero fade-in-up">
     <div class="hero-content">
       <div class="badge" id="hero-badge">📍 Medellín · Colección 2026</div>
       <h1 id="hero-title">Tu Estilo, <em>Tu Regla.</em></h1>
@@ -55,7 +55,7 @@
   </section>
 
   <!-- ── CATÁLOGO ── -->
-  <section id="catalogo">
+  <section id="catalogo" class="fade-in-up">
     <div class="section-header">
       <h2>Explora la Colección</h2>
       <p>Selecciona tus prendas favoritas.</p>
@@ -68,11 +68,16 @@
     </div>
 
     <!-- Grilla de Productos (Reemplaza al Carrusel) -->
-    <div id="loading" style="text-align:center;padding:4rem 2rem;font-weight:700;color:var(--mid);">
+    <div id="loading" style="text-align:center;padding:4rem 2rem;font-weight:700;color:var(--accent);">
       <p>Consultando catálogo...</p>
     </div>
     <div class="products-grid" id="products-grid">
       <!-- Los productos se cargan aquí -->
+    </div>
+
+    <!-- Botón Cargar Más -->
+    <div class="load-more-container" id="load-more-container" style="display: none;">
+      <button id="btn-load-more" class="btn-load-more">Ver más productos</button>
     </div>
   </section>
 
@@ -80,7 +85,7 @@
   <div class="toast-catalog hidden" id="toast-catalog"></div>
 
   <!-- ── POR QUÉ NOSOTROS ── -->
-  <section class="features">
+  <section class="features fade-in-up">
     <div class="section-header">
       <h2>¿Por qué elegirnos?</h2>
       <p>Calidad, estilo y atención personalizada</p>
@@ -92,6 +97,17 @@
       <div class="feat"><div class="feat-icon">✅</div><h3>Calidad garantizada</h3><p>Cada prenda es revisada antes de enviarse. Tu satisfacción, nuestra prioridad.</p></div>
     </div>
   </section>
+
+  <!-- ── NEWSLETTER (Comentado por ahora) ──
+  <section class="newsletter fade-in-up">
+    <h2>Únete al Club</h2>
+    <p>Recibe ofertas exclusivas y novedades antes que nadie directamente en tu correo.</p>
+    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('¡Gracias por suscribirte!'); this.reset();">
+      <input type="email" placeholder="Tu correo electrónico" class="newsletter-input" required>
+      <button type="submit" class="btn-subscribe">Suscribirse</button>
+    </form>
+  </section>
+  -->
 
   <!-- ── FOOTER ── -->
   <footer>
@@ -144,33 +160,26 @@
   <!-- ── MODAL DETALLE PREMIUM ── -->
   <div class="overlay" id="overlay" onclick="closeModal(event)">
     <div class="modal" id="modal">
-      <button class="modal-x" onclick="closeModal()">✕</button>
       <div class="modal-img-container">
         <img id="modal-img" src="" alt="Producto"/>
         <span class="modal-badge-cat" id="modal-category"></span>
       </div>
       <div class="modal-body">
-        <h3 id="modal-name"></h3>
-        <p id="modal-desc"></p>
+        <div class="modal-header-container">
+          <h3 id="modal-name"></h3>
+          <button class="modal-x" onclick="closeModal()">✕</button>
+        </div>
+        
         <div class="modal-price-display" id="modal-price"></div>
         
-        <div class="modal-qty-selector">
-          <label>Cantidad:</label>
-          <div class="qty-control">
-            <button onclick="changeModalQty(-1)">−</button>
-            <span id="modal-qty">1</span>
-            <button onclick="changeModalQty(1)">+</button>
-          </div>
-        </div>
-
-        <div class="modal-actions">
-          <button class="btn-add-main" id="btn-add-cart" onclick="agregarAlCarrito()">🛒 Agregar</button>
-          <button class="btn-close-modal" onclick="closeModal()">Cerrar</button>
-        </div>
-
+        <p id="modal-desc"></p>
+        
         <div class="modal-sizes">
-          <p>Talla:</p>
-          <div class="size-options">
+          <div class="label-row">
+            <span class="label">Talla</span>
+          </div>
+          <div class="size-options" id="sizes-container">
+            <!-- Tallas inyectadas dinámicamente o harcodeadas temporalmente -->
             <button class="size-btn" onclick="selectSize('S')">S</button>
             <button class="size-btn" onclick="selectSize('M')">M</button>
             <button class="size-btn" onclick="selectSize('L')">L</button>
@@ -178,17 +187,39 @@
             <button class="size-btn" onclick="selectSize('Única')">Única</button>
           </div>
         </div>
+        
+        <div class="modal-qty-selector">
+          <span class="label">Cantidad</span>
+          <div class="qty-control">
+            <button onclick="CatalogModal.changeQty(-1)">−</button>
+            <span id="modal-qty" class="qty__value">1</span>
+            <button onclick="CatalogModal.changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-add-main" id="btn-add-cart" onclick="agregarAlCarrito()">🛒 Agregar al carrito</button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Scripts -->
+  <!-- Core & Services -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/core/supabase-client.js"></script>
+  <script src="js/core/utils.js"></script>
+  <script src="js/services/config.service.js"></script>
   <script src="js/services/product.service.js"></script>
+
+  <!-- Componentes UI -->
   <script src="js/ui/cart.js"></script>
   <script src="js/ui/catalog-ui.js"></script>
+  
+  <!-- Módulos Catálogo -->
+  <script src="js/catalog/catalog-config.js"></script>
+  <script src="js/catalog/catalog-modal.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

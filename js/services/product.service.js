@@ -4,29 +4,50 @@
  */
 window.ProductService = {
 
-  /** Todos los productos (activos e inactivos) — para el admin */
-  async getAll() {
-    const { data, error } = await window.sb
+  /** 
+   * Obtiene productos con paginación y búsqueda opcional (para el admin)
+   */
+  async getAll({ page = 0, pageSize = 20, search = '' } = {}) {
+    const from = page * pageSize;
+    const to   = from + pageSize - 1;
+
+    let query = window.sb
       .from('products')
-      .select('*, categories(name)')
-      .order('created_at', { ascending: false });
+      .select('*, categories(name)', { count: 'exact' });
+
+    if (search) {
+      // Búsqueda simple por nombre o descripción
+      query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
+    }
+
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(from, to);
+
     if (error) throw error;
-    return data;
+    return { data, count };
   },
 
   /** Solo productos activos — para el catálogo público */
-  async getActive() {
+  async getActive(page = 0, pageSize = 12) {
+    const from = page * pageSize;
+    const to   = from + pageSize - 1;
+
     const { data, error } = await window.sb
       .from('products')
       .select('*, categories(name)')
       .eq('active', true)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .range(from, to);
     if (error) throw error;
     return data;
   },
 
   /** Productos activos filtrados por categoría */
-  async getActiveByCategory(categoryId) {
+  async getActiveByCategory(categoryId, page = 0, pageSize = 12) {
+    const from = page * pageSize;
+    const to   = from + pageSize - 1;
+
     let query = window.sb
       .from('products')
       .select('*, categories(name)')
@@ -36,22 +57,24 @@ window.ProductService = {
       query = query.eq('category_id', categoryId);
     }
 
-    const { data, error } = await query.order('created_at', { ascending: false });
+    const { data, error } = await query
+      .order('created_at', { ascending: false })
+      .range(from, to);
     if (error) throw error;
     return data;
   },
 
   /** Crea un producto nuevo */
-  async create({ name, description, price, categoryId, imageUrl, active }) {
+  async create({ name, description, price, category_id, image_url, active }) {
     const { data, error } = await window.sb
       .from('products')
       .insert([{
         name,
         description,
         price,
-        category_id: categoryId || null,
-        image_url:   imageUrl   || null,
-        active:      active     ?? true,
+        category_id: category_id || null,
+        image_url:   image_url   || null,
+        active:      active      ?? true,
       }])
       .select()
       .single();
@@ -60,28 +83,34 @@ window.ProductService = {
   },
 
   /** Actualiza un producto existente */
-  async update(id, { name, description, price, categoryId, imageUrl, active }) {
-    const updates = { name, description, price, active };
-    if (categoryId !== undefined) updates.category_id = categoryId || null;
-    if (imageUrl   !== undefined) updates.image_url   = imageUrl   || null;
-
+  async update(id, updates) {
+    console.log('ProductService: Actualizando producto', id, updates);
     const { data, error } = await window.sb
       .from('products')
       .update(updates)
       .eq('id', id)
       .select()
       .single();
-    if (error) throw error;
+    if (error) {
+        console.error('ProductService: Error al actualizar', error);
+        throw error;
+    }
     return data;
   },
 
   /** Elimina un producto por ID */
   async delete(id) {
+    console.log('ProductService: Intentando eliminar ID:', id);
     const { error } = await window.sb
       .from('products')
       .delete()
       .eq('id', id);
-    if (error) throw error;
+    
+    if (error) {
+      console.error('ProductService: Error de Supabase al eliminar:', error);
+      throw error;
+    }
+    console.log('ProductService: Producto eliminado con éxito');
   },
 
   /** Obtiene las categorías (para el select del formulario) */

@@ -1,13 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --black:   #0a0a0a;
-  --white:   #ffffff;
-  --accent:  #c5a059; /* Gold */
-  --gray:    #f8f8f8;
-  --mid:     #666;
-  --wa:      #25D366;
-  --radius:  8px;
+  --bg-dark:    #0a0a0f;
+  --bg-surface: #0f0f18;
+  --bg-card:    rgba(255, 255, 255, 0.03);
+  --white:      #ffffff;
+  --accent:     #e8457a; /* Rosa Boutique */
+  --accent-glow: rgba(232, 69, 122, 0.3);
+  --text-main:  #ffffff;
+  --text-muted: #9ca3af;
+  --border:     rgba(255, 255, 255, 0.08);
+  --wa:         #25D366;
+  --radius:     12px;
+  --radius-lg:  20px;
   --transition: 0.4s cubic-bezier(.165,.84,.44,1);
 }
 
@@ -15,17 +20,40 @@
 
 body {
   font-family: 'Outfit', sans-serif;
-  color: var(--black);
-  background: var(--white);
+  color: var(--text-main);
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(232, 69, 122, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
   overflow-x: hidden;
   scroll-behavior: smooth;
+  min-height: 100vh;
 }
 
-section { padding: 6rem 2rem; }
+section { padding: 6rem 5%; }
 
 .section-header { text-align:center; margin-bottom:4rem; }
-.section-header h2 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 1rem; }
-.section-header p { font-size: 1rem; color: var(--mid); max-width: 600px; margin: 0 auto; }
+.section-header h2 { 
+  font-size: 2.8rem; 
+  font-weight: 800; 
+  letter-spacing: -1.5px; 
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #fff, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.section-header p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+/* Animations */
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* Utility */
 .hidden { display: none !important; }

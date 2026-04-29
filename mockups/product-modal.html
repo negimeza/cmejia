@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vestido Azul Sombra — Vista rápida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0d;
+    --surface: #141417;
+    --surface-elevated: #1c1c21;
+    --surface-muted: #232329;
+    --surface-border: #2a2a31;
+    --on-surface: #f5f5f7;
+    --on-surface-muted: #9a9aa3;
+    --brand: #ec4899;
+    --brand-foreground: #ffffff;
+    --gradient-brand: linear-gradient(135deg, #f472b6, #ec4899 60%, #db2777);
+    --shadow-brand: 0 10px 30px -12px rgba(236, 72, 153, .55);
+    --shadow-modal: 0 30px 80px -20px rgba(0,0,0,.7), 0 10px 30px -10px rgba(0,0,0,.5);
+    --radius: 16px;
+    --transition: .25s cubic-bezier(.4,0,.2,1);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #1a1a22, var(--bg));
+    color: var(--on-surface);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+
+  .open-btn {
+    cursor: pointer;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 999px;
+    background: var(--gradient-brand);
+    color: var(--brand-foreground);
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 13px;
+    box-shadow: var(--shadow-brand);
+    transition: transform var(--transition), filter var(--transition);
+  }
+  .open-btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+  /* Modal */
+  .modal {
+    position: fixed; inset: 0;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 16px;
+    z-index: 50;
+  }
+  .modal.is-open { display: flex; animation: fade .2s ease-out; }
+  @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+
+  .modal__backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(6px);
+    border: none; cursor: pointer; padding: 0;
+  }
+
+  .modal__dialog {
+    position: relative;
+    width: 100%;
+    max-width: 768px;
+    max-height: min(85vh, 580px);
+    background: var(--surface);
+    color: var(--on-surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-modal);
+    display: grid;
+    grid-template-columns: 1fr;
+    animation: pop .3s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes pop { from { transform: translateY(16px) scale(.96); opacity: 0 } to { transform: none; opacity: 1 } }
+
+  @media (min-width: 768px) {
+    .modal__dialog { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Image side */
+  .modal__media {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-muted);
+    aspect-ratio: 3/4;
+  }
+  @media (min-width: 768px) {
+    .modal__media { aspect-ratio: auto; height: 100%; }
+  }
+  .modal__media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .7s ease-out;
+  }
+  .modal__media:hover img { transform: scale(1.03); }
+
+  .media__gradient {
+    position: absolute; inset: 0 0 auto 0; height: 128px;
+    background: linear-gradient(to bottom, rgba(0,0,0,.4), transparent);
+    pointer-events: none;
+  }
+
+  .chip {
+    position: absolute; left: 20px; top: 20px;
+    background: var(--gradient-brand);
+    color: var(--brand-foreground);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .18em; text-transform: uppercase;
+    box-shadow: var(--shadow-brand);
+  }
+
+  .icon-btn {
+    cursor: pointer; border: none;
+    width: 40px; height: 40px;
+    border-radius: 999px;
+    display: grid; place-items: center;
+    background: rgba(0,0,0,.4);
+    backdrop-filter: blur(8px);
+    color: var(--on-surface);
+    transition: background var(--transition), color var(--transition), transform var(--transition);
+  }
+  .icon-btn:hover { background: rgba(0,0,0,.6); }
+  .icon-btn.is-active { color: var(--brand); }
+  .icon-btn.is-active svg { fill: currentColor; }
+
+  .wishlist { position: absolute; right: 20px; top: 20px; }
+
+  /* Details side */
+  .modal__details {
+    display: flex; flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    overflow-y: auto;
+  }
+  @media (min-width: 640px) { .modal__details { padding: 28px; } }
+
+  .details__header {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+  }
+  .product__title {
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+  }
+  @media (min-width: 640px) { .product__title { font-size: 36px; } }
+
+  .close-btn {
+    cursor: pointer;
+    width: 40px; height: 40px;
+    border-radius: 999px;
+    border: 1px solid var(--surface-border);
+    background: var(--surface-elevated);
+    color: var(--on-surface-muted);
+    display: grid; place-items: center;
+    transition: transform var(--transition), color var(--transition), border-color var(--transition);
+  }
+  .close-btn:hover {
+    color: var(--on-surface);
+    border-color: var(--on-surface-muted);
+    transform: rotate(90deg);
+  }
+
+  .price {
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .price__current { font-size: 28px; font-weight: 700; color: var(--brand); }
+  .price__old { font-size: 14px; color: var(--on-surface-muted); text-decoration: line-through; }
+  .price__badge {
+    background: rgba(236,72,153,.12);
+    color: var(--brand);
+    font-size: 11px; font-weight: 700;
+    padding: 2px 10px; border-radius: 999px;
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  .desc {
+    margin: 0;
+    font-size: 14px; line-height: 1.6;
+    color: var(--on-surface-muted);
+  }
+
+  .label-row {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .label {
+    font-size: 11px; font-weight: 600;
+    color: var(--on-surface-muted);
+    letter-spacing: .18em; text-transform: uppercase;
+  }
+  .link-muted {
+    background: none; border: none; cursor: pointer;
+    font-size: 11px; font-weight: 500;
+    color: var(--on-surface-muted);
+    letter-spacing: .08em; text-transform: uppercase;
+    text-underline-offset: 4px;
+  }
+  .link-muted:hover { color: var(--on-surface); text-decoration: underline; }
+
+  .sizes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .size {
+    cursor: pointer;
+    min-width: 44px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--surface-border);
+    background: var(--surface-elevated);
+    color: var(--on-surface-muted);
+    font-size: 14px; font-weight: 500;
+    transition: all var(--transition);
+  }
+  .size:hover { color: var(--on-surface); border-color: var(--on-surface-muted); }
+  .size.is-active {
+    background: var(--brand);
+    color: var(--brand-foreground);
+    border-color: var(--brand);
+    box-shadow: var(--shadow-brand);
+  }
+
+  .qty-row { display: flex; justify-content: space-between; align-items: center; }
+  .qty {
+    display: inline-flex; align-items: center; gap: 4px;
+    border: 1px solid var(--surface-border);
+    background: var(--surface-elevated);
+    border-radius: 999px;
+    padding: 4px;
+  }
+  .qty button {
+    cursor: pointer; border: none; background: transparent;
+    width: 36px; height: 36px;
+    border-radius: 999px;
+    color: var(--on-surface-muted);
+    display: grid; place-items: center;
+    transition: background var(--transition), color var(--transition);
+  }
+  .qty button:hover { background: var(--surface-muted); color: var(--on-surface); }
+  .qty__value {
+    width: 32px; text-align: center;
+    font-size: 14px; font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .add-btn {
+    cursor: pointer; border: none;
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: 999px;
+    background: var(--gradient-brand);
+    color: var(--brand-foreground);
+    font-size: 13px; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    box-shadow: var(--shadow-brand);
+    transition: transform var(--transition), filter var(--transition);
+  }
+  .add-btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+  .add-btn:active { transform: scale(.99); }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--surface-elevated);
+    border: 1px solid var(--surface-border);
+    color: var(--on-surface);
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    box-shadow: var(--shadow-modal);
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    z-index: 60;
+  }
+  .toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+  <button class="open-btn" id="openModal">Vista rápida</button>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="product-title">
+    <button class="modal__backdrop" id="backdrop" aria-label="Cerrar"></button>
+
+    <div class="modal__dialog">
+      <!-- Image -->
+      <div class="modal__media">
+        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=900&q=80"
+             alt="Vestido azul de mezclilla con detalle de cut-out">
+        <div class="media__gradient"></div>
+        <span class="chip">Vestidos</span>
+        <button class="icon-btn wishlist" id="wishlist" aria-label="Agregar a favoritos">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+
+      <!-- Details -->
+      <div class="modal__details">
+        <div class="details__header">
+          <h2 class="product__title" id="product-title">Vestido Azul Sombra</h2>
+          <button class="close-btn" id="closeBtn" aria-label="Cerrar modal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div class="price">
+          <span class="price__current">$1.290</span>
+          <span class="price__old">$1.590</span>
+          <span class="price__badge">-19%</span>
+        </div>
+
+        <p class="desc">Silueta entallada con detalle de cut-out asimétrico. Confeccionado en mezclilla suave con caída fluida.</p>
+
+        <div>
+          <div class="label-row">
+            <span class="label">Talla</span>
+            <button class="link-muted">Guía de tallas</button>
+          </div>
+          <div class="sizes" id="sizes">
+            <button class="size" data-size="S">S</button>
+            <button class="size is-active" data-size="M">M</button>
+            <button class="size" data-size="L">L</button>
+            <button class="size" data-size="XL">XL</button>
+            <button class="size" data-size="Única">Única</button>
+          </div>
+        </div>
+
+        <div class="qty-row">
+          <span class="label">Cantidad</span>
+          <div class="qty">
+            <button id="decBtn" aria-label="Disminuir cantidad">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <span class="qty__value" id="qtyValue">1</span>
+            <button id="incBtn" aria-label="Aumentar cantidad">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <button class="add-btn" id="addBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Agregar al carrito
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  const modal = document.getElementById('modal');
+  const openBtn = document.getElementById('openModal');
+  const closeBtn = document.getElementById('closeBtn');
+  const backdrop = document.getElementById('backdrop');
+  const wishlist = document.getElementById('wishlist');
+  const sizes = document.getElementById('sizes');
+  const decBtn = document.getElementById('decBtn');
+  const incBtn = document.getElementById('incBtn');
+  const qtyValue = document.getElementById('qtyValue');
+  const addBtn = document.getElementById('addBtn');
+  const toast = document.getElementById('toast');
+
+  let qty = 1;
+  let size = 'M';
+  let liked = false;
+
+  function openModal() {
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  wishlist.addEventListener('click', () => {
+    liked = !liked;
+    wishlist.classList.toggle('is-active', liked);
+  });
+
+  sizes.addEventListener('click', (e) => {
+    const btn = e.target.closest('.size');
+    if (!btn) return;
+    sizes.querySelectorAll('.size').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    size = btn.dataset.size;
+  });
+
+  decBtn.addEventListener('click', () => { qty = Math.max(1, qty - 1); qtyValue.textContent = qty; });
+  incBtn.addEventListener('click', () => { qty += 1; qtyValue.textContent = qty; });
+
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('is-visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2500);
+  }
+
+  addBtn.addEventListener('click', () => {
+    showToast(`Agregado: Vestido Azul Sombra · Talla ${size} · ${qty} ud.`);
+  });
+</script>
+</body>
+</html>

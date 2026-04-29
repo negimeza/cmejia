@@ -12,11 +12,24 @@ let _onConfirmCallback = null;
 
 /** Inicializa los listeners. Llamar UNA sola vez al cargar la página. */
 function initConfirmModal() {
-  document.getElementById('btn-confirm-action')
-    ?.addEventListener('click', () => {
-      closeConfirm();
-      _onConfirmCallback?.();
-    });
+  const btn = document.getElementById('btn-confirm-action');
+  if (!btn) return;
+  
+  // Limpiar listeners previos por si acaso
+  const newBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(newBtn, btn);
+
+  newBtn.addEventListener('click', () => {
+    console.log('ConfirmModal: Botón Confirmar clicado');
+    const callback = _onConfirmCallback;
+    closeConfirm();
+    if (callback) {
+      console.log('ConfirmModal: Ejecutando callback');
+      callback();
+    } else {
+      console.warn('ConfirmModal: No hay callback definido');
+    }
+  });
 
   document.getElementById('confirm-modal')
     ?.addEventListener('click', (e) => {
