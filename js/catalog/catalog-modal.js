@@ -17,7 +17,13 @@ window.CatalogModal = {
     document.getElementById('modal-name').textContent = product.name;
     document.getElementById('modal-desc').textContent = product.description || '';
     document.getElementById('modal-category').textContent = product.categories?.name || 'Varios';
-    document.getElementById('modal-price').textContent = Utils.formatCurrency(product.price);
+    const priceEl = document.getElementById('modal-price');
+    if (product.price > 0) {
+      priceEl.textContent = Utils.formatCurrency(product.price);
+      priceEl.style.display = 'block';
+    } else {
+      priceEl.style.display = 'none';
+    }
     
     document.getElementById('modal-qty').textContent = '1';
     

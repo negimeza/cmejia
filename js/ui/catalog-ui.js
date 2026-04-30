@@ -62,13 +62,16 @@ window.CatalogUI = {
       ? Math.round((1 - Number(p.price) / Number(p.original_price)) * 100)
       : 0;
 
-    const priceHTML = hasDiscount
-      ? `<div class="price-group">
-           <span class="price-original">${Utils.formatCurrency(p.original_price)}</span>
-           <span class="price">${Utils.formatCurrency(p.price)}</span>
-           <span class="discount-badge">${discountPct}% OFF</span>
-         </div>`
-      : `<span class="price">${Utils.formatCurrency(p.price)}</span>`;
+    let priceHTML = '';
+    if (p.price > 0) {
+      priceHTML = hasDiscount
+        ? `<div class="price-group">
+             <span class="price-original">${Utils.formatCurrency(p.original_price)}</span>
+             <span class="price">${Utils.formatCurrency(p.price)}</span>
+             <span class="discount-badge">${discountPct}% OFF</span>
+           </div>`
+        : `<span class="price">${Utils.formatCurrency(p.price)}</span>`;
+    }
 
     card.innerHTML = `
       <div class="card-img-wrap">
