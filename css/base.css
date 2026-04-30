@@ -31,19 +31,19 @@ body {
   min-height: 100vh;
 }
 
-section { padding: 6rem 5%; }
+section { padding: 4rem 5%; }
 
-.section-header { text-align:center; margin-bottom:4rem; }
+.section-header { text-align:center; margin-bottom:2.5rem; }
 .section-header h2 { 
-  font-size: 2.8rem; 
+  font-size: 2.4rem; 
   font-weight: 800; 
-  letter-spacing: -1.5px; 
-  margin-bottom: 1rem;
+  letter-spacing: -1px; 
+  margin-bottom: 0.75rem;
   background: linear-gradient(to right, #fff, #cbd5e1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.section-header p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+.section-header p { font-size: 1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
 
 /* Animations */
 .fade-in-up {
