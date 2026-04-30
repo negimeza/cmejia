@@ -8,6 +8,15 @@ window.AdminEditor = {
   init() {
     const form = document.getElementById('product-form');
     form?.addEventListener('submit', (e) => this.handleCreate(e));
+
+    // Listener para actualizar el badge del modal de edición
+    const editCat = document.getElementById('edit-category');
+    editCat?.addEventListener('change', () => {
+      const badge = document.getElementById('edit-modal-badge');
+      if (badge) {
+        badge.textContent = editCat.options[editCat.selectedIndex]?.text || 'Sin categoría';
+      }
+    });
   },
 
   reset() {
@@ -71,6 +80,12 @@ window.AdminEditor = {
         .filter(o => o.value)
         .map(o => `<option value="${o.value}" ${o.value === p.category_id ? 'selected' : ''}>${o.text}</option>`)
         .join('');
+
+    // Actualizar badge de categoría
+    const badge = document.getElementById('edit-modal-badge');
+    if (badge) {
+      badge.textContent = sel.options[sel.selectedIndex]?.text || 'Sin categoría';
+    }
 
     // Imagen
     this.updatePreview(p.image_url);

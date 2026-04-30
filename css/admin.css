@@ -3,7 +3,7 @@
    Paleta: Rosa Boutique + Oscuro Premium
    ════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* ── TOKENS DE DISEÑO ── */
 :root {
@@ -49,7 +49,7 @@
   --shadow-glow: 0 0 30px rgba(232, 69, 122, 0.18);
 
   /* Tipografía */
-  --font: 'Inter', -apple-system, sans-serif;
+  --font: 'Outfit', 'Inter', -apple-system, sans-serif;
   --radius:    18px;
   --radius-sm: 10px;
   --radius-lg: 24px;
@@ -75,9 +75,8 @@
    NAVBAR
 ══════════════════════ */
 .admin-nav {
-  background: rgba(15, 15, 24, 0.4);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+  background: #050508; /* Fondo sólido oscuro — mismo fix que header.css */
+  border-bottom: 1px solid rgba(232, 69, 122, 0.12);
   padding: 0 2rem;
   height: 64px;
   display: flex;
@@ -85,6 +84,7 @@
   position: sticky;
   top: 0;
   z-index: 200;
+  transition: box-shadow 0.3s;
 }
 
 .nav-container {
@@ -117,10 +117,16 @@
 }
 
 .logo {
+  font-family: 'Outfit', sans-serif;
   font-size: 1.25rem;
   font-weight: 800;
   color: var(--text-primary);
   letter-spacing: -0.5px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
 }
 
 .logo em {
@@ -128,6 +134,24 @@
   background: var(--gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.logo-sep {
+  color: rgba(255,255,255,0.2);
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.logo-admin {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  background: none;
+  -webkit-text-fill-color: rgba(255,255,255,0.4);
+  align-self: center;
+  margin-top: 2px;
 }
 
 .user-info {
@@ -626,7 +650,30 @@
 }
 
 .tab-content { display: none; }
-.tab-content.active { display: block; animation: fadeUp 0.3s ease; }
+.tab-content.active {
+  display: block;
+  animation: fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Efecto de subrayado deslizante en tabs activos */
+.tab-btn {
+  position: relative;
+}
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--gradient);
+  border-radius: 2px;
+  transition: width 0.3s, left 0.3s;
+}
+.tab-btn:hover::after {
+  width: 60%;
+  left: 20%;
+}
 
 /* ══════════════════════
    SECTION TITLE
@@ -974,7 +1021,7 @@
   justify-content: center;
   gap: 0.6rem;
   padding: 14px 24px;
-  background: var(--gradient);
+  background: linear-gradient(135deg, #f472b6, var(--accent) 60%, #db2777);
   color: #fff;
   border: none;
   border-radius: 999px;
@@ -983,9 +1030,25 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s;
-  box-shadow: 0 4px 20px var(--accent-glow);
+  box-shadow: 0 10px 30px -12px rgba(232, 69, 122, 0.55);
   letter-spacing: .14em;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Efecto shimmer (luz deslizante) */
+.btn-primary-action::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary-action:hover::before { left: 100%; }
 
 .btn-primary-action:hover {
   transform: translateY(-2px);
@@ -1563,9 +1626,30 @@ td {
   font-size: 13px; text-transform: uppercase;
 }
 
-tbody tr { transition: background 0.15s; }
-tbody tr:hover { background: var(--bg-hover); }
+tbody tr {
+  transition: background 0.2s, border-left-color 0.2s;
+  border-left: 3px solid transparent;
+}
+tbody tr:hover {
+  background: var(--bg-hover);
+  border-left: 3px solid var(--accent);
+}
 tbody tr:last-child td { border-bottom: none; }
+
+/* Animación escalonada (staggered) al cargar filas */
+tbody tr {
+  animation: fadeUp 0.4s ease both;
+}
+tbody tr:nth-child(1) { animation-delay: 0.03s; }
+tbody tr:nth-child(2) { animation-delay: 0.06s; }
+tbody tr:nth-child(3) { animation-delay: 0.09s; }
+tbody tr:nth-child(4) { animation-delay: 0.12s; }
+tbody tr:nth-child(5) { animation-delay: 0.15s; }
+tbody tr:nth-child(6) { animation-delay: 0.18s; }
+tbody tr:nth-child(7) { animation-delay: 0.21s; }
+tbody tr:nth-child(8) { animation-delay: 0.24s; }
+tbody tr:nth-child(9) { animation-delay: 0.27s; }
+tbody tr:nth-child(10) { animation-delay: 0.30s; }
 
 .p-thumb {
   width: 48px;
@@ -1802,6 +1886,43 @@ tbody tr:last-child td { border-bottom: none; }
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s ease; /* Zoom igual que en modal del catálogo */
+}
+
+.edit-modal-img-frame:hover img {
+  transform: scale(1.04);
+}
+
+/* Badge flotante de categoría (igual al .modal-badge-cat del catálogo) */
+.edit-modal-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: linear-gradient(135deg, #f472b6, var(--accent) 60%, #db2777);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 999px;
+  letter-spacing: .18em;
+  box-shadow: 0 10px 30px -12px rgba(232, 69, 122, 0.55);
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.edit-modal-img-frame:hover .edit-modal-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.edit-modal-badge.always-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .edit-modal-img-placeholder {
@@ -1885,11 +2006,12 @@ tbody tr:last-child td { border-bottom: none; }
 
 .edit-modal-header .product__title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; /* Tamaño refinado y profesional */
-  font-weight: 400;
+  font-size: 26px;
+  font-weight: 300;
   color: #fff;
   margin: 0;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
 }
 
 .edit-modal-close {

@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Admin — Panel de Control</title>
+  <title>LupeOutfit Admin — Panel de Control</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css?v=2">
+  <link rel="stylesheet" href="css/admin.css?v=2">
 </head>
 <body class="admin-body">
   <!-- Background Animation Global -->
@@ -32,8 +34,8 @@
         <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menú">
           <span></span><span></span><span></span>
         </button>
-        <div class="brand-icon">A</div>
-        <span class="logo">Admin</span>
+        <div class="brand-icon">L</div>
+        <a href="index.html" class="logo">Lupe<em>Outfit</em> <span class="logo-sep">·</span> <span class="logo-admin">Admin</span></a>
       </div>
       <div id="user-info" class="user-info hidden">
         <div class="user-badge">
@@ -336,6 +338,7 @@
           <div class="edit-modal-img-frame" id="edit-img-frame" onclick="document.getElementById('edit-file-input').click()">
             <img id="edit-img-preview" src="" alt="Producto" class="hidden">
             <div class="edit-modal-img-placeholder" id="edit-img-placeholder">📸 Sin imagen</div>
+            <span class="edit-modal-badge always-visible" id="edit-modal-badge"></span>
             <div class="edit-img-overlay">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
               <span>Cambiar imagen</span>
