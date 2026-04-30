@@ -125,8 +125,6 @@ window.CatalogApp = {
     window.addEventListener('scroll', () => {
       const isScrolled = window.scrollY > 50;
       header.classList.toggle('scrolled', isScrolled);
-      header.style.padding    = isScrolled ? '0.8rem 0' : '1.2rem 0';
-      header.style.background = isScrolled ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.7)';
     });
   }
 };
