@@ -3,7 +3,7 @@
  * Inicializa los módulos correspondientes.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Inicialización de componentes base
   if (window.initConfirmModal) initConfirmModal();
   
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   AdminInventory.init();
   AdminEditor.init();
   AdminCategories.init();
+  await ConfigService.load();
   BrandConfig.apply();
 });
 

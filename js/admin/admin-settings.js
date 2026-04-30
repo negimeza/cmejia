@@ -13,7 +13,7 @@ window.AdminSettings = {
     set('cfg-wa',         cfg.waNumber.replace(/^57/, ''));
   },
 
-  save() {
+  async save() {
     const get = (id) => document.getElementById(id)?.value.trim() || '';
 
     const waRaw = get('cfg-wa').replace(/\D/g, '');
@@ -22,20 +22,31 @@ window.AdminSettings = {
       return;
     }
 
-    ConfigService.save({
-      storeName:    get('cfg-name') || 'LupeOutfit',
-      city:         get('cfg-city') || 'Medellín',
-      instagram:    get('cfg-instagram'),
-      waNumber:     '57' + waRaw,
-    });
+    const btn = document.querySelector('button[onclick="saveConfig()"]');
+    if (btn) btn.textContent = 'Guardando...';
 
-    BrandConfig.apply();
-    showToast('Configuración guardada.');
+    try {
+      await ConfigService.save({
+        storeName:    get('cfg-name') || 'LupeOutfit',
+        city:         get('cfg-city') || 'Medellín',
+        instagram:    get('cfg-instagram'),
+        waNumber:     '57' + waRaw,
+      });
+
+      BrandConfig.apply();
+      showToast('✅ Configuración global guardada');
+    } catch (err) {
+      showToast('❌ Error al guardar en la nube', true);
+    } finally {
+      if (btn) btn.textContent = 'Guardar Cambios';
+    }
   },
 
-  reset() {
-    ConfigService.reset();
+  async reset() {
+    if (!confirm('¿Restablecer configuración a valores por defecto?')) return;
+    await ConfigService.reset();
     this.load();
+    BrandConfig.apply();
     showToast('Restablecido a valores por defecto.');
   }
 };

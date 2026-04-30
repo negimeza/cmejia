@@ -11,7 +11,8 @@ window.CatalogApp = {
   _totalCount: 0,
   _isLoading: false,
 
-  init() {
+  async init() {
+    await ConfigService.load();
     BrandConfig.apply();
     CatalogUI.init();
 
