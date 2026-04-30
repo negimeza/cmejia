@@ -25,7 +25,7 @@ window.AdminEditor = {
     const activeCheck = document.getElementById('p-active');
     if (activeCheck) activeCheck.checked = true;
     const label = document.getElementById('toggle-label-text');
-    if (label) label.textContent = 'Activo (visible en catálogo)';
+    if (label) label.textContent = 'Visible';
   },
 
   async handleCreate(e) {

@@ -30,6 +30,11 @@ window.toggleMobileNav = ()        => AdminUI.toggleMobileNav();
 window.signOut         = ()        => AdminAuth.signOut();
 window.saveEditProduct = ()        => AdminEditor.saveEdit();
 window.closeEditModal  = ()        => AdminEditor.close();
+window.resetProductForm = ()       => AdminEditor.reset();
+window.removeImage     = (e)       => {
+  if (e) e.stopPropagation();
+  window.imageUpload?.reset();
+};
 window.handleEditImageUpload = (i) => AdminEditor.handleImageChange(i);
 window.saveConfig      = ()        => AdminSettings.save();
 window.resetConfig     = ()        => AdminSettings.reset();
