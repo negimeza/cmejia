@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   AdminInventory.init();
   AdminEditor.init();
   AdminCategories.init();
+  BrandConfig.apply();
 });
 
 // Exponer funciones globales que se llaman desde el HTML (Legacy support)

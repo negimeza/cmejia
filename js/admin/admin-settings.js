@@ -29,6 +29,7 @@ window.AdminSettings = {
       waNumber:     '57' + waRaw,
     });
 
+    BrandConfig.apply();
     showToast('Configuración guardada.');
   },
 

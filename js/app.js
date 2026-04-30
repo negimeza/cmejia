@@ -12,7 +12,7 @@ window.CatalogApp = {
   _isLoading: false,
 
   init() {
-    CatalogConfig.apply();
+    BrandConfig.apply();
     CatalogUI.init();
 
     // Header Effect
