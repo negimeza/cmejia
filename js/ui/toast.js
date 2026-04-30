@@ -66,3 +66,7 @@ function showProductToast(product) {
     setTimeout(() => pt.classList.add('hidden'), 350);
   }, 2800);
 }
+
+// Exportar al ámbito global
+window.showToast = showToast;
+window.showProductToast = showProductToast;
