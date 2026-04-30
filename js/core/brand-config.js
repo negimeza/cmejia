@@ -20,8 +20,7 @@ window.BrandConfig = {
       const metaTitle = document.querySelector('meta[property="og:title"]');
       if (metaTitle) metaTitle.content = `${storeName} – Colección Premium 2026`;
       
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) metaDesc.content = `Descubre lo último en tendencias de ${storeName} en Medellín. Compra por WhatsApp.`;
+      // La descripción se deja "quemada" (hardcoded) en el HTML como pidió el usuario
 
       // 2. Logos (Header, Admin, Footer)
       const logos = [
@@ -40,7 +39,14 @@ window.BrandConfig = {
 
       // 3. Hero Section (Página Principal)
       const heroTitle = document.getElementById('hero-title');
-      if (heroTitle) heroTitle.innerHTML = this.formatBrandText(storeName);
+      if (heroTitle) {
+        heroTitle.innerHTML = this.formatBrandText(cfg.heroTitle || storeName);
+      }
+      
+      const heroSub = document.getElementById('hero-sub');
+      if (heroSub) {
+        heroSub.textContent = cfg.heroSubtitle || '';
+      }
       
       const heroBadge = document.getElementById('hero-badge');
       if (heroBadge && cfg.city) {

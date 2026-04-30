@@ -8,6 +8,8 @@ window.AdminSettings = {
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
 
     set('cfg-name',       cfg.storeName);
+    set('cfg-hero-title',  cfg.heroTitle);
+    set('cfg-hero-sub',    cfg.heroSubtitle);
     set('cfg-city',       cfg.city);
     set('cfg-instagram',  cfg.instagram);
     set('cfg-wa',         cfg.waNumber.replace(/^57/, ''));
@@ -28,6 +30,8 @@ window.AdminSettings = {
     try {
       await ConfigService.save({
         storeName:    get('cfg-name') || 'Mi Tienda',
+        heroTitle:    get('cfg-hero-title'),
+        heroSubtitle: get('cfg-hero-sub'),
         city:         get('cfg-city') || 'Tu Ciudad',
         instagram:    get('cfg-instagram'),
         waNumber:     '57' + waRaw,
