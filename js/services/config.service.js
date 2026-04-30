@@ -6,12 +6,12 @@
 const CONFIG_CACHE_KEY = 'lupe_config_cache';
 
 const CONFIG_DEFAULTS = {
-  storeName:       'LupeOutfit',
-  waNumber:        '573207101121',
-  city:            'Medellín',
+  storeName:       'Mi Tienda',
+  waNumber:        '570000000000',
+  city:            'Tu Ciudad',
   heroTitle:       'Tu Estilo, Tu Regla.',
   heroSubtitle:    'Moda boutique exclusiva para quienes buscan destacar.',
-  shippingMsg:     '* Envío gratis en Medellín',
+  shippingMsg:     '* Envío a domicilio disponible',
   instagram:       '',
 };
 

@@ -27,8 +27,8 @@ window.AdminSettings = {
 
     try {
       await ConfigService.save({
-        storeName:    get('cfg-name') || 'LupeOutfit',
-        city:         get('cfg-city') || 'Medellín',
+        storeName:    get('cfg-name') || 'Mi Tienda',
+        city:         get('cfg-city') || 'Tu Ciudad',
         instagram:    get('cfg-instagram'),
         waNumber:     '57' + waRaw,
       });

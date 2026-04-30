@@ -100,9 +100,6 @@ window.BrandConfig = {
     if (!text) return '';
     const t = text.trim();
     
-    // Caso especial LupeOutfit (legacy style if needed, or just follow the rule)
-    if (t.toLowerCase() === 'lupeoutfit') return 'Lupe<em>Outfit</em>';
-
     const words = t.split(/\s+/);
     if (words.length > 1) {
       const last = words.pop();
