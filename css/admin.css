@@ -733,7 +733,6 @@
 .input-group label svg { opacity: 0.6; }
 
 .input-group input,
-.input-group textarea,
 .input-group select {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -746,6 +745,21 @@
   outline: none;
   transition: all 0.25s;
   -webkit-appearance: none;
+}
+
+.input-group textarea {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255,255,255,0.03);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.25s;
+  resize: vertical;
+  min-height: 100px;
 }
 
 .input-group input::placeholder,
