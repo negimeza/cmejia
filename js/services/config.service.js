@@ -10,7 +10,7 @@ const CONFIG_DEFAULTS = {
   waNumber:        '570000000000',
   city:            'Tu Ciudad',
   heroTitle:       'Tu Estilo, Tu Regla.',
-  heroSubtitle:    'Moda boutique exclusiva para quienes buscan destacar.',
+  heroSubtitle:    'Ropa espectacular para que te veas y te sientas increíble todos los días.',
   shippingMsg:     '* Envío a domicilio disponible',
   instagram:       '',
 };
