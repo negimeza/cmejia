@@ -63,7 +63,7 @@ window.AdminInventory = {
         <td class="text-bold text-accent">${fmt.format(p.price)}</td>
         <td>
           <span class="status-badge ${p.active ? 'status-active' : 'status-inactive'}">
-            ● ${p.active ? 'Activo' : 'Inactivo'}
+            <span class="dot"></span> ${p.active ? 'Activo' : 'Inactivo'}
           </span>
         </td>
         <td>

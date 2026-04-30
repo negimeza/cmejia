@@ -1662,15 +1662,27 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.28rem 0.7rem;
-  border-radius: 50px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
 }
 
-.status-active   { background: var(--success-soft); color: var(--success); }
-.status-inactive { background: var(--danger-soft);  color: var(--danger);  }
+.status-badge .dot {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-active   { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+.status-inactive { background: rgba(239, 68, 68, 0.15);  color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+
 
 .tbl-actions { display: flex; gap: 0.5rem; }
 
