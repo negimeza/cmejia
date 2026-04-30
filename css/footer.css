@@ -1,7 +1,7 @@
 /* ── BENEFICIOS (FEATURES) — Rediseño Premium ── */
 .features {
   background: var(--bg-surface);
-  padding: 8rem 5%;
+  padding: 3rem 5%;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -152,7 +152,7 @@
 footer {
   background: var(--bg-dark);
   color: var(--white);
-  padding: 5rem 5% 2.5rem;
+  padding: 3rem 5% 2.5rem;
   border-top: 1px solid var(--border);
 }
 

@@ -2,7 +2,7 @@
 .hero {
   position: relative; min-height: 92vh;
   display: flex; align-items: center; justify-content: center;
-  text-align: center; color: var(--white); padding: 6rem 2rem 4rem;
+  text-align: center; color: var(--white); padding: 4.5rem 2rem 4rem;
   overflow: hidden;
 }
 
