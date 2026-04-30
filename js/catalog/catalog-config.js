@@ -31,8 +31,16 @@ window.CatalogConfig = {
       
       // WhatsApp Links
       document.querySelectorAll('.wa-link-btn').forEach(a => a.href = `https://wa.me/${waNum}`);
+      const waLink = document.getElementById('footer-wa-link');
+      if (waLink) waLink.href = `https://wa.me/${waNum}`;
       const waText = document.getElementById('footer-wa-text');
       if (waText) waText.textContent = `+57 ${waLocal.slice(0,3)} ${waLocal.slice(3,6)} ${waLocal.slice(6)}`;
+
+      // Botón flotante WA
+      const waFloatBtn = document.getElementById('wa-float-btn');
+      if (waFloatBtn) {
+        waFloatBtn.href = `https://wa.me/${waNum}?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos`;
+      }
 
       // Instagram
       const igLink = document.getElementById('footer-ig-link');
@@ -43,9 +51,9 @@ window.CatalogConfig = {
         igLink.classList.remove('hidden');
       }
 
-      // Footer Text
-      const footerName = document.getElementById('footer-name');
-      if (footerName) footerName.textContent = cfg.storeName;
+      // Footer Logo (nuevo layout)
+      const footerLogo = document.getElementById('footer-logo-link');
+      if (footerLogo && cfg.storeName) footerLogo.innerHTML = this.formatBoutiqueText(cfg.storeName);
 
     } catch (e) {
       console.warn('Error aplicando config:', e);

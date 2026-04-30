@@ -47,6 +47,15 @@
 .card-info h3 { font-size: 1.1rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; }
 .card-info .price { font-size: 1.2rem; font-weight: 800; color: var(--accent); }
 
+/* Precio con descuento */
+.price-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.price-original { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); text-decoration: line-through; }
+.discount-badge {
+  background: #22c55e; color: #fff;
+  border-radius: 999px; font-size: 10px; padding: 2px 8px; font-weight: 800;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+
 .btn-add-cart-fast {
   position:absolute; top:1rem; right:1rem;
   background:var(--white); border:none; width:40px; height:40px; border-radius:50%;
@@ -57,6 +66,12 @@
 }
 .card:hover .btn-add-cart-fast { opacity:1; transform:translateY(0); }
 .btn-add-cart-fast:hover { background:var(--accent); color:#fff; transform:scale(1.1); }
+/* Estado: producto ya en el carrito */
+.btn-add-cart-fast.in-cart {
+  background: var(--accent); color: #fff;
+  opacity: 1; transform: translateY(0);
+  box-shadow: 0 4px 15px var(--accent-glow);
+}
 
 /* SKELETONS */
 .skeleton {
@@ -64,6 +79,11 @@
   background-size: 200% 100%;
   animation: 1.5s shine linear infinite;
   border-radius: var(--radius);
+}
+/* El skeleton de card hereda el aspect-ratio para no causar salto visual al cargar */
+.card.skeleton {
+  aspect-ratio: 3 / 4;
+  pointer-events: none;
 }
 @keyframes shine { to { background-position-x: -200%; } }
 

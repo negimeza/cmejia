@@ -91,10 +91,45 @@
       <p>Calidad, estilo y atención personalizada</p>
     </div>
     <div class="feats-grid">
-      <div class="feat"><div class="feat-icon">👗</div><h3>Moda actual</h3><p>Tendencias actualizadas cada semana para que siempre vayas a la moda.</p></div>
-      <div class="feat"><div class="feat-icon">✨</div><h3>Asesoría Directa</h3><p>Te ayudamos a elegir la talla y estilo ideal por WhatsApp.</p></div>
-      <div class="feat"><div class="feat-icon">🚚</div><h3>Entrega en Medellín</h3><p>Envío rápido a domicilio en toda la ciudad.</p></div>
-      <div class="feat"><div class="feat-icon">✅</div><h3>Calidad garantizada</h3><p>Cada prenda es revisada antes de enviarse. Tu satisfacción, nuestra prioridad.</p></div>
+      <div class="feat" data-num="01">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Moda actual</h3>
+        <p>Tendencias actualizadas cada semana para que siempre vayas a la moda.</p>
+      </div>
+      <div class="feat" data-num="02">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <h3>Asesoría Directa</h3>
+        <p>Te ayudamos a elegir la talla y estilo ideal por WhatsApp.</p>
+      </div>
+      <div class="feat" data-num="03">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="1" y="3" width="15" height="13" rx="1"/>
+            <path d="M16 8h4l3 3v5h-7V8z"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <h3>Entrega en Medellín</h3>
+        <p>Envío rápido a domicilio en toda la ciudad.</p>
+      </div>
+      <div class="feat" data-num="04">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h3>Calidad garantizada</h3>
+        <p>Cada prenda es revisada antes de enviarse. Tu satisfacción, nuestra prioridad.</p>
+      </div>
     </div>
   </section>
 
@@ -111,15 +146,38 @@
 
   <!-- ── FOOTER ── -->
   <footer>
-    <p><strong id="footer-name">LupeOutfit</strong> — Catálogo de Ropa</p>
-    <p id="footer-city">📍 Envíos solo en <strong>Medellín</strong></p>
-    <p>📲 WhatsApp: <a id="footer-wa-link" href="https://wa.me/573207101121"><span id="footer-wa-text">320 710 1121</span></a></p>
-    <a id="footer-ig-link" href="#" target="_blank" class="footer-ig-txt hidden">Instagram: <span id="footer-ig-text"></span></a>
-    <p class="footer-copy" id="footer-copy">© 2026 LupeOutfit · Todos los derechos reservados</p>
+    <div class="footer-inner">
+      <!-- Columna izquierda: branding -->
+      <div class="footer-brand-col">
+        <a href="#" class="footer-logo" id="footer-logo-link">Lupe<em>Outfit</em></a>
+        <p class="footer-tagline">Moda boutique exclusiva para quienes buscan destacar.<br>Envíos rápidos y atención personalizada en Medellín.</p>
+        <span class="footer-city">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="footer-city">Envíos solo en <strong>Medellín</strong></span>
+        </span>
+      </div>
+      <!-- Columna derecha: contacto -->
+      <div class="footer-contact-col">
+        <span class="footer-contact-title">Contáctanos</span>
+        <a id="footer-wa-link" href="https://wa.me/573207101121" class="footer-contact-link footer-link-wa">
+          <span class="footer-link-icon">
+            <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor"><path d="M16 2C8.27 2 2 8.27 2 16c0 2.44.65 4.73 1.77 6.72L2 30l7.5-1.74A13.93 13.93 0 0016 30c7.73 0 14-6.27 14-14S23.73 2 16 2zm6.89 19.11c-.29.82-1.7 1.57-2.33 1.65-.6.08-1.36.11-2.19-.14a19.9 19.9 0 01-1.98-.73c-3.48-1.5-5.75-5.03-5.93-5.26-.17-.23-1.4-1.86-1.4-3.55 0-1.68.88-2.51 1.2-2.85.31-.34.68-.43.9-.43.23 0 .46 0 .66.01.21.01.5-.08.78.6.29.68.99 2.42 1.07 2.6.09.17.15.37.03.6-.12.23-.17.37-.34.57-.17.2-.36.44-.51.59-.17.17-.35.35-.15.69.2.34.88 1.45 1.9 2.35 1.3 1.16 2.4 1.52 2.74 1.69.34.17.54.14.74-.08.2-.23.85-.99 1.07-1.33.23-.34.45-.28.76-.17.31.11 1.97.93 2.31 1.1.34.17.57.25.65.39.09.14.09.8-.2 1.62z"/></svg>
+          </span>
+          <span id="footer-wa-text">320 710 1121</span>
+        </a>
+        <a id="footer-ig-link" href="#" target="_blank" class="footer-contact-link hidden">
+          <span class="footer-link-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </span>
+          <span id="footer-ig-text"></span>
+        </a>
+      </div>
+    </div>
+    <p class="footer-copy" id="footer-copy">© 2026 LupeOutfit &middot; Todos los derechos reservados</p>
   </footer>
 
   <!-- ── WA FLOTANTE ── -->
-  <a class="wa-float" href="https://wa.me/573206419934?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos" target="_blank" title="Escríbenos por WhatsApp">
+  <a class="wa-float" id="wa-float-btn" href="https://wa.me/573207101121?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos" target="_blank" title="Escríbenos por WhatsApp">
     <div class="wa-pulse"></div>
     <svg width="28" height="28" viewBox="0 0 32 32" fill="white"><path d="M16 2C8.27 2 2 8.27 2 16c0 2.44.65 4.73 1.77 6.72L2 30l7.5-1.74A13.93 13.93 0 0016 30c7.73 0 14-6.27 14-14S23.73 2 16 2zm6.89 19.11c-.29.82-1.7 1.57-2.33 1.65-.6.08-1.36.11-2.19-.14a19.9 19.9 0 01-1.98-.73c-3.48-1.5-5.75-5.03-5.93-5.26-.17-.23-1.4-1.86-1.4-3.55 0-1.68.88-2.51 1.2-2.85.31-.34.68-.43.9-.43.23 0 .46 0 .66.01.21.01.5-.08.78.6.29.68.99 2.42 1.07 2.6.09.17.15.37.03.6-.12.23-.17.37-.34.57-.17.2-.36.44-.51.59-.17.17-.35.35-.15.69.2.34.88 1.45 1.9 2.35 1.3 1.16 2.4 1.52 2.74 1.69.34.17.54.14.74-.08.2-.23.85-.99 1.07-1.33.23-.34.45-.28.76-.17.31.11 1.97.93 2.31 1.1.34.17.57.25.65.39.09.14.09.8-.2 1.62z"/></svg>
   </a>
@@ -158,7 +216,7 @@
   </aside>
 
   <!-- ── MODAL DETALLE PREMIUM ── -->
-  <div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="overlay" id="overlay">
     <div class="modal" id="modal">
       <div class="modal-img-container">
         <img id="modal-img" src="" alt="Producto"/>
@@ -179,12 +237,7 @@
             <span class="label">Talla</span>
           </div>
           <div class="size-options" id="sizes-container">
-            <!-- Tallas inyectadas dinámicamente o harcodeadas temporalmente -->
-            <button class="size-btn" onclick="selectSize('S')">S</button>
-            <button class="size-btn" onclick="selectSize('M')">M</button>
-            <button class="size-btn" onclick="selectSize('L')">L</button>
-            <button class="size-btn" onclick="selectSize('XL')">XL</button>
-            <button class="size-btn" onclick="selectSize('Única')">Única</button>
+            <!-- Las tallas se generan dinámicamente desde catalog-modal.js -->
           </div>
         </div>
         

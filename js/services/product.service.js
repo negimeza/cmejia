@@ -33,14 +33,14 @@ window.ProductService = {
     const from = page * pageSize;
     const to   = from + pageSize - 1;
 
-    const { data, error } = await window.sb
+    const { data, error, count } = await window.sb
       .from('products')
-      .select('*, categories(name)')
+      .select('*, categories(name)', { count: 'exact' })
       .eq('active', true)
       .order('created_at', { ascending: false })
       .range(from, to);
     if (error) throw error;
-    return data;
+    return { data, count };
   },
 
   /** Productos activos filtrados por categoría */
@@ -50,18 +50,18 @@ window.ProductService = {
 
     let query = window.sb
       .from('products')
-      .select('*, categories(name)')
+      .select('*, categories(name)', { count: 'exact' })
       .eq('active', true);
 
     if (categoryId !== 'all') {
       query = query.eq('category_id', categoryId);
     }
 
-    const { data, error } = await query
+    const { data, error, count } = await query
       .order('created_at', { ascending: false })
       .range(from, to);
     if (error) throw error;
-    return data;
+    return { data, count };
   },
 
   /** Crea un producto nuevo */
