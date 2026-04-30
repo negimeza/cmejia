@@ -135,10 +135,22 @@ window.Cart = {
     document.querySelector('.btn-send-wa')?.removeAttribute('disabled');
 
     let sum = 0;
+    let hasConsultationItems = false;
+
     list.innerHTML = this._items.map((p, i) => {
       const itemQty   = p.qty || 1;
-      const itemTotal = Number(p.price) * itemQty;
+      const priceVal  = Number(p.price);
+      const isConsult = priceVal === 0;
+      
+      if (isConsult) hasConsultationItems = true;
+      
+      const itemTotal = priceVal * itemQty;
       sum += itemTotal;
+
+      const priceDisplay = isConsult 
+        ? `<span class="price-consult">Consultar precio</span>`
+        : Utils.formatCurrency(itemTotal);
+
       return `
         <div class="cart-item">
           <img src="${p.image_url || 'https://placehold.co/100'}" alt="${p.name}"/>
@@ -154,7 +166,7 @@ window.Cart = {
               <span class="cart-remove" onclick="Cart.remove(${i})">Eliminar</span>
             </div>
           </div>
-          <div class="cart-item-price">${Utils.formatCurrency(itemTotal)}</div>
+          <div class="cart-item-price">${priceDisplay}</div>
         </div>
       `;
     }).join('');
@@ -162,6 +174,16 @@ window.Cart = {
     const formattedSum = Utils.formatCurrency(sum);
     if (subtotal) subtotal.textContent = formattedSum;
     if (total)    total.textContent    = formattedSum;
+
+    // Nota de cotización
+    const shipMsg = document.getElementById('shipping-msg');
+    if (shipMsg) {
+      const cfg = ConfigService.get();
+      const baseMsg = cfg.shippingMsg || '* Envío gratis en Medellín';
+      shipMsg.innerHTML = hasConsultationItems 
+        ? `${baseMsg}<br><span style="color:var(--accent); font-weight:600;">⚠️ El total no incluye prendas por consultar.</span>`
+        : baseMsg;
+    }
   },
 
   // ── Pedido WA ────────────────────────────────────────────────
@@ -174,15 +196,29 @@ window.Cart = {
 
     let msg      = '¡Hola! 👋 Me interesan estas prendas:\n\n';
     let totalArt = 0;
+    let hasConsult = false;
 
     this._items.forEach((p, i) => {
       const qty = p.qty || 1;
       totalArt += qty;
       const talla = p.talla ? ` (Talla: ${p.talla})` : '';
-      msg += `${i + 1}. *${p.name}*${talla} — x${qty} — ${Utils.formatCurrency(Number(p.price) * qty)}\n`;
+      const priceVal = Number(p.price);
+      
+      let priceText = '';
+      if (priceVal === 0) {
+        priceText = 'Precio a consultar';
+        hasConsult = true;
+      } else {
+        priceText = Utils.formatCurrency(priceVal * qty);
+      }
+
+      msg += `${i + 1}. *${p.name}*${talla} — x${qty} — ${priceText}\n`;
     });
 
+    const totalStr = Utils.formatCurrency(this._items.reduce((s, p) => s + (Number(p.price) * (p.qty || 1)), 0));
     msg += `\nTotal artículos: ${totalArt}`;
+    msg += `\nTotal estimado: ${totalStr}${hasConsult ? ' (Sujeto a cotización)' : ''}`;
+
     window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank');
   },
 
