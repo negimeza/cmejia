@@ -8,6 +8,8 @@ window.BrandConfig = {
       const cfg = window.ConfigService?.get();
       if (!cfg) return;
 
+      this.applyRandomHero();
+
       const storeName = cfg.storeName || 'LupeOutfit';
 
       // 1. Títulos de Pestaña
@@ -95,6 +97,20 @@ window.BrandConfig = {
     } catch (e) {
       console.warn('Error aplicando BrandConfig:', e);
     }
+  },
+
+  /**
+   * Selecciona una imagen aleatoria para el fondo del Hero.
+   */
+  applyRandomHero() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+
+    // Generamos un número del 1 al 5
+    const randomNum = Math.floor(Math.random() * 5) + 1;
+    const imgPath = `url('mockups/hero-${randomNum}.png')`;
+    
+    hero.style.setProperty('--hero-bg', imgPath);
   },
 
   /** 
