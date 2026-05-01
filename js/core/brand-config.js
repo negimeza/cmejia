@@ -108,7 +108,7 @@ window.BrandConfig = {
 
     // Generamos un número del 1 al 5
     const randomNum = Math.floor(Math.random() * 5) + 1;
-    const imgPath = `url('./mockups/hero-${randomNum}.png')`;
+    const imgPath = `url('../mockups/hero-${randomNum}.png')`;
     
     console.log(`[Hero] Imagen aleatoria seleccionada: hero-${randomNum}.png`);
     
