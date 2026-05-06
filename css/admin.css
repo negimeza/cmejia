@@ -18,13 +18,14 @@
   --border-focus: rgba(232, 69, 107, 0.5);
 
   /* Acento principal: Rosa Boutique */
-  --accent:       #e8457a;
+  --accent:       #E8456B;
   --accent-light: #f472b6;
   --accent-glow:  rgba(232, 69, 107, 0.3);
   --accent-soft:  rgba(232, 69, 107, 0.07);
 
-  /* Acento secundario: Rosa claro */
+  /* Acento secundario: Rosa claro y Dorado Champagne */
   --accent2:      #f472b6;
+  --gold:         #C5A059;
 
   /* Éxito: Esmeralda */
   --success:      #10b981;
@@ -506,11 +507,10 @@
   font-weight: bold;
 }
 
-/* Submit Button */
 .submit-btn {
   width: 100%;
   padding: 14px 24px;
-  background: linear-gradient(135deg, #f472b6, var(--accent) 60%, #db2777);
+  background: var(--accent);
   border: none;
   border-radius: 999px;
   color: white;
@@ -522,7 +522,7 @@
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px -12px rgba(232, 69, 107, 0.55);
+  box-shadow: 0 10px 30px var(--accent-glow);
   font-family: var(--font);
 }
 
@@ -1035,7 +1035,7 @@
   justify-content: center;
   gap: 0.6rem;
   padding: 14px 24px;
-  background: linear-gradient(135deg, #f472b6, var(--accent) 60%, #db2777);
+  background: var(--accent);
   color: #fff;
   border: none;
   border-radius: 999px;
@@ -1044,7 +1044,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s;
-  box-shadow: 0 10px 30px -12px rgba(232, 69, 107, 0.55);
+  box-shadow: 0 10px 30px var(--accent-glow);
   letter-spacing: .14em;
   position: relative;
   overflow: hidden;
