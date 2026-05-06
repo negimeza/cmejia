@@ -78,13 +78,14 @@ window.Cart = {
   clear() {
     const btn = document.querySelector('.btn-clear-cart');
     if (!btn) return;
+    const span = btn.querySelector('span') || btn;
 
     if (btn.classList.contains('pending')) {
       this._items = [];
       this.persist();
       this.render();
       btn.classList.remove('pending');
-      btn.innerHTML = '🗑 Vaciar carrito';
+      span.textContent = 'Vaciar';
       // Limpiar estado visual de todas las cards
       document.querySelectorAll('.card.in-cart').forEach(c => c.classList.remove('in-cart'));
       document.querySelectorAll('.btn-add-cart-fast.in-cart').forEach(b => b.classList.remove('in-cart'));
@@ -92,10 +93,10 @@ window.Cart = {
     }
 
     btn.classList.add('pending');
-    btn.innerHTML = '⚠️ ¿Seguro? Click aquí';
+    span.textContent = '¿Seguro?';
     setTimeout(() => {
       btn.classList.remove('pending');
-      btn.innerHTML = '🗑 Vaciar carrito';
+      span.textContent = 'Vaciar';
     }, 4000);
   },
 
