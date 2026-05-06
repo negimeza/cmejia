@@ -115,22 +115,15 @@ window.BrandConfig = {
     hero.style.setProperty('--hero-bg', imgPath);
   },
 
-  /** 
+  /**
    * Formatea el nombre de la tienda.
-   * Si tiene varias palabras, aplica itálica/gradiente a la última.
-   * Si es una sola palabra, se mantiene uniforme (según solicitud del usuario).
+   * El nombre dinámico viene de la config (ej: "Lupe").
+   * La palabra "outfit" es siempre estática y hardcodeada como sufijo en itálica.
+   * Resultado visual: LUPE outfit
    */
   formatBrandText(text) {
     if (!text) return '';
     const t = text.trim();
-    
-    const words = t.split(/\s+/);
-    if (words.length > 1) {
-      const last = words.pop();
-      return `${words.join(' ')} <em>${last}</em>`;
-    }
-    
-    // Una sola palabra: sin <em> para que sea un solo color como pidió el usuario
-    return t;
+    return `${t} <em>outfit</em>`;
   }
 };
