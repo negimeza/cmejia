@@ -10,6 +10,7 @@ window.CatalogApp = {
   _hasMore: true,
   _totalCount: 0,
   _isLoading: false,
+  _observer: null,   // IntersectionObserver para infinite scroll
 
   async init() {
     await ConfigService.load();
@@ -19,19 +20,41 @@ window.CatalogApp = {
     // Header Effect
     this.setupHeaderScroll();
 
-    // Eventos
-    document.getElementById('btn-load-more')?.addEventListener('click', () => this.loadNextPage());
-
     // Cerrar modal al hacer click en el backdrop
     document.getElementById('overlay')?.addEventListener('click', (e) => {
       if (e.target === e.currentTarget) window.CatalogModal?.close();
     });
+
+    // Infinite Scroll: observar el centinela
+    this._setupObserver();
 
     // Carga inicial
     this.loadInitialData();
 
     // Renderizar carrito inicial
     if (window.Cart) Cart.render();
+  },
+
+  /**
+   * Configura el IntersectionObserver sobre el div#scroll-sentinel.
+   * Cuando el sentinel entra en el viewport, carga la siguiente página.
+   * rootMargin: '200px' → empieza a cargar 200px antes del borde inferior.
+   */
+  _setupObserver() {
+    const sentinel = document.getElementById('scroll-sentinel');
+    if (!sentinel || !('IntersectionObserver' in window)) return;
+
+    this._observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting && this._hasMore && !this._isLoading) {
+        this.loadNextPage();
+      }
+    }, {
+      rootMargin: '200px',
+      threshold: 0
+    });
+
+    this._observer.observe(sentinel);
   },
 
   async loadInitialData() {
@@ -50,7 +73,7 @@ window.CatalogApp = {
 
       CatalogUI.renderFilters(this._categories, this._activeCategory);
       CatalogUI.renderGrid(this._products);
-      CatalogUI.toggleLoadMore(this._hasMore, this._products.length, this._totalCount);
+      CatalogUI.toggleLoadMore(this._hasMore);
 
     } catch (err) {
       console.error('Error inicial:', err);
@@ -82,7 +105,7 @@ window.CatalogApp = {
       this._hasMore    = this._products.length < this._totalCount;
 
       CatalogUI.renderGrid(this._products);
-      CatalogUI.toggleLoadMore(this._hasMore, this._products.length, this._totalCount);
+      CatalogUI.toggleLoadMore(this._hasMore);
     } catch (err) {
       console.error('Error filtro:', err);
       const grid = document.getElementById('products-grid');
@@ -111,7 +134,7 @@ window.CatalogApp = {
       this._hasMore    = this._products.length < this._totalCount;
 
       CatalogUI.appendGrid(result.data);
-      CatalogUI.toggleLoadMore(this._hasMore, this._products.length, this._totalCount);
+      CatalogUI.toggleLoadMore(this._hasMore);
     } catch (err) {
       console.error('Error carga más:', err);
     } finally {
@@ -134,7 +157,7 @@ window.CatalogApp = {
 document.addEventListener('DOMContentLoaded', () => CatalogApp.init());
 
 // Helpers Globales para el HTML
-window.changeModalQty   = (d)   => CatalogModal.changeQty(d);
+window.changeModalQty   = (d)    => CatalogModal.changeQty(d);
 window.selectSize       = (s, b) => CatalogModal.selectSize(s, b);
-window.agregarAlCarrito = ()    => CatalogModal.confirmAdd();
-window.closeModal       = (e)   => CatalogModal.close(e);
+window.agregarAlCarrito = ()     => CatalogModal.confirmAdd();
+window.closeModal       = (e)    => CatalogModal.close(e);

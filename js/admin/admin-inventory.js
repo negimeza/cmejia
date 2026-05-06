@@ -1,5 +1,6 @@
 /**
- * admin-inventory.js — Tabla de productos, búsqueda y paginación.
+ * admin-inventory.js — Tabla de productos, búsqueda, paginación,
+ *   ordenamiento por columnas, acciones masivas y memoria en URL.
  */
 window.AdminInventory = {
   _products: [],
@@ -7,42 +8,82 @@ window.AdminInventory = {
   _pageSize: 15,
   _totalCount: 0,
   _searchQuery: '',
+  _sortBy: 'created_at',
+  _sortAsc: false,
+  _selectedIds: new Set(),
 
   init() {
+    // ── Búsqueda con debounce ──────────────────────────────────────
     const searchInput = document.getElementById('inventory-search');
     searchInput?.addEventListener('input', Utils.debounce(() => {
-      this._searchQuery = searchInput.value;
+      this._searchQuery = searchInput.value.trim();
       this._currentPage = 0;
+      this._selectedIds.clear();
+      this._syncToURL();
       this.load();
     }, 500));
+
+    // ── Restaurar estado desde URL ─────────────────────────────────
+    this._readFromURL();
+
+    // Sincronizar campo de búsqueda con el valor de la URL
+    if (searchInput && this._searchQuery) {
+      searchInput.value = this._searchQuery;
+    }
   },
 
+  // ── URL Memory ────────────────────────────────────────────────────
+  _syncToURL() {
+    const params = new URLSearchParams();
+    if (this._currentPage > 0)  params.set('page', this._currentPage);
+    if (this._searchQuery)       params.set('q', this._searchQuery);
+    if (this._sortBy !== 'created_at') params.set('sort', this._sortBy);
+    if (this._sortAsc)           params.set('asc', '1');
+    const newURL = params.toString()
+      ? `${location.pathname}?${params}`
+      : location.pathname;
+    history.replaceState(null, '', newURL);
+  },
+
+  _readFromURL() {
+    const params = new URLSearchParams(location.search);
+    this._currentPage  = parseInt(params.get('page') || '0', 10);
+    this._searchQuery  = params.get('q') || '';
+    this._sortBy       = params.get('sort') || 'created_at';
+    this._sortAsc      = params.get('asc') === '1';
+  },
+
+  // ── Carga de datos ────────────────────────────────────────────────
   async load() {
     const tbody = document.getElementById('products-list');
     if (!tbody) return;
 
-    // Loading state opcional
     try {
       const { data, count } = await ProductService.getAll({
         page: this._currentPage,
         pageSize: this._pageSize,
-        search: this._searchQuery
+        search: this._searchQuery,
+        sortBy: this._sortBy,
+        ascending: this._sortAsc,
       });
 
       this._products = data;
       this._totalCount = count;
+      this._selectedIds.clear();
       this.render();
       this.renderPagination();
+      this._updateBulkBar();
     } catch (err) {
       console.error('Error cargando inventario:', err);
-      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Error al cargar datos.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar datos.</td></tr>`;
     }
   },
 
+  // ── Render de la tabla ────────────────────────────────────────────
   render() {
     const tbody = document.getElementById('products-list');
     const empty = document.getElementById('inventory-empty');
-    
+
     if (!this._products.length) {
       tbody.innerHTML = '';
       empty?.classList.remove('hidden');
@@ -53,7 +94,12 @@ window.AdminInventory = {
     const fmt = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 
     tbody.innerHTML = this._products.map(p => `
-      <tr>
+      <tr class="${this._selectedIds.has(p.id) ? 'row-selected' : ''}">
+        <td class="td-check">
+          <input type="checkbox" class="row-check" data-id="${p.id}"
+            ${this._selectedIds.has(p.id) ? 'checked' : ''}
+            onchange="AdminInventory.toggleSelect('${p.id}', this.checked)">
+        </td>
         <td><img src="${p.image_url || 'https://placehold.co/48x48/1c1c2e/f472b6?text=?'}" class="p-thumb" alt="${p.name}"></td>
         <td>
           <strong class="text-primary">${p.name}</strong><br>
@@ -80,6 +126,7 @@ window.AdminInventory = {
     `).join('');
   },
 
+  // ── Paginación ────────────────────────────────────────────────────
   renderPagination() {
     const container = document.getElementById('inventory-pagination');
     if (!container) return;
@@ -101,21 +148,115 @@ window.AdminInventory = {
 
   changePage(newPage) {
     this._currentPage = newPage;
+    this._syncToURL();
     this.load();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
 
+  // ── Ordenamiento por columnas ─────────────────────────────────────
+  handleSort(column) {
+    if (this._sortBy === column) {
+      this._sortAsc = !this._sortAsc;  // invertir dirección
+    } else {
+      this._sortBy  = column;
+      this._sortAsc = true;
+    }
+    this._currentPage = 0;
+    this._syncToURL();
+    this.load();
+    this._updateSortHeaders();
+  },
+
+  _updateSortHeaders() {
+    document.querySelectorAll('[data-sort]').forEach(th => {
+      th.classList.remove('sort-asc', 'sort-desc');
+      if (th.dataset.sort === this._sortBy) {
+        th.classList.add(this._sortAsc ? 'sort-asc' : 'sort-desc');
+      }
+    });
+  },
+
+  // ── Acciones Masivas (Bulk) ───────────────────────────────────────
+  toggleSelect(id, checked) {
+    if (checked) {
+      this._selectedIds.add(id);
+    } else {
+      this._selectedIds.delete(id);
+    }
+    // Actualizar highlight visual de la fila
+    const row = document.querySelector(`input.row-check[data-id="${id}"]`)?.closest('tr');
+    if (row) row.classList.toggle('row-selected', checked);
+
+    this._updateBulkBar();
+  },
+
+  toggleSelectAll(checked) {
+    this._selectedIds.clear();
+    if (checked) {
+      this._products.forEach(p => this._selectedIds.add(p.id));
+    }
+    // Actualizar todos los checkboxes y filas
+    document.querySelectorAll('.row-check').forEach(cb => {
+      cb.checked = checked;
+      const row = cb.closest('tr');
+      if (row) row.classList.toggle('row-selected', checked);
+    });
+    this._updateBulkBar();
+  },
+
+  _updateBulkBar() {
+    const bar   = document.getElementById('bulk-action-bar');
+    const count = document.getElementById('bulk-count');
+    const allCb = document.getElementById('check-all');
+    if (!bar) return;
+
+    const n = this._selectedIds.size;
+    bar.classList.toggle('visible', n > 0);
+    if (count) count.textContent = `${n} producto${n !== 1 ? 's' : ''} seleccionado${n !== 1 ? 's' : ''}`;
+
+    // Estado del checkbox "seleccionar todo"
+    if (allCb) {
+      allCb.checked       = n === this._products.length && n > 0;
+      allCb.indeterminate = n > 0 && n < this._products.length;
+    }
+  },
+
+  async bulkHide() {
+    if (!this._selectedIds.size) return;
+    const ids = [...this._selectedIds];
+    if (!confirm(`¿Ocultar ${ids.length} producto(s) seleccionados?`)) return;
+    try {
+      await Promise.all(ids.map(id => ProductService.update(id, { active: false })));
+      showToast(`👁️ ${ids.length} producto(s) ocultados`);
+      this.load();
+    } catch (err) {
+      showToast('❌ Error al ocultar: ' + err.message, true);
+    }
+  },
+
+  async bulkDelete() {
+    if (!this._selectedIds.size) return;
+    const ids = [...this._selectedIds];
+    if (!confirm(`⚠️ ¿Eliminar ${ids.length} producto(s) permanentemente? Esta acción no se puede deshacer.`)) return;
+    try {
+      await Promise.all(ids.map(id => ProductService.delete(id)));
+      showToast(`🗑️ ${ids.length} producto(s) eliminados`);
+      this.load();
+    } catch (err) {
+      showToast('❌ Error al eliminar: ' + err.message, true);
+    }
+  },
+
+  // ── Eliminar individual ───────────────────────────────────────────
   confirmDelete(id) {
     console.log('[DELETE] Iniciando proceso para ID:', id);
     const p = this._products.find(x => x.id === id);
     if (!p) {
-      console.error('[DELETE] Producto no encontrado en memoria. Reintentando carga de productos...');
+      console.error('[DELETE] Producto no encontrado en memoria. Recargando...');
       this.load().then(() => this.confirmDelete(id));
       return;
     }
 
-    console.log('[DELETE] Producto encontrado:', p.name);
-    
     if (typeof showConfirm !== 'function') {
       alert('Error crítico: La función showConfirm no está disponible.');
       return;
@@ -125,19 +266,11 @@ window.AdminInventory = {
       title: '¿Eliminar producto?',
       message: `Vas a eliminar "${p.name}" del catálogo definitivamente.`,
       onConfirm: async () => {
-        console.log('[DELETE] Confirmación recibida. Llamando a ProductService...');
         try {
           await ProductService.delete(id);
-          console.log('[DELETE] ProductService reporta éxito');
           showToast('🗑️ Producto eliminado');
-          
-          // Forzamos un pequeño delay antes de recargar para asegurar que Supabase procesó el cambio
-          setTimeout(() => {
-            console.log('[DELETE] Recargando inventario...');
-            AdminInventory.load();
-          }, 300);
+          setTimeout(() => this.load(), 300);
         } catch (err) {
-          console.error('[DELETE] Error en el proceso:', err);
           showToast('❌ Error: ' + err.message, true);
         }
       }

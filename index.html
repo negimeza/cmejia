@@ -109,9 +109,12 @@
       <!-- Los productos se cargan aquí -->
     </div>
 
-    <!-- Botón Cargar Más -->
-    <div class="load-more-container" id="load-more-container" style="display: none;">
-      <button id="btn-load-more" class="btn-load-more">Ver más productos</button>
+    <!-- Infinite Scroll: Centinela invisible + Spinner -->
+    <div id="scroll-sentinel" style="height: 1px; visibility: hidden;"></div>
+    <div id="infinite-spinner" class="infinite-spinner hidden">
+      <span class="spinner-dot"></span>
+      <span class="spinner-dot"></span>
+      <span class="spinner-dot"></span>
     </div>
   </section>
 

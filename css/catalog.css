@@ -98,43 +98,35 @@
   animation: fadeIn 0.8s ease;
 }
 
-.btn-load-more {
-  padding: 1rem 3rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--white);
-  border-radius: 999px;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* ── Infinite Scroll Spinner ── */
+.infinite-spinner {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  padding: 3rem 0 4rem;
 }
 
-.btn-load-more:hover {
-  border-color: var(--accent);
-  background: rgba(232, 69, 107, 0.05);
-  box-shadow: 0 0 20px var(--accent-glow);
-  transform: translateY(-2px);
+.infinite-spinner.hidden {
+  display: none;
 }
 
-.btn-load-more:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255,255,255,0.2);
-  border-top-color: var(--accent);
+.spinner-dot {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  background: var(--accent);
+  animation: bounceDot 1.2s ease-in-out infinite;
+  opacity: 0.3;
+}
+
+.spinner-dot:nth-child(1) { animation-delay: 0s; }
+.spinner-dot:nth-child(2) { animation-delay: 0.2s; }
+.spinner-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounceDot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
+  40%           { transform: scale(1.2); opacity: 1; }
 }
 
 @keyframes spin {
@@ -143,5 +135,7 @@
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+
+

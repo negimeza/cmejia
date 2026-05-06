@@ -2273,3 +2273,142 @@ textarea.form-input { border-radius: 20px; min-height: 100px; resize: vertical; 
   letter-spacing: 0.5px;
 }
 
+/* ══════════════════════════════════════════════════
+   SORTING — Cabeceras de columna clicables
+══════════════════════════════════════════════════ */
+th.sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+th.sortable:hover {
+  color: var(--accent2);
+}
+
+th.sortable .sort-icon {
+  opacity: 0.4;
+  margin-left: 4px;
+  font-size: 0.85em;
+  transition: opacity 0.2s;
+}
+
+th.sortable:hover .sort-icon {
+  opacity: 0.8;
+}
+
+th.sort-asc .sort-icon::before  { content: '▲'; opacity: 1; }
+th.sort-desc .sort-icon::before { content: '▼'; opacity: 1; }
+th.sort-asc  { color: var(--accent2); }
+th.sort-desc { color: var(--accent2); }
+
+/* ══════════════════════════════════════════════════
+   CHECKBOXES — Columna de selección
+══════════════════════════════════════════════════ */
+.th-check,
+.td-check {
+  width: 40px;
+  padding: 0.85rem 0.5rem 0.85rem 1rem;
+}
+
+.th-check input,
+.td-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* Fila seleccionada */
+tbody tr.row-selected {
+  background: var(--accent-soft) !important;
+  border-left-color: var(--accent) !important;
+}
+
+/* ══════════════════════════════════════════════════
+   BULK ACTION BAR — Barra flotante de acciones masivas
+══════════════════════════════════════════════════ */
+.bulk-action-bar {
+  position: fixed;
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-focus);
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem 0.75rem 1.75rem;
+  box-shadow: var(--shadow-md), 0 0 30px rgba(232,69,107,0.15);
+  z-index: 8000;
+  transition: bottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
+}
+
+.bulk-action-bar.visible {
+  bottom: 2rem;
+}
+
+#bulk-count {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bulk-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-bulk-hide,
+.btn-bulk-delete {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid;
+}
+
+.btn-bulk-hide {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+.btn-bulk-hide:hover {
+  border-color: var(--accent2);
+  color: var(--accent2);
+  background: var(--accent-soft);
+}
+
+.btn-bulk-delete {
+  background: var(--danger-soft);
+  border-color: rgba(244,63,94,0.3);
+  color: var(--danger);
+}
+
+.btn-bulk-delete:hover {
+  background: rgba(244,63,94,0.2);
+  border-color: rgba(244,63,94,0.6);
+}
+
+@media (max-width: 640px) {
+  .bulk-action-bar {
+    width: calc(100% - 2rem);
+    border-radius: 16px;
+    bottom: -100px;
+  }
+  .bulk-action-bar.visible { bottom: 1rem; }
+}

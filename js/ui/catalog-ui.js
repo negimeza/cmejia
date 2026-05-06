@@ -121,27 +121,23 @@ window.CatalogUI = {
   },
 
   /**
-   * Muestra u oculta el botón "Ver más" con contador opcional.
-   * @param {boolean} visible
-   * @param {number}  [loaded]  - Productos actualmente cargados
-   * @param {number}  [total]   - Total de productos disponibles
+   * Activa/desactiva el centinela del IntersectionObserver.
+   * Cuando hasMore=false, el centinela se oculta y no se disparan más cargas.
+   * @param {boolean} hasMore
    */
-  toggleLoadMore(visible, loaded, total) {
-    const container = document.getElementById('load-more-container');
-    const btn       = document.getElementById('btn-load-more');
-    if (container) container.style.display = visible ? 'flex' : 'none';
-    if (btn && loaded != null && total != null) {
-      btn.textContent = `Ver más · ${loaded} de ${total} productos`;
-    } else if (btn) {
-      btn.textContent = 'Ver más productos';
-    }
+  toggleLoadMore(hasMore) {
+    const sentinel = document.getElementById('scroll-sentinel');
+    if (sentinel) sentinel.style.visibility = hasMore ? 'visible' : 'hidden';
   },
 
+  /**
+   * Muestra u oculta el spinner de "cargando más".
+   * @param {boolean} loading
+   */
   setLoadingMore(loading) {
-    const btn = document.getElementById('btn-load-more');
-    if (!btn) return;
-    btn.disabled = loading;
-    btn.innerHTML = loading ? '<span class="spinner"></span> Cargando...' : 'Ver más productos';
+    const spinner = document.getElementById('infinite-spinner');
+    if (!spinner) return;
+    spinner.classList.toggle('hidden', !loading);
   },
 
   showSkeletons() {

@@ -7,7 +7,7 @@ window.ProductService = {
   /** 
    * Obtiene productos con paginación y búsqueda opcional (para el admin)
    */
-  async getAll({ page = 0, pageSize = 20, search = '' } = {}) {
+  async getAll({ page = 0, pageSize = 20, search = '', sortBy = 'created_at', ascending = false } = {}) {
     const from = page * pageSize;
     const to   = from + pageSize - 1;
 
@@ -16,12 +16,11 @@ window.ProductService = {
       .select('*, categories(name)', { count: 'exact' });
 
     if (search) {
-      // Búsqueda simple por nombre o descripción
       query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
     }
 
     const { data, error, count } = await query
-      .order('created_at', { ascending: false })
+      .order(sortBy, { ascending })
       .range(from, to);
 
     if (error) throw error;
