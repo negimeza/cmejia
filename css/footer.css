@@ -1,7 +1,7 @@
 /* ── BENEFICIOS (FEATURES) — Rediseño Premium ── */
 .features {
   background: var(--bg-surface);
-  padding: 3rem 5%;
+  padding: 4rem 5%;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -150,7 +150,7 @@
 
 /* ── PRE-FOOTER CTA (Asesoría WA) ── */
 .pre-footer-cta {
-  padding: 0 5% 8rem;
+  padding: 4rem 5% 6rem;
   background: var(--bg-dark);
 }
 
