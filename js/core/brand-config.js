@@ -113,9 +113,9 @@ window.BrandConfig = {
     const hero = document.querySelector('.hero');
     if (!hero) return;
 
-    // Generamos un número del 1 al 5
-    const randomNum = Math.floor(Math.random() * 5) + 1;
-    const imgPath = `url('/mockups/hero-${randomNum}.png')`;
+    // Generamos un número del 1 al 6
+    const randomNum = Math.floor(Math.random() * 6) + 1;
+    const imgPath = `url('/assets/hero/hero-${randomNum}.png')`;
     
     console.log(`[Hero v2] Imagen aleatoria seleccionada: hero-${randomNum}.png`);
     

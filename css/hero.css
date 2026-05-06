@@ -9,7 +9,7 @@
 /* Imagen de fondo generada — foto editorial boutique */
 .hero::before {
   content: ''; position: absolute; inset: 0;
-  background: var(--hero-bg, url('../mockups/hero-bg.png')) center / cover no-repeat;
+  background: var(--hero-bg, url('../assets/hero/hero-1.png')) center / cover no-repeat;
   opacity: 0.80;
   filter: brightness(0.85) saturate(1.1);
   transform: scale(1.03);
