@@ -42,7 +42,7 @@
 .brand-admin-icon:hover {
   opacity: 1;
   color: var(--accent);
-  background: rgba(232, 69, 122, 0.05);
+  background: rgba(232, 69, 107, 0.05);
   transform: rotate(45deg);
 }
 
@@ -69,7 +69,7 @@
   border-color: var(--accent);
   color: var(--white);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(232, 69, 122, 0.4);
+  box-shadow: 0 4px 15px rgba(232, 69, 107, 0.4);
 }
 
 .cart-dot {

@@ -34,7 +34,7 @@
 
 .card:hover { 
   transform:translateY(-10px); 
-  border-color: rgba(232, 69, 122, 0.3);
+  border-color: rgba(232, 69, 107, 0.3);
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
@@ -121,7 +121,7 @@
 
 .btn-load-more:hover {
   border-color: var(--accent);
-  background: rgba(232, 69, 122, 0.05);
+  background: rgba(232, 69, 107, 0.05);
   box-shadow: 0 0 20px var(--accent-glow);
   transform: translateY(-2px);
 }
