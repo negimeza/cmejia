@@ -107,11 +107,32 @@
   font-weight: 500;
   transition: all 0.3s ease;
   letter-spacing: 0.4px;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.header-nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--accent);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-50%);
+  border-radius: 2px;
+  opacity: 0;
 }
 
 .header-nav a:hover {
   color: var(--white);
-  text-shadow: 0 0 15px rgba(255,255,255,0.3);
+  text-shadow: 0 0 15px rgba(232, 69, 107, 0.4);
+}
+
+.header-nav a:hover::after {
+  width: 100%;
+  opacity: 1;
 }
 
 @media (max-width: 850px) {
