@@ -130,8 +130,8 @@
 
 .trust-item svg {
   flex-shrink: 0;
-  opacity: 0.5;
-  color: #fff;
+  opacity: 0.65;
+  color: var(--gold);
   width: 14px;
   height: 14px;
 }
