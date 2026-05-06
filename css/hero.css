@@ -35,8 +35,8 @@
 /* Badge de ubicación con efecto shimmer */
 .badge {
   background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--gold);
+  border: 1px solid rgba(197, 160, 89, 0.2);
   font-size: .68rem; font-weight: 600;
   text-transform: uppercase; padding: .6rem 1.4rem; border-radius: 50px;
   margin-bottom: 2rem; letter-spacing: 2px; display: inline-block;
@@ -137,7 +137,8 @@
 }
 
 .trust-divider {
-  color: rgba(255, 255, 255, 0.1);
+  color: var(--gold);
+  opacity: 0.6;
   font-size: 0.8rem;
 }
 

@@ -54,10 +54,10 @@
   width: 52px; height: 52px;
   margin: 0 auto 1.5rem;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(232, 69, 107, 0.08);
-  border: 1px solid rgba(232, 69, 107, 0.2);
+  background: rgba(197, 160, 89, 0.08);
+  border: 1px solid rgba(197, 160, 89, 0.2);
   border-radius: var(--radius);
-  color: var(--accent);
+  color: var(--gold);
   transition: var(--transition);
 }
 
