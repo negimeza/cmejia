@@ -42,7 +42,8 @@ window.BrandConfig = {
       // 3. Hero Section (Página Principal)
       const heroTitle = document.getElementById('hero-title');
       if (heroTitle) {
-        heroTitle.innerHTML = this.formatBrandText(cfg.heroTitle || storeName);
+        // En el título del hero NO queremos el sufijo "outfit"
+        heroTitle.innerHTML = (cfg.heroTitle || storeName).trim();
       }
       
       const heroSub = document.getElementById('hero-sub');
