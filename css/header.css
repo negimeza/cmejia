@@ -143,6 +143,7 @@
   flex-direction: column; 
   gap: 4px;
   padding: 0 10px; /* Espacio para que las líneas no toquen el borde del círculo */
+  margin-right: 0.5rem;
 }
 
 .hamburger-btn span {
