@@ -6,11 +6,11 @@
 const CONFIG_CACHE_KEY = 'lupe_config_cache';
 
 const CONFIG_DEFAULTS = {
-  storeName:       'Mi Tienda',
+  storeName:       'Mi Boutique',
   waNumber:        '570000000000',
   city:            'Tu Ciudad',
-  heroTitle:       'Tu Estilo, Tu Regla.',
-  heroSubtitle:    'Ropa espectacular para que te veas y te sientas increíble todos los días.',
+  heroTitle:       'Nueva Colección',
+  heroSubtitle:    'Descubre las últimas tendencias y encuentra tu estilo ideal.',
   shippingMsg:     '* Envío a domicilio disponible',
   instagram:       '',
 };
