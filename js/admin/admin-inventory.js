@@ -105,8 +105,7 @@ window.AdminInventory = {
         </td>
         <td><img src="${p.image_url || 'https://placehold.co/48x48/1c1c2e/f472b6?text=?'}" class="p-thumb" alt="${p.name}"></td>
         <td>
-          <strong class="text-primary">${p.name}</strong><br>
-          <small class="text-dim">${p.description?.slice(0, 45) || '—'}${p.description?.length > 45 ? '...' : ''}</small>
+          <strong class="text-primary">${p.name}</strong>
         </td>
         <td class="text-muted">${p.categories?.name || '—'}</td>
         <td class="text-bold text-accent">${fmt.format(p.price)}</td>
