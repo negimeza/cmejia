@@ -27,6 +27,7 @@ window.BrandConfig = {
       // 2. Logos (Header, Admin, Footer)
       const logos = [
         document.getElementById('header-logo'),
+        document.getElementById('mobile-nav-logo'),
         document.getElementById('admin-logo'),
         document.getElementById('footer-logo-link')
       ];
