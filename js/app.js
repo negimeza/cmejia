@@ -17,6 +17,11 @@ window.CatalogApp = {
     BrandConfig.apply();
     CatalogUI.init();
 
+    // Escuchar tecla Escape para cerrar menú móvil
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') this.closeMenu();
+    });
+
     // Header Effect
     this.setupHeaderScroll();
 
@@ -150,8 +155,39 @@ window.CatalogApp = {
       const isScrolled = window.scrollY > 50;
       header.classList.toggle('scrolled', isScrolled);
     });
+  },
+  
+  // ── Gestión Menú Móvil ──
+  toggleMenu() {
+    const nav = document.getElementById('main-mobile-nav');
+    const overlay = document.getElementById('main-nav-overlay');
+    const btn = document.getElementById('main-hamburger');
+    if (!nav) return;
+
+    const isOpen = nav.classList.contains('visible');
+    if (isOpen) {
+      this.closeMenu();
+    } else {
+      nav.classList.add('visible');
+      overlay?.classList.add('visible');
+      btn?.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  },
+
+  closeMenu() {
+    const nav = document.getElementById('main-mobile-nav');
+    const overlay = document.getElementById('main-nav-overlay');
+    const btn = document.getElementById('main-hamburger');
+    nav?.classList.remove('visible');
+    overlay?.classList.remove('visible');
+    btn?.classList.remove('open');
+    document.body.style.overflow = '';
   }
 };
+
+// Alias global para compatibilidad con el HTML
+window.App = window.CatalogApp;
 
 // Iniciar
 document.addEventListener('DOMContentLoaded', () => CatalogApp.init());
