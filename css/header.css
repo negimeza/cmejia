@@ -189,12 +189,9 @@
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.mobile-nav-header .logo { 
-  font-size: 1.4rem; font-weight: 800; color: var(--white); 
-  letter-spacing: -0.5px;
-  white-space: nowrap; /* Evita que el nombre se parta en dos líneas */
-  overflow: hidden;
-  text-overflow: ellipsis;
+.mobile-nav-header .nav-title { 
+  font-size: 1.1rem; font-weight: 700; color: var(--white); 
+  letter-spacing: 0.5px; text-transform: uppercase;
 }
 
 .mobile-nav-close {

@@ -1318,6 +1318,11 @@
   margin-bottom: 1.5rem; gap: 1rem;
 }
 
+.mobile-nav-header .nav-title { 
+  font-size: 1.1rem; font-weight: 700; color: var(--white); 
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+
 .mobile-nav-close {
   background: none; border: none; color: var(--text-dim); cursor: pointer;
   padding: 5px; display: flex; align-items: center; justify-content: center;
