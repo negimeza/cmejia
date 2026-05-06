@@ -65,11 +65,11 @@
   -webkit-backdrop-filter: blur(5px);
 }
 .nav-btn:hover { 
-  background: var(--accent);
+  background: transparent;
   border-color: var(--accent);
-  color: var(--white);
+  color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(232, 69, 107, 0.4);
+  box-shadow: 0 4px 15px rgba(232, 69, 107, 0.15);
 }
 
 .cart-dot {

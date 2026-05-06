@@ -39,6 +39,12 @@ window.BrandConfig = {
         }
       });
 
+      // 2.5 Navigation Links
+      const navWhyLink = document.getElementById('nav-why-link');
+      if (navWhyLink) {
+        navWhyLink.textContent = `Por qué ${storeName}`;
+      }
+
       // 3. Hero Section (Página Principal)
       const heroTitle = document.getElementById('hero-title');
       if (heroTitle) {
