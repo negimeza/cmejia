@@ -62,6 +62,16 @@ window.BrandConfig = {
         heroBadge.textContent = `📍 ${cfg.city} · Colección 2026`;
       }
 
+      const trustCity = document.getElementById('trust-city');
+      if (trustCity && cfg.city) {
+        trustCity.textContent = `Envíos en ${cfg.city}`;
+      }
+
+      const featCityTitle = document.getElementById('feat-city-title');
+      if (featCityTitle && cfg.city) {
+        featCityTitle.textContent = `Entrega en ${cfg.city}`;
+      }
+
       // 4. Contacto WhatsApp
       const waNum = cfg.waNumber || '573207101121';
       const waLocal = waNum.replace(/^57/, '');
