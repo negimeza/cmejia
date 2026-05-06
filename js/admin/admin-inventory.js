@@ -30,6 +30,9 @@ window.AdminInventory = {
     if (searchInput && this._searchQuery) {
       searchInput.value = this._searchQuery;
     }
+
+    // Cargar datos iniciales
+    this.load();
   },
 
   // ── URL Memory ────────────────────────────────────────────────────
