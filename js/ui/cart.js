@@ -116,7 +116,10 @@ window.Cart = {
     const qty = this.totalQty;
     if (count)    count.textContent    = qty;
     if (totalQty) totalQty.textContent = `${qty} prendas`;
-    if (dot)      dot.classList.toggle('show', qty > 0);
+    if (dot) {
+      dot.classList.toggle('show', qty > 0);
+      dot.textContent = qty > 99 ? '99+' : qty;
+    }
 
     if (!list) return;
 
