@@ -42,7 +42,7 @@ window.AdminSettings = {
     } catch (err) {
       showToast('❌ Error al guardar en la nube', true);
     } finally {
-      if (btn) btn.textContent = 'Guardar Cambios';
+      if (btn) btn.textContent = 'Guardar';
     }
   },
 
