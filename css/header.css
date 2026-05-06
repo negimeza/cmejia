@@ -101,11 +101,12 @@
 }
 
 .header-nav a {
+  display: inline-block;
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   font-size: 0.82rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.4px;
   position: relative;
   padding-bottom: 4px;
@@ -128,6 +129,7 @@
 .header-nav a:hover {
   color: var(--white);
   text-shadow: 0 0 15px rgba(232, 69, 107, 0.4);
+  transform: scale(1.08);
 }
 
 .header-nav a:hover::after {
