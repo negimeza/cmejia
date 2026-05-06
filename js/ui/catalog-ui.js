@@ -84,9 +84,11 @@ window.CatalogUI = {
         <img src="${p.image_url || 'https://placehold.co/400x500?text=Sin+Imagen'}" alt="${p.name}" loading="lazy"/>
       </div>
       <div class="card-info">
-        <span class="cat">${p.categories?.name || 'Varios'}</span>
+        <div class="card-top">
+          <span class="cat">${p.categories?.name || 'Varios'}</span>
+          ${priceHTML}
+        </div>
         <h3>${p.name}</h3>
-        ${priceHTML}
       </div>
     `;
 

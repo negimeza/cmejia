@@ -148,6 +148,70 @@
   filter: brightness(1.1);
 }
 
+/* ── PRE-FOOTER CTA (Asesoría WA) ── */
+.pre-footer-cta {
+  padding: 0 5% 8rem;
+  background: var(--bg-dark);
+}
+
+.cta-box {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(145deg, rgba(232, 69, 107, 0.08), rgba(255, 255, 255, 0.02));
+  padding: 6rem 2rem;
+  border-radius: 40px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at top right, rgba(232, 69, 107, 0.1), transparent 50%);
+  pointer-events: none;
+}
+
+.cta-box h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1.2rem;
+  color: var(--white);
+  line-height: 1.1;
+}
+
+.cta-box p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 300;
+}
+
+.btn-wa-cta {
+  background: var(--accent);
+  color: white;
+  padding: 1.2rem 2.8rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(.165,.84,.44,1);
+  box-shadow: 0 15px 35px var(--accent-glow);
+}
+
+.btn-wa-cta:hover {
+  transform: translateY(-5px);
+  filter: brightness(1.1);
+  box-shadow: 0 25px 50px var(--accent-glow);
+}
+
 /* ── FOOTER BARRA SLIM ── */
 footer {
   background: var(--bg-dark);

@@ -13,8 +13,8 @@
   --text-muted: #9ca3af;
   --border:     rgba(255, 255, 255, 0.08);
   --wa:         #25D366;
-  --radius:     12px;
-  --radius-lg:  20px;
+  --radius:     16px;
+  --radius-lg:  24px;
   --transition: 0.4s cubic-bezier(.165,.84,.44,1);
 }
 
@@ -38,14 +38,14 @@ body {
   min-height: 100vh;
 }
 
-section { padding: 3rem 5%; }
+section { padding: 8rem 5%; }
 
-.section-header { text-align:center; margin-bottom:2rem; }
+.section-header { text-align:center; margin-bottom:4rem; }
 .section-header h2 { 
-  font-size: 2.4rem; 
-  font-weight: 800; 
-  letter-spacing: -1px; 
-  margin-bottom: 0.75rem;
+  font-size: clamp(2.2rem, 5vw, 3.2rem); 
+  font-weight: 700; 
+  letter-spacing: -0.03em; 
+  margin-bottom: 1rem;
   background: linear-gradient(to right, #fff, #cbd5e1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
