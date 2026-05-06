@@ -148,110 +148,102 @@
   filter: brightness(1.1);
 }
 
-/* ── FOOTER PREMIUM — Layout en 2 columnas ── */
+/* ── FOOTER BARRA SLIM ── */
 footer {
   background: var(--bg-dark);
-  color: var(--white);
-  padding: 3rem 5% 2.5rem;
   border-top: 1px solid var(--border);
 }
 
-.footer-inner {
-  max-width: 1200px; margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid var(--border);
+.footer-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-/* Columna izquierda: branding */
-.footer-brand-col {}
-
+/* Logo izquierda */
 .footer-logo {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.8rem;
+  font-size: 1rem;
   font-weight: 800;
   color: var(--white);
-  letter-spacing: -1px;
-  display: inline-block;
-  margin-bottom: 0.8rem;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .footer-logo em {
-  font-style: normal;
+  font-style: italic;
   color: var(--accent);
 }
 
-.footer-tagline {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin: 0 0 1.5rem;
-  line-height: 1.5;
+/* Centro: ciudad + copyright */
+.footer-center {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  color: #555;
+  white-space: nowrap;
+}
+.footer-center svg {
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+.footer-sep {
+  opacity: 0.4;
 }
 
-.footer-city {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  display: flex; align-items: center; gap: 6px;
+/* Derecha: íconos */
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
-/* Columna derecha: contacto y redes */
-.footer-contact-col {
-  display: flex; flex-direction: column; gap: 1.2rem;
-  justify-content: flex-start;
-}
-
-.footer-contact-title {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--text-muted);
-  margin-bottom: 0.5rem;
-}
-
-.footer-contact-link {
-  display: flex; align-items: center; gap: 10px;
-  color: var(--text-muted);
+.footer-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #555;
   text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: 0.25s;
-  padding: 0.6rem 0;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
 }
-.footer-contact-link:hover { color: var(--white); }
-.footer-contact-link:hover .footer-link-icon { color: var(--accent); }
-
-.footer-link-icon {
-  width: 36px; height: 36px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: 0.25s;
-  color: var(--text-muted);
-}
-
-.footer-link-wa .footer-link-icon { color: var(--wa); border-color: rgba(37,211,102,0.2); }
-
-/* Copyright */
-.footer-copy {
-  max-width: 1200px; margin: 2rem auto 0;
-  text-align: center;
-  font-size: 0.75rem;
-  color: #444;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+.footer-icon-btn:hover {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* RESPONSIVE */
-@media(max-width: 950px) {
+@media (max-width: 600px) {
+  .footer-bar {
+    height: auto;
+    padding: 1rem 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+  }
+  .footer-center { justify-content: center; }
+}
+
+@media (max-width: 950px) {
   .feats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-  .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .newsletter-form { flex-direction: column; }
   .btn-subscribe { width: 100%; }
 }
 
-@media(max-width: 500px) {
+@media (max-width: 500px) {
   .feats-grid { grid-template-columns: 1fr; }
   .features { padding: 4rem 1.5rem; }
   .newsletter { padding: 60px 25px; margin: 60px 5%; }
