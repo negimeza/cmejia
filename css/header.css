@@ -170,6 +170,7 @@
   border-radius: 4px; 
   transition: 0.3s;
 }
+.hamburger-btn:hover span { background: var(--accent); }
 
 @media (max-width: 850px) {
   .header-nav { display: none; }

@@ -16,14 +16,14 @@
 | `--bg-surface` | `#0f0f18` | Fondo de modales y cards elevados |
 | `--bg-card` | `rgba(255,255,255,0.03)` | Fondo de tarjetas de producto |
 | `--white` | `#ffffff` | Texto principal |
-| `--accent` | `#e8457a` | Rosa boutique — CTA, precios, badges |
-| `--accent-glow` | `rgba(232,69,122,0.3)` | Sombras y glow de acento |
+| `--accent` | `#E8456B` | Rosa boutique — CTA, precios, badges |
+| `--accent-glow` | `rgba(232,69,107,0.3)` | Sombras y glow de acento |
 | `--text-main` | `#ffffff` | Texto primario |
 | `--text-muted` | `#9ca3af` | Texto secundario, labels |
 | `--border` | `rgba(255,255,255,0.08)` | Bordes sutiles en dark mode |
 | `--wa` | `#25D366` | Verde WhatsApp |
-| `--radius` | `12px` | Radio de bordes estándar |
-| `--radius-lg` | `20px` | Radio de bordes grande (modales, cards) |
+| `--radius` | `16px` | Radio de bordes estándar |
+| `--radius-lg` | `24px` | Radio de bordes grande (modales, cards) |
 | `--transition` | `0.4s cubic-bezier(.165,.84,.44,1)` | Transición estándar |
 
 ### 1.2 Tipografía
@@ -275,7 +275,7 @@ Gestionado por `ConfigService` bajo la key `lupe_config`.
 
 ### 🔴 Críticos
 
-1. **Tallas hardcodeadas en el modal público.**  
+1. ~~**Tallas hardcodeadas en el modal público.**~~ ✅ **RESUELTO**  
    Las tallas (S, M, L, XL, Única) están en `index.html` como HTML estático. `CatalogModal.selectSize(s, btn)` espera el botón como segundo arg, pero el `onclick` del HTML no lo pasa.  
    **Fix:** Generar los botones de talla dinámicamente en `CatalogModal.open()` desde un array del producto o default.
 
@@ -296,7 +296,7 @@ Gestionado por `ConfigService` bajo la key `lupe_config`.
    Cada `Cart.add()` añade un item independiente. La vista muestra items repetidos.  
    **Propuesta:** Agregar una propiedad `qty` al item y fusionar duplicados en `Cart.add()`.
 
-6. **Skeletons no respetan el aspect-ratio de las cards.**  
+6. ~~**Skeletons no respetan el aspect-ratio de las cards.**~~ ✅ **RESUELTO**  
    Los skeletons en `CatalogUI.showSkeletons()` usan `height: 350px` fijo. Con `aspect-ratio: 3/4`, el skeleton debería omitir el height o usar la misma regla.
 
 ### 🟢 Mejoras de Arquitectura

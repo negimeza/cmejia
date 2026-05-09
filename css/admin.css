@@ -3,8 +3,6 @@
    Paleta: Rosa Boutique + Oscuro Premium
    ════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
-
 /* ── TOKENS COMUNES (ambos temas) ── */
 :root {
   /* Acento — igual en ambos temas */
@@ -815,11 +813,6 @@
   transform: translateY(-1px);
 }
 
-.input-group textarea {
-  resize: vertical;
-  min-height: 90px;
-}
-
 .input-group select {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239d8fa0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
@@ -901,12 +894,6 @@
 
 .settings-full {
   grid-column: 1 / -1;
-}
-
-.settings-two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.75rem;
 }
 
 .settings-block-header {
@@ -1218,7 +1205,6 @@
   /* Settings: una columna */
   .settings-layout   { grid-template-columns: 1fr; }
   .settings-full     { grid-column: auto; }
-  .settings-two-col  { grid-template-columns: 1fr; }
 
   /* Formulario nueva prenda: una columna */
   .form-row { grid-template-columns: 1fr; }
@@ -1907,7 +1893,7 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
   position: absolute;
   top: 16px;
   left: 16px;
-  background: linear-gradient(135deg, #f472b6, var(--accent) 60%, #db2777);
+  background: var(--gradient-accent);
   color: #fff;
   font-family: 'Outfit', sans-serif;
   font-size: 11px;
@@ -2139,7 +2125,6 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
   
   .cat-form-card { position: static; }
   .settings-full { grid-column: auto; }
-  .settings-two-col { grid-template-columns: 1fr; }
 
   /* Acciones apiladas */
   .form-actions, 
@@ -2203,10 +2188,6 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
 }
 
 
-
-
-textarea.form-input { border-radius: 20px; min-height: 100px; resize: vertical; }
-
 /* ── Paginación Admin ── */
 .pagination-container {
   margin-top: 25px;
@@ -2219,15 +2200,15 @@ textarea.form-input { border-radius: 20px; min-height: 100px; resize: vertical; 
   display: flex;
   align-items: center;
   gap: 20px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-card);
   padding: 8px 20px;
   border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
 }
 
 .pagination button {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   color: var(--text-primary);
   padding: 8px 18px;
   border-radius: 20px;
