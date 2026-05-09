@@ -440,10 +440,10 @@
 .form-input {
   width: 100%;
   padding: 14px 24px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 14px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
@@ -462,7 +462,7 @@
   left: 20px;
   font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
   color: var(--accent-light);
-  background: #0a0a0f;
+  background: var(--bg-base);
   backdrop-filter: blur(4px);
   border-radius: 4px;
   padding: 0 6px;
@@ -651,7 +651,7 @@
 .tabs-nav {
   display: flex;
   gap: 0.4rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -738,7 +738,7 @@
    ADMIN CARD
 ══════════════════════ */
 .admin-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -775,7 +775,7 @@
 .input-group select {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: rgba(255,255,255,0.03);
+  background: var(--bg-elevated);
   border: 1.5px solid var(--border);
   border-radius: 999px;
   color: var(--text-primary);
@@ -789,7 +789,7 @@
 .input-group textarea {
   width: 100%;
   padding: 1rem;
-  background: rgba(255,255,255,0.03);
+  background: var(--bg-elevated);
   border: 1.5px solid var(--border);
   border-radius: 12px;
   color: var(--text-primary);
@@ -1340,7 +1340,7 @@
 /* Drawer lateral */
 .mobile-nav {
   position: fixed; top: 0; left: -280px; width: 280px; height: 100vh;
-  background: #0a0a0f; border-right: 1px solid rgba(255,255,255,0.05);
+  background: var(--bg-surface); border-right: 1px solid var(--border);
   z-index: 1200; display: none; flex-direction: column; 
   transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto;
 }
@@ -1353,7 +1353,7 @@
 
 .mobile-nav-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 1.5rem; border-bottom: 1px solid var(--border);
   margin-bottom: 1.5rem; gap: 1rem;
 }
 
@@ -1376,7 +1376,7 @@
 .mobile-tab-btn svg { width: 18px; height: 18px; transition: 0.3s; }
 
 .mobile-tab-btn:hover, .mobile-tab-btn.active {
-  background: rgba(255,255,255,0.05); color: var(--white);
+  background: var(--bg-hover); color: var(--text-primary);
 }
 .mobile-tab-btn.active { color: var(--accent); }
 .mobile-tab-btn.active svg { color: var(--accent); }
@@ -1560,7 +1560,7 @@
 .search-wrap input {
   width: 100%;
   padding: 0.7rem 1rem 0.7rem 2.75rem;
-  background: rgba(255,255,255,0.03);
+  background: var(--bg-elevated);
   border: 1.5px solid var(--border);
   border-radius: 999px;
   color: var(--text-primary);
