@@ -207,21 +207,12 @@
   <!-- ── FOOTER BARRA SLIM ── -->
   <footer>
     <div class="footer-bar">
-
-      <!-- Izquierda: Logo -->
-      <a href="#" class="footer-logo" id="footer-logo-link"></a>
-
-      <!-- Centro: Ciudad + Copyright -->
-      <div class="footer-center">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-        </svg>
-        <span id="footer-city">Ubicación</span>
-        <span class="footer-sep">·</span>
-        <span id="footer-copy"></span>
+      <!-- 1. Logo (Izquierda) -->
+      <div class="footer-side">
+        <a href="#" class="footer-logo" id="footer-logo-link"></a>
       </div>
 
-      <!-- Derecha: Íconos sociales -->
+      <!-- 2. Redes Sociales (Centro) -->
       <div class="footer-socials">
         <!-- Instagram -->
         <a id="footer-ig-link" href="#" target="_blank" class="footer-icon-btn hidden" title="Instagram">
@@ -237,6 +228,20 @@
         </a>
       </div>
 
+      <!-- 3. Ubicación (Derecha) -->
+      <div class="footer-side footer-right">
+        <div class="footer-location">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span id="footer-city">UBICACIÓN</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Derechos Reservados (Apartado solo) -->
+    <div class="footer-legal">
+      <p id="footer-copy">© 2026 Lupe · Todos los derechos reservados</p>
     </div>
   </footer>
 
