@@ -76,7 +76,7 @@
 
 /* SKELETONS */
 .skeleton {
-  background: linear-gradient(110deg, #1c1c2e 8%, #20202f 18%, #1c1c2e 33%);
+  background: linear-gradient(110deg, var(--skeleton-base) 8%, var(--skeleton-shine) 18%, var(--skeleton-base) 33%);
   background-size: 200% 100%;
   animation: 1.5s shine linear infinite;
   border-radius: var(--radius);

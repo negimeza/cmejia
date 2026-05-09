@@ -16,7 +16,7 @@ Vanilla JS + CSS + Supabase e-commerce. Two pages: public catalog (`index.html`)
 - `admin.html` → `js/admin.js` (orchestrator: `window.AdminAuth` → `AdminUI` → etc.)
 
 ### JS layer (all global via `window.*`)
-- `core/` — `supabase-client.js` (instantiates `window.sb`), `brand-config.js` (applies store identity to DOM), `utils.js`
+- `core/` — `supabase-client.js` (instantiates `window.sb`), `brand-config.js` (applies store identity to DOM), `utils.js`, `theme-toggle.js` (light/dark theme switcher)
 - `services/` — `config.service.js`, `product.service.js`, `category.service.js`, `storage.service.js` — all call `window.sb`
 - `ui/` — `cart.js`, `catalog-ui.js`, `toast.js`, `confirm-modal.js`, `image-upload.js`
 - `catalog/` — `catalog-modal.js`
@@ -46,6 +46,9 @@ Persisted in `localStorage` key `lupe_cart`. Checkout via WhatsApp message.
 - Escape user strings with `Utils.escapeAttr()` before interpolating in HTML
 - CSS tokens in `base.css` — prefer `var(--accent)`, `var(--bg-card)`, etc. over hardcoded colors
 - Fonts: Outfit (body/buttons), Cormorant Garamond (modal titles), Inter (admin tables)
+
+### Theme toggle
+`window.ThemeToggle` manages light/dark via `data-theme` on `<html>`, persisted in `localStorage` key `lupe_theme`. Default: dark. Both `index.html` and `admin.html` include it. When adding new CSS, use theme tokens (`var(--bg-surface)`, `var(--border)`, `var(--text-muted)`, etc.) instead of hardcoded colors so the switcher works automatically.
 
 ## Important design doc
 

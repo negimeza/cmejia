@@ -22,7 +22,7 @@
 }
 .cart-drawer-header h2 { 
   font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; 
-  line-height: 1.1; letter-spacing: -0.01em; color: var(--white); margin: 0;
+  line-height: 1.1; letter-spacing: -0.01em; color: var(--text-main); margin: 0;
 }
 .cart-subtitle { font-size:.9rem; color:var(--text-muted); font-weight: 600; }
 

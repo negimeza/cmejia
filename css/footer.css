@@ -233,7 +233,7 @@ footer {
   font-family: 'Outfit', sans-serif;
   font-size: 1rem;
   font-weight: 800;
-  color: var(--white);
+  color: var(--footer-logo-color);
   text-decoration: none;
   letter-spacing: -0.5px;
   white-space: nowrap;
@@ -250,7 +250,7 @@ footer {
   align-items: center;
   gap: 0.45rem;
   font-size: 0.72rem;
-  color: #555;
+  color: var(--text-muted);
   white-space: nowrap;
 }
 .footer-center svg {
@@ -276,8 +276,8 @@ footer {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #555;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
   text-decoration: none;
   transition: color 0.25s, border-color 0.25s, background 0.25s;
 }

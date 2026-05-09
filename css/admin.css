@@ -5,49 +5,29 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* ── TOKENS DE DISEÑO ── */
+/* ── TOKENS COMUNES (ambos temas) ── */
 :root {
-  /* Fondo */
-  --bg-base:      #0f0f18;
-  --bg-surface:   #14141f;
-  --bg-elevated:  #1c1c2e;
-  --bg-hover:     #20202f;
-
-  /* Bordes */
-  --border:       rgba(232, 69, 107, 0.15);
-  --border-focus: rgba(232, 69, 107, 0.5);
-
-  /* Acento principal: Rosa Boutique */
+  /* Acento — igual en ambos temas */
   --accent:       #E8456B;
   --accent-light: #f472b6;
   --accent-glow:  rgba(232, 69, 107, 0.3);
-  --accent-soft:  rgba(232, 69, 107, 0.07);
-
-  /* Acento secundario: Rosa claro y Dorado Champagne */
   --accent2:      #f472b6;
   --gold:         #C5A059;
+  --border-focus: rgba(232, 69, 107, 0.5);
 
-  /* Éxito: Esmeralda */
+  /* Éxito / Peligro */
   --success:      #10b981;
   --success-soft: rgba(16, 185, 129, 0.1);
-
-  /* Peligro */
   --danger:       #f43f5e;
   --danger-soft:  rgba(244, 63, 94, 0.1);
-
-  /* Texto */
-  --text-primary: #faf0f5;
-  --text-muted:   #9d8fa0;
-  --text-dim:     #5a4f60;
-
-  /* Gradiente */
-  --gradient:      linear-gradient(135deg, #e8457a, #f472b6);
-  --gradient-card: linear-gradient(160deg, #1c1c2e 0%, #14141f 100%);
 
   /* Sombras */
   --shadow-sm:   0 4px 20px rgba(0,0,0,0.4);
   --shadow-md:   0 8px 40px rgba(0,0,0,0.5);
   --shadow-glow: 0 0 30px rgba(232, 69, 107, 0.18);
+
+  /* Gradiente de acento */
+  --gradient: linear-gradient(135deg, #e8457a, #f472b6);
 
   /* Tipografía */
   --font: 'Outfit', 'Inter', -apple-system, sans-serif;
@@ -56,12 +36,69 @@
   --radius-lg: 24px;
 }
 
+/* ── TEMA OSCURO (default) ── */
+:root,
+[data-theme="dark"] {
+  --bg-base:      #0f0f18;
+  --bg-surface:   #14141f;
+  --bg-elevated:  #1c1c2e;
+  --bg-hover:     #20202f;
+  --border:       rgba(232, 69, 107, 0.15);
+  --accent-soft:  rgba(232, 69, 107, 0.07);
+
+  --text-primary: #faf0f5;
+  --text-muted:   #9d8fa0;
+  --text-dim:     #5a4f60;
+
+  --gradient-card: linear-gradient(160deg, #1c1c2e 0%, #14141f 100%);
+  --admin-nav-bg:  #050508;
+  --admin-body-bg: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+
+--admin-shadow-high: 0 30px 80px -20px rgba(0,0,0,.7), 0 10px 30px -10px rgba(0,0,0,.5);
+  --login-bg:         rgba(10, 10, 15, 0.92);
+  --login-card-bg:    rgba(255, 255, 255, 0.05);
+  --login-card-border: rgba(255, 255, 255, 0.1);
+  --login-card-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(232, 69, 107, 0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+  --confirm-overlay-bg: rgba(0, 0, 0, 0.85);
+  --edit-overlay-bg: rgba(0, 0, 0, 0.7);
+  --edit-modal-bg: rgba(0, 0, 0, 0.9);
+}
+
+/* ── TEMA CLARO ── */
+[data-theme="light"] {
+  --bg-base:      #f0eeea;
+  --bg-surface:   #ffffff;
+  --bg-elevated:  #e8e4dc;
+  --bg-hover:     #ddd9d1;
+  --border:       rgba(232, 69, 107, 0.12);
+  --accent-soft:  rgba(232, 69, 107, 0.06);
+
+  --text-primary: #1a1a2e;
+  --text-muted:   #6b7280;
+  --text-dim:     #9ca3af;
+
+  --gradient-card: linear-gradient(160deg, #ffffff 0%, #f5f3ef 100%);
+  --admin-nav-bg:  rgba(255, 255, 255, 0.9);
+  --admin-body-bg: linear-gradient(135deg, #f5f3ef 0%, #ece8e0 50%, #f0eeea 100%);
+
+  --admin-shadow-high: 0 20px 60px -15px rgba(0,0,0,0.15), 0 8px 20px -8px rgba(0,0,0,0.08);
+  --login-bg:         rgba(240, 238, 230, 0.92);
+  --login-card-bg:    rgba(255, 255, 255, 0.85);
+  --login-card-border: rgba(232, 69, 107, 0.15);
+  --login-card-shadow: 0 25px 50px rgba(0,0,0,0.1), 0 0 0 1px rgba(232, 69, 107, 0.1), inset 0 1px 0 rgba(255,255,255,0.8);
+  --confirm-overlay-bg: rgba(0, 0, 0, 0.55);
+  --edit-overlay-bg: rgba(0, 0, 0, 0.4);
+  --edit-modal-bg: rgba(255, 255, 255, 0.95);
+
+  background-color: var(--bg-base);
+}
+
 /* ── RESET & BASE ── */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
 
 .admin-body {
   font-family: var(--font);
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+  background: var(--admin-body-bg);
   color: var(--text-primary);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -76,8 +113,8 @@
    NAVBAR
 ══════════════════════ */
 .admin-nav {
-  background: #050508; /* Fondo sólido oscuro — mismo fix que header.css */
-  border-bottom: 1px solid rgba(232, 69, 107, 0.12);
+  background: var(--admin-nav-bg);
+  border-bottom: 1px solid var(--border);
   padding: 0 2rem;
   height: 64px;
   display: flex;
@@ -85,7 +122,12 @@
   position: sticky;
   top: 0;
   z-index: 200;
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, background-color 0.3s;
+}
+
+[data-theme="light"] .admin-nav {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .nav-container {
@@ -138,7 +180,7 @@
 }
 
 .logo-sep {
-  color: rgba(255,255,255,0.2);
+  color: var(--text-dim);
   font-weight: 300;
   font-size: 1rem;
 }
@@ -148,9 +190,9 @@
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: var(--text-dim);
   background: none;
-  -webkit-text-fill-color: rgba(255,255,255,0.4);
+  -webkit-text-fill-color: var(--text-dim);
   align-self: center;
   margin-top: 2px;
 }
@@ -331,15 +373,12 @@
 }
 
 .login-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--login-card-bg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--login-card-border);
   border-radius: 24px;
   padding: 48px 40px;
-  box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(232, 69, 107, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: var(--login-card-shadow);
   animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1742,7 +1781,7 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
 .confirm-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: var(--confirm-overlay-bg);
   backdrop-filter: blur(15px);
   display: flex;
   align-items: center;
@@ -1785,7 +1824,7 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
 .edit-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--edit-overlay-bg);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -1799,16 +1838,16 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
 
 /* ── Modal Edición: Base ── */
 .edit-modal-box {
-  background: rgba(0, 0, 0, 0.9);
+  background: var(--edit-modal-bg);
   backdrop-filter: blur(25px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   border-radius: 32px;
   width: 100%;
-  max-width: 900px; /* Reducido para que no sea tan imponente */
-  height: 80vh; /* Un poco más bajo */
+  max-width: 900px;
+  height: 80vh;
   display: flex;
-  flex-direction: column; /* Para cabecera superior de ancho completo */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(244, 114, 182, 0.1);
+  flex-direction: column;
+  box-shadow: var(--admin-shadow-high);
   overflow: hidden;
   position: relative;
   animation: modalEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1840,15 +1879,15 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
 .edit-modal-img-frame {
   width: 100%;
   height: 100%;
-  position: relative; /* CRÍTICO: Para contener el overlay */
+  position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  background: #1a1a1a; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,255,255,0.05);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
 }
 
 .edit-modal-img-frame img {
@@ -1896,7 +1935,7 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
 }
 
 .edit-modal-img-placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-dim);
   font-family: 'Outfit', sans-serif;
   font-size: 14px;
   text-transform: uppercase;
@@ -1989,9 +2028,9 @@ tbody tr:nth-child(10) { animation-delay: 0.30s; }
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
