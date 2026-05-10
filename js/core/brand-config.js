@@ -126,9 +126,10 @@ window.BrandConfig = {
 
     // Generamos un número del 1 al 6
     const randomNum = Math.floor(Math.random() * 6) + 1;
-    const imgPath = `url('/assets/hero/hero-${randomNum}.png')`;
+    // Usamos ruta relativa sin / inicial para compatibilidad
+    const imgPath = `url(assets/hero/hero-${randomNum}.png)`;
 
-    console.log(`[Hero v2] Imagen aleatoria seleccionada: hero-${randomNum}.png`);
+    console.log(`[Hero] Imagen aleatoria seleccionada: hero-${randomNum}.png`);
 
     hero.style.setProperty('--hero-bg', imgPath);
   },
