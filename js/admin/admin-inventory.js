@@ -226,7 +226,11 @@ window.AdminInventory = {
   async bulkHide() {
     if (!this._selectedIds.size) return;
     const ids = [...this._selectedIds];
-    if (!confirm(`¿Ocultar ${ids.length} producto(s) seleccionados?`)) return;
+    const confirmed = await confirmAsync(
+      '¿Ocultar productos?',
+      `Vas a ocultar ${ids.length} producto(s) seleccionados.`
+    );
+    if (!confirmed) return;
     try {
       await Promise.all(ids.map(id => ProductService.update(id, { active: false })));
       showToast(`👁️ ${ids.length} producto(s) ocultados`);
@@ -239,7 +243,11 @@ window.AdminInventory = {
   async bulkDelete() {
     if (!this._selectedIds.size) return;
     const ids = [...this._selectedIds];
-    if (!confirm(`⚠️ ¿Eliminar ${ids.length} producto(s) permanentemente? Esta acción no se puede deshacer.`)) return;
+    const confirmed = await confirmAsync(
+      '¿Eliminar productos?',
+      `⚠️ Vas a eliminar ${ids.length} producto(s) permanentemente. Esta acción no se puede deshacer.`
+    );
+    if (!confirmed) return;
     try {
       await Promise.all(ids.map(id => ProductService.delete(id)));
       showToast(`🗑️ ${ids.length} producto(s) eliminados`);

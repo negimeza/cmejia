@@ -45,9 +45,10 @@ window.AdminEditor = {
 
       if (!data.name) throw new Error('El nombre es obligatorio.');
       if (!data.category_id) throw new Error('Selecciona una categoría.');
+      if (data.price < 0) throw new Error('El precio no puede ser negativo.');
 
       const file = window.imageUpload?.getFile();
-      data.image_url = file ? await StorageService.uploadImage(file) : '';
+      data.image_url = file ? await StorageService.uploadImage(file) : null;
 
       await ProductService.create(data);
       showToast('✅ Producto guardado');
@@ -73,13 +74,18 @@ window.AdminEditor = {
     document.getElementById('edit-price').value  = p.price;
     document.getElementById('edit-active').checked = p.active;
 
-    // Categorías
+    // Categorías — usar variable en memoria o fallback a #p-category
+    const catList = window.AdminCategories?._list || [];
     const sel = document.getElementById('edit-category');
-    sel.innerHTML = '<option value="">Sin categoría</option>' +
-      Array.from(document.getElementById('p-category').options)
-        .filter(o => o.value)
-        .map(o => `<option value="${o.value}" ${o.value === p.category_id ? 'selected' : ''}>${o.text}</option>`)
-        .join('');
+    if (catList.length) {
+      sel.innerHTML = '<option value="">Sin categoría</option>' +
+        catList.map(c => `<option value="${c.id}" ${c.id === p.category_id ? 'selected' : ''}>${c.name}</option>`).join('');
+    } else {
+      sel.innerHTML = '<option value="">Sin categoría</option>' +
+        Array.from(document.getElementById('p-category').options)
+          .filter(o => o.value)
+          .map(o => `<option value="${o.value}" ${o.value === p.category_id ? 'selected' : ''}>${o.text}</option>`).join('');
+    }
 
     // Actualizar badge de categoría
     const badge = document.getElementById('edit-modal-badge');
@@ -132,10 +138,13 @@ window.AdminEditor = {
     btn.disabled = true;
 
     try {
+      const priceVal = parseFloat(document.getElementById('edit-price').value);
+      if (priceVal < 0) throw new Error('El precio no puede ser negativo.');
+      
       const updates = {
         name:        document.getElementById('edit-name').value.trim(),
         description: document.getElementById('edit-desc').value.trim(),
-        price:       parseFloat(document.getElementById('edit-price').value) || 0,
+        price:       priceVal || 0,
         category_id: document.getElementById('edit-category').value,
         active:      document.getElementById('edit-active').checked,
         image_url:   this._currentImageUrl

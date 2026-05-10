@@ -20,6 +20,6 @@ window.Utils = {
       style: 'currency',
       currency: 'COP',
       maximumFractionDigits: 0
-    }).format(num);
+    }).format(num ?? 0);
   }
 };
