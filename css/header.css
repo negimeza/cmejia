@@ -11,6 +11,9 @@
 [data-theme="light"] .header {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(26, 26, 46, 0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
 }
 
 .header.scrolled {
@@ -20,8 +23,10 @@
 }
 
 [data-theme="light"] .header.scrolled {
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
 }
 
 .header-inner {
@@ -74,11 +79,24 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
-.nav-btn:hover { 
+.nav-btn:hover {
   background: transparent;
   border-color: var(--accent);
   color: var(--accent);
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(232, 69, 107, 0.15);
+}
+
+[data-theme="light"] .nav-btn {
+  background: rgba(26, 26, 46, 0.05);
+  border: 1px solid rgba(26, 26, 46, 0.1);
+  color: var(--text-main);
+}
+
+[data-theme="light"] .nav-btn:hover {
+  background: transparent;
+  border-color: var(--accent);
+  color: var(--accent);
   box-shadow: 0 4px 15px rgba(232, 69, 107, 0.15);
 }
 

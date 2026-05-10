@@ -47,32 +47,49 @@
 }
 
 /* ════════════════════════════════════════════
-   TEMA CLARO
-   ════════════════════════════════════════════ */
+    TEMA CLARO - Boutique Editorial Minimalista
+    ════════════════════════════════════════════ */
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg-dark:    #f5f3ef;
-  --bg-surface: #ffffff;
-  --bg-card:    rgba(0, 0, 0, 0.025);
-  --white:      #1a1a2e;
-  --text-main:  #1a1a2e;
-  --text-muted: #6b7280;
-  --border:     rgba(0, 0, 0, 0.07);
+  /* Base - Más sofisticada y cálida */
+  --bg-dark:    #faf8f5;      /* Blanco crema muy sutil */
+  --bg-surface: #ffffff;      /* Blanco puro para tarjetas */
+  --bg-card:    #f5f3ef;      /* Beige suave para tarjetas secundarias */
+  --bg-elevated: #ebe7e1;     /* Beige más oscuro para hover */
+  --bg-hover:   #e5e1db;      /* Beige aún más oscuro */
+  --white:      #1a1a2e;      /* Azul oscuro casi negro */
+  --text-main:  #1a1a2e;      /* Azul oscuro casi negro */
+  --text-muted: #5a5a6e;      /* Gris azulado */
+  --text-dim:   #8a8a9e;      /* Gris más claro */
 
-  --header-bg:  rgba(255, 255, 255, 0.88);
+  /* Bordes - Más definidos */
+  --border:     rgba(26, 26, 46, 0.08);  /* Más visible */
+  --border-focus: rgba(232, 69, 107, 0.3);
 
-  --section-h-gradient: linear-gradient(to right, #1a1a2e, #4a4a60);
-  --hero-h-gradient:    linear-gradient(to right, #1a1a2e, #374151);
+  /* Header - Glassmorphism más pronunciado */
+  --header-bg:  rgba(255, 255, 255, 0.85);
+
+  /* Gradientes de texto - Más elegantes */
+  --section-h-gradient: linear-gradient(135deg, #1a1a2e 0%, #E8456B 100%);
+  --hero-h-gradient:    linear-gradient(135deg, #1a1a2e 0%, #E8456B 60%, #f472b6 100%);
   --footer-logo-color:  #1a1a2e;
 
-  --skeleton-base: #ede9e3;
-  --skeleton-shine: #f0ece6;
-  --overlay-bg: rgba(0, 0, 0, 0.55);
+  /* Acentos - Rosa boutique más refinado */
+  --accent-soft: rgba(232, 69, 107, 0.08);  /* Más sutil */
+  --accent-glow: rgba(232, 69, 107, 0.25);  /* Más pronunciado */
 
-  --shadow-card: 0 20px 60px -15px rgba(0,0,0,0.15);
-  --shadow-mid:   0 10px 30px rgba(0,0,0,0.08);
-  --shadow-high:  0 20px 60px -15px rgba(0,0,0,.2), 0 8px 20px -8px rgba(0,0,0,.1);
+  /* Overlay - Más suave */
+  --overlay-bg: rgba(26, 26, 46, 0.6);
+
+  /* Skeleton - Más natural */
+  --skeleton-base: #ebe7e1;
+  --skeleton-shine: #f5f3ef;
+
+  /* Sombras - Más profundidad */
+  --shadow-card: 0 25px 50px -12px rgba(0,0,0,0.12);
+  --shadow-mid:   0 15px 35px rgba(0,0,0,0.08);
+  --shadow-high:  0 30px 60px -15px rgba(0,0,0,0.15);
 
   background-color: var(--bg-dark);
 }
@@ -114,8 +131,9 @@ body::-webkit-scrollbar-thumb:hover {
 
 [data-theme="light"] body {
   background-image:
-    radial-gradient(circle at 10% 20%, rgba(232, 69, 107, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 40%);
+    radial-gradient(circle at 10% 20%, rgba(232, 69, 107, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e8456b' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 section { padding: 4rem 5%; }
