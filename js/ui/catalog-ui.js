@@ -81,14 +81,14 @@ window.CatalogUI = {
             : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>`
           }
         </button>
-        <img src="${p.image_url || 'https://placehold.co/400x500?text=Sin+Imagen'}" alt="${p.name}" loading="lazy"/>
+        <img src="${p.image_url || 'https://placehold.co/400x500?text=Sin+Imagen'}" alt="${Utils.escapeHTML(p.name)}" loading="lazy"/>
       </div>
       <div class="card-info">
         <div class="card-top">
-          <span class="cat">${p.categories?.name || 'Varios'}</span>
+          <span class="cat">${Utils.escapeHTML(p.categories?.name || 'Varios')}</span>
           ${priceHTML}
         </div>
-        <h3>${p.name}</h3>
+        <h3>${Utils.escapeHTML(p.name)}</h3>
       </div>
     `;
 

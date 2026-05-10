@@ -6,8 +6,12 @@ window.StorageService = {
   async uploadImage(file) {
     if (!file) return '';
 
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
+    if (file.size > 5 * 1024 * 1024) throw new Error('La imagen no puede superar 5MB.');
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowed.includes(file.type)) throw new Error('Solo se permiten imágenes JPG, PNG o WEBP.');
+
+    const ext = file.type.split('/')[1];
+    const fileName = `${crypto.randomUUID()}.${ext}`;
     const filePath = `products/${fileName}`;
 
     const { error: uploadError } = await sb.storage

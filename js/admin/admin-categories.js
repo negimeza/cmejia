@@ -6,6 +6,19 @@ window.AdminCategories = {
 
   init() {
     document.getElementById('category-form')?.addEventListener('submit', (e) => this.handleCreate(e));
+
+    const list = document.getElementById('categories-list');
+    if (list) {
+      list.addEventListener('click', (e) => {
+        const btn = e.target.closest('.cat-item-delete');
+        if (btn) {
+          e.preventDefault();
+          const id = btn.dataset.id;
+          const name = btn.dataset.name;
+          this.confirmDelete(id, name);
+        }
+      });
+    }
   },
 
   async load() {
@@ -30,17 +43,17 @@ window.AdminCategories = {
       return;
     }
 
-    list.innerHTML = this._list.map(c => `
+list.innerHTML = this._list.map(c => `
       <div class="cat-item">
         <div class="cat-item-info">
           <div class="cat-dot"></div>
           <div>
-            <div class="cat-item-name">${c.name}</div>
+            <div class="cat-item-name">${Utils.escapeHTML(c.name)}</div>
             <div class="cat-item-date">Creada: ${new Date(c.created_at).toLocaleDateString()}</div>
           </div>
         </div>
-        <button class="cat-item-delete" onclick="AdminCategories.confirmDelete('${c.id}', '${c.name.replace(/'/g, "\\'")}')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        <button class="cat-item-delete" data-id="${c.id}" data-name="${Utils.escapeAttr(c.name)}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
         </button>
       </div>
     `).join('');

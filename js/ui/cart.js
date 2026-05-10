@@ -3,7 +3,7 @@
  * Los items se agrupan por id + talla para evitar duplicados.
  */
 window.Cart = {
-  _items: JSON.parse(localStorage.getItem('lupe_cart')) || [],
+  _items: Utils.safeParse('lupe_cart', []),
 
   // ── Getters ──────────────────────────────────────────────────
 
@@ -44,14 +44,24 @@ window.Cart = {
     showProductToast(product);
   },
 
-  /** Incrementa o decrementa la cantidad de un item por índice. */
-  changeQty(index, dir) {
-    const item = this._items[index];
+  _keyOf(item) {
+    return `${item.id}|||${item.talla || ''}`;
+  },
+
+  _findByKey(key) {
+    if (typeof key === 'number') return this._items[key];
+    const [id, talla] = key.split('|||');
+    return this._items.find(i => i.id === id && i.talla === (talla || undefined));
+  },
+
+  /** Incrementa o decrementa la cantidad. Acepta índice (número) o key (string id|||talla). */
+  changeQty(key, dir) {
+    const item = this._findByKey(key);
     if (!item) return;
 
     const newQty = (item.qty || 1) + dir;
     if (newQty < 1) {
-      this.remove(index);
+      this.remove(key);
       return;
     }
     item.qty = newQty;
@@ -59,17 +69,17 @@ window.Cart = {
     this.render();
   },
 
-  /** Elimina un item. Si qty > 1, primero decrementa. */
-  remove(index) {
-    const item = this._items[index];
+  /** Elimina un item por índice (número) o key (string). */
+  remove(key) {
+    const item = this._findByKey(key);
     if (!item) return;
 
     const productId = item.id;
-    this._items.splice(index, 1);
+    const idx = this._items.indexOf(item);
+    if (idx !== -1) this._items.splice(idx, 1);
     this.persist();
     this.render();
 
-    // Si ya no quedan unidades del mismo producto, actualiza la card
     if (!this.hasProduct(productId)) {
       this._notifyCardState(productId, false);
     }
@@ -141,10 +151,11 @@ window.Cart = {
     let sum = 0;
     let hasConsultationItems = false;
 
-    list.innerHTML = this._items.map((p, i) => {
+    list.innerHTML = this._items.map((p) => {
       const itemQty   = p.qty || 1;
       const priceVal  = Number(p.price);
       const isConsult = priceVal === 0;
+      const key = this._keyOf(p);
       
       if (isConsult) hasConsultationItems = true;
       
@@ -159,15 +170,15 @@ window.Cart = {
         <div class="cart-item">
           <img src="${p.image_url || 'https://placehold.co/100'}" alt="${p.name}"/>
           <div class="cart-item-info">
-            <h4>${p.name}</h4>
-            <p>${p.categories?.name || 'Varios'}${p.talla ? ` · Talla: <b>${p.talla}</b>` : ''}</p>
+            <h4>${Utils.escapeHTML(p.name)}</h4>
+            <p>${Utils.escapeHTML(p.categories?.name || 'Varios')}${p.talla ? ` · Talla: <b>${Utils.escapeHTML(p.talla)}</b>` : ''}</p>
             <div class="cart-item-qty-row">
               <div class="cart-qty-control">
-                <button onclick="Cart.changeQty(${i}, -1)" aria-label="Disminuir">−</button>
+                <button onclick="Cart.changeQty('${key}', -1)" aria-label="Disminuir">−</button>
                 <span>${itemQty}</span>
-                <button onclick="Cart.changeQty(${i}, 1)" aria-label="Aumentar">+</button>
+                <button onclick="Cart.changeQty('${key}', 1)" aria-label="Aumentar">+</button>
               </div>
-              <span class="cart-remove" onclick="Cart.remove(${i})" title="Eliminar">
+              <span class="cart-remove" onclick="Cart.remove('${key}')" title="Eliminar">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
               </span>
             </div>

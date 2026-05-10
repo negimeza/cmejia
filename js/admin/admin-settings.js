@@ -47,7 +47,7 @@ window.AdminSettings = {
   },
 
   async reset() {
-    if (!confirm('¿Restablecer configuración a valores por defecto?')) return;
+    if (!(await confirmAsync('Restablecer configuración', '¿Volver a valores por defecto?'))) return;
     await ConfigService.reset();
     this.load();
     BrandConfig.apply();

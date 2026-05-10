@@ -31,6 +31,28 @@ window.AdminInventory = {
       searchInput.value = this._searchQuery;
     }
 
+    // ── Event delegation para acciones de tabla ────────────────────
+    const tbody = document.getElementById('products-list');
+    if (tbody) {
+      tbody.addEventListener('change', (e) => {
+        const cb = e.target.closest('.row-check');
+        if (cb) this.toggleSelect(cb.dataset.id, cb.checked);
+      });
+      tbody.addEventListener('click', (e) => {
+        const editBtn = e.target.closest('.btn-tbl-edit');
+        if (editBtn) {
+          e.preventDefault();
+          AdminEditor.open(editBtn.dataset.id);
+          return;
+        }
+        const delBtn = e.target.closest('.btn-tbl-delete');
+        if (delBtn) {
+          e.preventDefault();
+          this.confirmDelete(delBtn.dataset.id);
+        }
+      });
+    }
+
     // Cargar datos iniciales
     this.load();
   },
@@ -96,18 +118,17 @@ window.AdminInventory = {
 
     const fmt = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 
-    tbody.innerHTML = this._products.map(p => `
+tbody.innerHTML = this._products.map(p => `
       <tr class="${this._selectedIds.has(p.id) ? 'row-selected' : ''}">
         <td class="td-check">
           <input type="checkbox" class="row-check" data-id="${p.id}"
-            ${this._selectedIds.has(p.id) ? 'checked' : ''}
-            onchange="AdminInventory.toggleSelect('${p.id}', this.checked)">
+            ${this._selectedIds.has(p.id) ? 'checked' : ''}>
         </td>
-        <td><img src="${p.image_url || 'https://placehold.co/48x48/1c1c2e/f472b6?text=?'}" class="p-thumb" alt="${p.name}"></td>
+        <td><img src="${p.image_url || 'https://placehold.co/48x48/1c1c2e/f472b6?text=?'}" class="p-thumb" alt="${Utils.escapeHTML(p.name)}"></td>
         <td>
-          <strong class="text-primary">${p.name}</strong>
+          <strong class="text-primary">${Utils.escapeHTML(p.name)}</strong>
         </td>
-        <td class="text-muted">${p.categories?.name || '—'}</td>
+        <td class="text-muted">${Utils.escapeHTML(p.categories?.name || '—')}</td>
         <td class="text-bold text-accent">${fmt.format(p.price)}</td>
         <td>
           <span class="status-badge ${p.active ? 'status-active' : 'status-inactive'}">
@@ -116,11 +137,11 @@ window.AdminInventory = {
         </td>
         <td>
           <div class="tbl-actions">
-            <button class="btn-tbl-edit" onclick="AdminEditor.open('${p.id}')" title="Editar">
+            <button class="btn-tbl-edit" data-id="${p.id}" title="Editar">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
-            <button class="btn-tbl-delete" onclick="AdminInventory.confirmDelete('${p.id}')" title="Eliminar">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            <button class="btn-tbl-delete" data-id="${p.id}" title="Eliminar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
             </button>
           </div>
         </td>
@@ -232,8 +253,13 @@ window.AdminInventory = {
     );
     if (!confirmed) return;
     try {
-      await Promise.all(ids.map(id => ProductService.update(id, { active: false })));
-      showToast(`👁️ ${ids.length} producto(s) ocultados`);
+      const results = await Promise.allSettled(ids.map(id => ProductService.update(id, { active: false })));
+      const failed = results.filter(r => r.status === 'rejected').length;
+      if (failed > 0) {
+        showToast(`⚠️ ${ids.length - failed} ocultados, ${failed} error(es)`, true);
+      } else {
+        showToast(`👁️ ${ids.length} producto(s) ocultados`);
+      }
       this.load();
     } catch (err) {
       showToast('❌ Error al ocultar: ' + err.message, true);
@@ -249,8 +275,13 @@ window.AdminInventory = {
     );
     if (!confirmed) return;
     try {
-      await Promise.all(ids.map(id => ProductService.delete(id)));
-      showToast(`🗑️ ${ids.length} producto(s) eliminados`);
+      const results = await Promise.allSettled(ids.map(id => ProductService.delete(id)));
+      const failed = results.filter(r => r.status === 'rejected').length;
+      if (failed > 0) {
+        showToast(`⚠️ ${ids.length - failed} eliminados, ${failed} error(es)`, true);
+      } else {
+        showToast(`🗑️ ${ids.length} producto(s) eliminados`);
+      }
       this.load();
     } catch (err) {
       showToast('❌ Error al eliminar: ' + err.message, true);
@@ -258,12 +289,14 @@ window.AdminInventory = {
   },
 
   // ── Eliminar individual ───────────────────────────────────────────
-  confirmDelete(id) {
-    console.log('[DELETE] Iniciando proceso para ID:', id);
+  confirmDelete(id, _retry = false) {
     const p = this._products.find(x => x.id === id);
     if (!p) {
-      console.error('[DELETE] Producto no encontrado en memoria. Recargando...');
-      this.load().then(() => this.confirmDelete(id));
+      if (_retry) {
+        showToast('El producto ya no existe.', true);
+        return;
+      }
+      this.load().then(() => this.confirmDelete(id, true));
       return;
     }
 

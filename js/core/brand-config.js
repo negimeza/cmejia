@@ -49,8 +49,7 @@ window.BrandConfig = {
       // 3. Hero Section (Página Principal)
       const heroTitle = document.getElementById('hero-title');
       if (heroTitle) {
-        // En el título del hero NO queremos el sufijo "outfit"
-        heroTitle.innerHTML = (cfg.heroTitle || storeName).trim();
+        heroTitle.textContent = (cfg.heroTitle || storeName).trim();
       }
 
       const heroSub = document.getElementById('hero-sub');
@@ -109,7 +108,7 @@ window.BrandConfig = {
       // 6. Footer Copyright
       const footerCopy = document.getElementById('footer-copy');
       if (footerCopy) {
-        footerCopy.innerHTML = `&copy; ${new Date().getFullYear()} ${storeName} &middot; Todos los derechos reservados`;
+        footerCopy.textContent = `\u00A9 ${new Date().getFullYear()} ${storeName} \u00B7 Todos los derechos reservados`;
       }
 
     } catch (e) {
@@ -129,8 +128,6 @@ window.BrandConfig = {
     // RUTA ABSOLUTA desde la raíz del sitio para evitar errores de carpeta /css/
     const imgPath = `url("/assets/hero/hero-${randomNum}.png")`;
 
-    console.log(`[Hero] Activando imagen: hero-${randomNum}.png`);
-
     hero.style.setProperty('--hero-bg', imgPath);
   },
 
@@ -142,7 +139,7 @@ window.BrandConfig = {
    */
   formatBrandText(text) {
     if (!text) return '';
-    const t = text.trim();
+    const t = Utils.escapeHTML(text.trim());
     return `${t} <em>outfit</em>`;
   }
 };

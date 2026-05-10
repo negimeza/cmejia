@@ -83,33 +83,26 @@ window.ProductService = {
 
   /** Actualiza un producto existente */
   async update(id, updates) {
-    console.log('ProductService: Actualizando producto', id, updates);
     const { data, error } = await window.sb
       .from('products')
       .update(updates)
       .eq('id', id)
       .select()
       .single();
-    if (error) {
-        console.error('ProductService: Error al actualizar', error);
-        throw error;
-    }
+    if (error) throw error;
     return data;
   },
 
   /** Elimina un producto por ID */
   async delete(id) {
-    console.log('ProductService: Intentando eliminar ID:', id);
     const { error } = await window.sb
       .from('products')
       .delete()
       .eq('id', id);
     
-    if (error) {
-      console.error('ProductService: Error de Supabase al eliminar:', error);
-      throw error;
-    }
-    console.log('ProductService: Producto eliminado con éxito');
+    if (error) throw error;
+    
+    return true;
   },
 
   /** Obtiene las categorías (para el select del formulario) */

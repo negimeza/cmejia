@@ -46,28 +46,18 @@ function initConfirmModal() {
   btn.parentNode.replaceChild(newBtn, btn);
 
   newBtn.addEventListener('click', () => {
-    console.log('ConfirmModal: Botón Confirmar clicado');
     const callback = _onConfirmCallback;
     closeConfirm();
-    if (callback) {
-      console.log('ConfirmModal: Ejecutando callback');
-      callback();
-    } else {
-      console.warn('ConfirmModal: No hay callback definido');
-    }
+    if (callback) callback();
   });
   
   // Botón Cancelar
   const cancelBtn = document.querySelector('#confirm-modal .btn-secondary');
   if (cancelBtn) {
     cancelBtn.addEventListener('click', () => {
-      console.log('ConfirmModal: Cancelar clicado');
       const callback = _onCancelCallback;
       closeConfirm();
-      if (callback) {
-        console.log('ConfirmModal: Ejecutando onCancel');
-        callback();
-      }
+      if (callback) callback();
     });
   }
 

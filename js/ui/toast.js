@@ -45,11 +45,11 @@ function showProductToast(product) {
 
   pt.innerHTML = `
     <div class="pt-img-wrap">
-      <img src="${product.image_url || 'https://placehold.co/56'}" alt="${product.name}">
+      <img src="${product.image_url || 'https://placehold.co/56'}" alt="${Utils.escapeHTML(product.name)}">
     </div>
     <div class="pt-info">
       <span class="pt-label">✓ Agregado al carrito</span>
-      <strong class="pt-name">${product.name}</strong>
+      <strong class="pt-name">${Utils.escapeHTML(product.name)}</strong>
       <span class="pt-size">${tallaLabel}</span>
     </div>
   `;

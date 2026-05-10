@@ -16,7 +16,7 @@ const CONFIG_DEFAULTS = {
 };
 
 window.ConfigService = {
-  _cache: JSON.parse(localStorage.getItem(CONFIG_CACHE_KEY)) || { ...CONFIG_DEFAULTS },
+  _cache: Utils.safeParse(CONFIG_CACHE_KEY, { ...CONFIG_DEFAULTS }),
 
   /**
    * Obtiene la configuración del caché (síncrono).
@@ -39,6 +39,7 @@ window.ConfigService = {
       if (error) throw error;
       if (data) {
         this._cache = {
+          ...CONFIG_DEFAULTS,
           storeName:    data.store_name,
           waNumber:     data.wa_number,
           city:         data.city,
