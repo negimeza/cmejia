@@ -14,14 +14,14 @@ window.BrandConfig = {
 
       // 1. Títulos de Pestaña
       const isAdmin = window.location.pathname.includes('admin.html');
-      document.title = isAdmin 
+      document.title = isAdmin
         ? `${storeName} Admin — Panel de Control`
         : `${storeName} – Catálogo Premium | Ropa Medellín`;
 
       // 1.5 Meta Tags (SEO / Sharing)
       const metaTitle = document.querySelector('meta[property="og:title"]');
       if (metaTitle) metaTitle.content = `${storeName} – Colección Premium 2026`;
-      
+
       // La descripción se deja "quemada" (hardcoded) en el HTML como pidió el usuario
 
       // 2. Logos (Header, Admin, Footer)
@@ -52,12 +52,12 @@ window.BrandConfig = {
         // En el título del hero NO queremos el sufijo "outfit"
         heroTitle.innerHTML = (cfg.heroTitle || storeName).trim();
       }
-      
+
       const heroSub = document.getElementById('hero-sub');
       if (heroSub) {
         heroSub.textContent = cfg.heroSubtitle || '';
       }
-      
+
       const heroBadge = document.getElementById('hero-badge');
       if (heroBadge && cfg.city) {
         heroBadge.textContent = `📍 ${cfg.city} · Colección 2026`;
@@ -76,16 +76,16 @@ window.BrandConfig = {
       // 4. Contacto WhatsApp
       const waNum = cfg.waNumber || '573207101121';
       const waLocal = waNum.replace(/^57/, '');
-      
+
       // Enlaces WhatsApp dinámicos
       document.querySelectorAll('.wa-link-btn').forEach(a => a.href = `https://wa.me/${waNum}`);
-      
+
       const footerWaLink = document.getElementById('footer-wa-link');
       if (footerWaLink) footerWaLink.href = `https://wa.me/${waNum}`;
-      
+
       const footerWaText = document.getElementById('footer-wa-text');
       if (footerWaText) {
-        footerWaText.textContent = `+57 ${waLocal.slice(0,3)} ${waLocal.slice(3,6)} ${waLocal.slice(6)}`;
+        footerWaText.textContent = `+57 ${waLocal.slice(0, 3)} ${waLocal.slice(3, 6)} ${waLocal.slice(6)}`;
       }
 
       const waFloatBtn = document.getElementById('wa-float-btn');
@@ -127,9 +127,9 @@ window.BrandConfig = {
     // Generamos un número del 1 al 6
     const randomNum = Math.floor(Math.random() * 6) + 1;
     const imgPath = `url('/assets/hero/hero-${randomNum}.png')`;
-    
+
     console.log(`[Hero v2] Imagen aleatoria seleccionada: hero-${randomNum}.png`);
-    
+
     hero.style.setProperty('--hero-bg', imgPath);
   },
 
