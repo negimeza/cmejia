@@ -126,8 +126,8 @@ window.BrandConfig = {
 
     // Generamos un número del 1 al 6
     const randomNum = Math.floor(Math.random() * 6) + 1;
-    // Usamos comillas y ruta explícita para evitar errores de resolución
-    const imgPath = `url("./assets/hero/hero-${randomNum}.png")`;
+    // RUTA ABSOLUTA desde la raíz del sitio para evitar errores de carpeta /css/
+    const imgPath = `url("/assets/hero/hero-${randomNum}.png")`;
 
     console.log(`[Hero] Activando imagen: hero-${randomNum}.png`);
 
