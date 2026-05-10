@@ -27,6 +27,49 @@
   box-shadow: -10px 0 40px rgba(0,0,0,0.1);
 }
 
+@media (max-width: 480px) {
+  .cart-drawer {
+    max-width: 100%;
+  }
+
+  .cart-drawer-header {
+    padding: 2rem 1.5rem 1rem;
+  }
+
+  .cart-drawer-header h2 {
+    font-size: 24px;
+  }
+
+  .cart-items {
+    padding: 1rem 1.5rem;
+  }
+
+  .cart-item {
+    padding: 1rem 0;
+  }
+
+  .cart-item img {
+    width: 60px;
+  }
+
+  .cart-item-info h4 {
+    font-size: 1rem;
+  }
+
+  .cart-drawer-footer {
+    padding: 1.5rem;
+  }
+
+  .cart-actions-row {
+    flex-direction: column;
+  }
+
+  .btn-send-wa,
+  .btn-clear-cart {
+    width: 100%;
+  }
+}
+
 .cart-drawer-header {
   padding:2.5rem 2rem 1.5rem; border-bottom:1px solid var(--border);
   display: flex; justify-content: space-between; align-items: flex-start;
@@ -210,12 +253,51 @@
 .cart-items::-webkit-scrollbar-track { background: transparent; }
 .cart-items::-webkit-scrollbar-thumb { background: rgba(232, 69, 107, 0.15); border-radius: 10px; transition: 0.3s; }
 .cart-items::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+[data-theme="light"] .cart-items::-webkit-scrollbar-thumb {
+  background: rgba(232, 69, 107, 0.2);
+}
+
+[data-theme="light"] .cart-items::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
 .btn-clear-cart.pending { color: #f39c12; font-weight: 800; animation: pulse-warn 1s infinite; }
 
 @keyframes pulse-warn {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
+}
+
+/* Accesibilidad - Focus visible para carrito */
+.cart-close-x:focus-visible,
+.btn-send-wa:focus-visible,
+.btn-clear-cart:focus-visible,
+.cart-qty-control button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Performance - will-change para elementos animados */
+.cart-drawer,
+.cart-item,
+.btn-send-wa,
+.btn-clear-cart {
+  will-change: transform;
+}
+
+/* Mejora de contraste para tema claro en carrito */
+[data-theme="light"] .cart-item-info p {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .total-row {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .cart-qty-control span {
+  color: var(--text-main);
 }
 
 /* ── WA FLOTANTE ── */

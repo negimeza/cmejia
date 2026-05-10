@@ -128,6 +128,12 @@
   transform: translateX(-50%);
 }
 
+@media (max-width: 768px) {
+  .header-nav {
+    gap: 1.5rem;
+  }
+}
+
 .header-nav a {
   display: inline-block;
   color: var(--nav-link-color, rgba(255, 255, 255, 0.6));
@@ -169,6 +175,13 @@
 .header-nav a:hover::after {
   width: 100%;
   opacity: 1;
+}
+
+/* Accesibilidad - Focus visible para navegación */
+.header-nav a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 /* ── BOTÓN HAMBURGUESA ── */

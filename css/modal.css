@@ -170,8 +170,8 @@
 }
 
 @media(max-width:700px) {
-  .modal { 
-    flex-direction:column; max-height:95vh; overflow-y: auto; 
+  .modal {
+    flex-direction:column; max-height:95vh; overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--accent) transparent;
   }
@@ -187,6 +187,48 @@
   }
   .modal-img-container { width:100%; height:350px; }
   .modal-body { width:100%; padding:24px; }
+
+  .modal-header-container h3 {
+    font-size: 24px;
+  }
+
+  .modal-price-display {
+    font-size: 24px;
+  }
+
+  .btn-add-main {
+    padding: 12px 20px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-img-container {
+    height: 280px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-header-container h3 {
+    font-size: 20px;
+  }
+
+  .modal-price-display {
+    font-size: 20px;
+  }
+
+  .size-btn {
+    min-width: 40px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .qty-control button {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .size-btn {
@@ -245,4 +287,34 @@
   20%, 80% { transform: translate3d(2px, 0, 0); }
   30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
   40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* Accesibilidad - Focus visible para modal */
+.modal-x:focus-visible,
+.btn-add-main:focus-visible,
+.size-btn:focus-visible,
+.qty-control button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Mejora de contraste para tema claro en modal */
+[data-theme="light"] .modal-body p {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .label {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .qty__value {
+  color: var(--text-main);
+}
+
+[data-theme="light"] .qty-control button {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .qty-control button:hover {
+  color: var(--accent);
 }
