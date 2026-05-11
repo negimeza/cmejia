@@ -37,10 +37,13 @@ window.AdminAuth = {
     e.preventDefault();
     const btn      = document.getElementById('btn-login');
     const errorDiv = document.getElementById('login-error');
+    const btnText  = btn.querySelector('.btn-text');
+    const spinner = btn.querySelector('.btn-spinner');
     const email    = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
-    btn.textContent = 'Verificando...';
+    btnText.classList.add('hidden');
+    spinner.classList.remove('hidden');
     btn.disabled    = true;
     errorDiv.classList.add('hidden');
 
@@ -49,7 +52,8 @@ window.AdminAuth = {
     if (error) {
       errorDiv.textContent = '❌ ' + this.translateError(error.message);
       errorDiv.classList.remove('hidden');
-      btn.textContent = 'Iniciar sesión';
+      btnText.classList.remove('hidden');
+      spinner.classList.add('hidden');
       btn.disabled    = false;
     }
   },
