@@ -1,7 +1,7 @@
-```
 # Compiled and build artifacts
 *.pyc
 __pycache__/
+dist/
 
 # Dependencies
 node_modules/
@@ -10,6 +10,10 @@ venv/
 .env
 .env.local
 .env.*
+
+# Tools / IA
+.opencode/node_modules/
+skills-lock.json
 
 # Editors
 .vscode/
@@ -23,4 +27,3 @@ venv/
 # OS generated files
 .DS_Store
 Thumbs.db
-```
