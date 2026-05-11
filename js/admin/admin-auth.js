@@ -69,6 +69,13 @@ window.AdminAuth = {
       btnText.classList.remove('hidden');
       spinner.classList.add('hidden');
       btn.disabled    = false;
+
+      const card = document.querySelector('.login-card');
+      if (card) {
+        card.classList.remove('shake');
+        void card.offsetWidth;
+        card.classList.add('shake');
+      }
     }
   },
 
