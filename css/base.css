@@ -140,26 +140,26 @@ html, body {
 }
 
 /* Custom Scrollbar Global */
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 5px;
 }
-body::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: transparent;
 }
-body::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: rgba(232, 69, 107, 0.15);
   border-radius: 10px;
   transition: all 0.3s;
 }
-body::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
 
-[data-theme="light"] body::-webkit-scrollbar-thumb {
+[data-theme="light"] ::-webkit-scrollbar-thumb {
   background: rgba(232, 69, 107, 0.2);
 }
 
-[data-theme="light"] body::-webkit-scrollbar-thumb:hover {
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
 
