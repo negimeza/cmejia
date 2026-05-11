@@ -10,8 +10,12 @@ window.CatalogUI = {
       const btn = e.target.closest('.cat-filter-btn');
       if (!btn) return;
 
-      container.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
+      container.querySelectorAll('.cat-filter-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
       window.CatalogApp?.handleFilter(btn.dataset.id);
     });
   },
@@ -20,9 +24,9 @@ window.CatalogUI = {
     const container = document.getElementById('cat-filters');
     if (!container) return;
 
-    container.innerHTML = `<button class="cat-filter-btn ${activeId === 'all' ? 'active' : ''}" data-id="all">Todos</button>` +
+    container.innerHTML = `<button class="cat-filter-btn ${activeId === 'all' ? 'active' : ''}" data-id="all" aria-pressed="${activeId === 'all'}">Todos</button>` +
       categories.map(cat => `
-        <button class="cat-filter-btn ${activeId === cat.id ? 'active' : ''}" data-id="${Utils.escapeAttr(cat.id)}">
+        <button class="cat-filter-btn ${activeId === cat.id ? 'active' : ''}" data-id="${Utils.escapeAttr(cat.id)}" aria-pressed="${activeId === cat.id}">
           ${Utils.escapeHTML(cat.name)}
         </button>
       `).join('');
@@ -81,7 +85,11 @@ window.CatalogUI = {
             : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>`
           }
         </button>
-        <img src="${Utils.escapeAttr(p.image_url || 'https://placehold.co/400x500?text=Sin+Imagen')}" alt="${Utils.escapeAttr(p.name)}" loading="lazy" decoding="async"/>
+        <img data-src="${Utils.escapeAttr(p.image_url || 'https://placehold.co/400x500?text=Sin+Imagen')}"
+             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'%3E%3Crect fill='%23f0f0f0' width='400' height='500'/%3E%3C/svg%3E"
+             alt="${Utils.escapeAttr(p.name)}"
+             loading="lazy"
+             decoding="async"/>
       </div>
       <div class="card-info">
         <div class="card-top">

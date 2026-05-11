@@ -100,6 +100,7 @@
             <p class="editorial-subtitle">ADMINISTRATION</p>
           </div>
 <form id="login-form">
+            <input type="hidden" name="csrf_token" id="csrf_token">
             <div class="form-group">
               <label for="email" class="form-label">Correo electrónico</label>
               <input type="email" id="email" class="form-input" placeholder="tu@correo.com" required autocomplete="email" aria-label="Correo electrónico">
@@ -165,6 +166,7 @@
         </div>
         <div class="admin-card form-card">
           <form id="product-form" novalidate>
+            <input type="hidden" name="csrf_token" id="csrf_token_product">
             <div class="input-group">
               <label>Foto del producto</label>
               <div class="file-upload" id="drop-area">
@@ -236,6 +238,7 @@
           <div class="admin-card cat-form-card">
             <h3>Nueva Categoría</h3>
             <form id="category-form" novalidate>
+              <input type="hidden" name="csrf_token" id="csrf_token_category">
               <div class="input-group">
                 <label for="cat-name">Nombre</label>
                 <div class="cat-form-row">

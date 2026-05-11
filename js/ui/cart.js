@@ -282,6 +282,7 @@ window.Cart = {
   toggle() {
     const panel = document.getElementById('cart-panel');
     const overlay = document.getElementById('cart-overlay');
+    const cartBtn = document.getElementById('cart-btn-nav');
     if (!panel) return;
     const wasOpen = panel.classList.contains('open');
     panel.classList.toggle('open');
@@ -289,6 +290,7 @@ window.Cart = {
 
     if (wasOpen) {
       panel.setAttribute('aria-hidden', 'true');
+      if (cartBtn) cartBtn.setAttribute('aria-expanded', 'false');
       Utils.unlockScroll();
       this._releaseTrap?.();
       this._releaseTrap = null;
@@ -301,6 +303,7 @@ window.Cart = {
     } else {
       this._previouslyFocused = document.activeElement;
       panel.setAttribute('aria-hidden', 'false');
+      if (cartBtn) cartBtn.setAttribute('aria-expanded', 'true');
       Utils.lockScroll();
       this._releaseTrap = Utils.trapFocus(panel);
       this._escapeHandler = (e) => { if (e.key === 'Escape') this.toggle(); };

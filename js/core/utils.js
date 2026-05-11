@@ -2,6 +2,9 @@
  * utils.js — Utilidades comunes.
  */
 window.Utils = {
+  _requestCache: new Map(),
+  _pendingRequests: new Map(),
+
   debounce(fn, delay) {
     let timeout;
     return (...args) => {
@@ -115,5 +118,255 @@ window.Utils = {
     if (!container) return;
     const first = container.querySelector(this._FOCUSABLE_SEL);
     (first || container).focus?.();
+  },
+
+  /**
+   * Traduce errores técnicos a mensajes amigables para el usuario.
+   */
+  translateError(error) {
+    if (!error) return 'Ocurrió un error desconocido.';
+
+    const message = error.message || String(error);
+
+    const supabaseErrors = {
+      'Invalid login credentials': 'Correo o contraseña incorrectos.',
+      'Email not confirmed': 'Confirma tu correo electrónico primero.',
+      'Too many requests': 'Demasiados intentos. Espera un momento.',
+      'User already registered': 'Este correo ya está registrado.',
+      'duplicate key value violates unique constraint': 'Este valor ya existe en el sistema.',
+      'null value violates not-null constraint': 'Falta un campo requerido.',
+      'JWT expired': 'Tu sesión ha expirado. Por favor inicia sesión nuevamente.',
+      'Network request failed': 'Error de conexión. Verifica tu internet.',
+      'Timeout': 'La operación tardó demasiado. Intenta nuevamente.'
+    };
+
+    if (supabaseErrors[message]) {
+      return supabaseErrors[message];
+    }
+
+    for (const [key, value] of Object.entries(supabaseErrors)) {
+      if (message.toLowerCase().includes(key.toLowerCase())) {
+        return value;
+      }
+    }
+
+    if (error.code === 'PGRST116') {
+      return 'No se encontraron resultados.';
+    }
+
+    if (message.includes('network') || message.includes('fetch')) {
+      return 'Error de conexión. Verifica tu internet e intenta nuevamente.';
+    }
+
+    if (message.includes('timeout')) {
+      return 'La operación tardó demasiado. Intenta nuevamente.';
+    }
+
+    return 'Ocurrió un error. Por favor intenta nuevamente.';
+  },
+
+  /**
+   * Muestra un toast de error amigable.
+   */
+  showError(error, context = '') {
+    const message = this.translateError(error);
+    const fullMessage = context ? `${context}: ${message}` : message;
+    if (window.showToast) {
+      window.showToast(`❌ ${fullMessage}`, true);
+    }
+    console.error('Error:', error);
+  },
+
+  /**
+   * Registra errores para debugging.
+   */
+  logError(type, error) {
+    const errorInfo = {
+      type,
+      message: error?.message || String(error),
+      stack: error?.stack,
+      url: window.location.href,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent
+    };
+
+    console.error('[Error Log]', errorInfo);
+  },
+
+  /**
+   * Configura manejadores globales de errores.
+   */
+  setupGlobalErrorHandlers() {
+    window.addEventListener('unhandledrejection', (event) => {
+      console.error('Unhandled promise rejection:', event.reason);
+      event.preventDefault();
+
+      if (window.showToast) {
+        this.showError(event.reason, 'Error inesperado');
+      }
+
+      this.logError('UnhandledPromiseRejection', event.reason);
+    });
+
+    window.addEventListener('error', (event) => {
+      console.error('Global error:', event.error);
+
+      if (window.showToast) {
+        this.showError(event.error, 'Error');
+      }
+
+      this.logError('GlobalError', event.error);
+    });
+  },
+
+  /**
+   * Genera y almacena un token CSRF.
+   */
+  generateCSRFToken() {
+    const token = crypto.randomUUID();
+    sessionStorage.setItem('csrf_token', token);
+    return token;
+  },
+
+  /**
+   * Valida un token CSRF.
+   */
+  validateCSRFToken(token) {
+    const stored = sessionStorage.getItem('csrf_token');
+    return stored && stored === token;
+  },
+
+  /**
+   * Obtiene el token CSRF actual.
+   */
+  getCSRFToken() {
+    return sessionStorage.getItem('csrf_token');
+  },
+
+  /**
+   * Deduplica requests con la misma clave.
+   */
+  async deduplicatedRequest(key, requestFn) {
+    if (this._pendingRequests.has(key)) {
+      return this._pendingRequests.get(key);
+    }
+
+    if (this._requestCache.has(key)) {
+      const cached = this._requestCache.get(key);
+      if (Date.now() - cached.timestamp < 300000) {
+        return cached.data;
+      }
+    }
+
+    const promise = requestFn()
+      .then(data => {
+        this._requestCache.set(key, {
+          data,
+          timestamp: Date.now()
+        });
+        this._pendingRequests.delete(key);
+        return data;
+      })
+      .catch(error => {
+        this._pendingRequests.delete(key);
+        throw error;
+      });
+
+    this._pendingRequests.set(key, promise);
+    return promise;
+  },
+
+  /**
+   * Limpia el cache de requests.
+   */
+  clearRequestCache() {
+    this._requestCache.clear();
+  },
+
+  /**
+   * Configura lazy loading para imágenes.
+   */
+  setupLazyLoading() {
+    if (!('IntersectionObserver' in window)) return;
+
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          const src = img.dataset.src;
+          if (src) {
+            img.src = src;
+            img.removeAttribute('data-src');
+            observer.unobserve(img);
+          }
+        }
+      });
+    }, {
+      rootMargin: '50px 0px',
+      threshold: 0.01
+    });
+
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      imageObserver.observe(img);
+    });
+
+    return imageObserver;
+  },
+
+  /**
+   * Establece estado de carga en un botón.
+   */
+  setButtonLoading(btn, loading, originalText = '') {
+    if (!btn) return;
+
+    if (loading) {
+      btn.dataset.originalText = btn.textContent || originalText;
+      btn.disabled = true;
+      btn.innerHTML = `
+        <svg width="18" height="18" class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+        </svg>
+        <span style="margin-left: 8px;">Procesando...</span>
+      `;
+    } else {
+      btn.disabled = false;
+      btn.textContent = btn.dataset.originalText || originalText;
+      delete btn.dataset.originalText;
+    }
+  },
+
+  /**
+   * Muestra overlay de carga.
+   */
+  showLoadingOverlay(message = 'Cargando...') {
+    let overlay = document.getElementById('loading-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'loading-overlay';
+      overlay.className = 'loading-overlay';
+      overlay.innerHTML = `
+        <div class="loading-spinner">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+          </svg>
+          <p>${message}</p>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+    overlay.classList.remove('hidden');
+    this.lockScroll();
+    return overlay;
+  },
+
+  /**
+   * Oculta overlay de carga.
+   */
+  hideLoadingOverlay() {
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) {
+      overlay.classList.add('hidden');
+      this.unlockScroll();
+    }
   }
 };

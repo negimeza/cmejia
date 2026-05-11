@@ -309,12 +309,12 @@ tbody.innerHTML = this._products.map(p => `
     }
 
     showConfirm({
-      title: '¿Eliminar producto?',
-      message: `Vas a eliminar "${p.name}" del catálogo definitivamente.`,
+      title: '¿Archivar producto?',
+      message: `Vas a archivar "${p.name}". Podrás restaurarlo más tarde si lo necesitas.`,
       onConfirm: async () => {
         try {
-          await ProductService.delete(id);
-          showToast('🗑️ Producto eliminado');
+          await ProductService.softDelete(id);
+          showToast('🗑️ Producto archivado');
           setTimeout(() => this.load(), 300);
         } catch (err) {
           showToast('❌ Error: ' + err.message, true);

@@ -33,6 +33,13 @@ window.AdminEditor = {
 
   async handleCreate(e) {
     e.preventDefault();
+
+    const csrfToken = document.getElementById('csrf_token_product')?.value;
+    if (!Utils.validateCSRFToken(csrfToken)) {
+      showToast('❌ Error de seguridad: Token inválido', true);
+      return;
+    }
+
     const btn = document.getElementById('btn-save');
     btn.disabled = true;
     btn.innerHTML = `<svg width="18" height="18" class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Guardando...`;
@@ -150,6 +157,13 @@ window.AdminEditor = {
 
   async saveEdit() {
     if (!this._editingId) return;
+
+    const csrfToken = document.getElementById('csrf_token_product')?.value;
+    if (!Utils.validateCSRFToken(csrfToken)) {
+      showToast('❌ Error de seguridad: Token inválido', true);
+      return;
+    }
+
     const btn = document.getElementById('btn-edit-save');
     btn.disabled = true;
 

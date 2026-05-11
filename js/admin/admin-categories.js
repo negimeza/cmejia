@@ -68,6 +68,13 @@ list.innerHTML = this._list.map(c => `
 
   async handleCreate(e) {
     e.preventDefault();
+
+    const csrfToken = document.getElementById('csrf_token_category')?.value;
+    if (!Utils.validateCSRFToken(csrfToken)) {
+      showToast('❌ Error de seguridad: Token inválido', true);
+      return;
+    }
+
     const input = document.getElementById('cat-name');
     const name = input.value.trim();
     if (!name) return;

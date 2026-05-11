@@ -9,6 +9,13 @@ window.AdminAuth = {
 
     const loginForm = document.getElementById('login-form');
     loginForm?.addEventListener('submit', (e) => this.handleLogin(e));
+
+    // Generar token CSRF
+    const csrfToken = Utils.generateCSRFToken();
+    const csrfInput = document.getElementById('csrf_token');
+    if (csrfInput) {
+      csrfInput.value = csrfToken;
+    }
   },
 
   showDashboard(user) {
@@ -35,6 +42,15 @@ window.AdminAuth = {
 
   async handleLogin(e) {
     e.preventDefault();
+
+    const csrfToken = document.getElementById('csrf_token')?.value;
+    if (!Utils.validateCSRFToken(csrfToken)) {
+      const errorDiv = document.getElementById('login-error');
+      errorDiv.textContent = '❌ Error de seguridad: Token inválido';
+      errorDiv.classList.remove('hidden');
+      return;
+    }
+
     const btn      = document.getElementById('btn-login');
     const errorDiv = document.getElementById('login-error');
     const btnText  = btn.querySelector('.btn-text');

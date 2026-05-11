@@ -21,6 +21,9 @@ window.CatalogApp = {
     CatalogUI.init();
     if (window.initConfirmModal) initConfirmModal();
 
+    // Setup lazy loading
+    Utils.setupLazyLoading();
+
     // Escuchar tecla Escape para cerrar menú móvil
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') this.closeMenu();
@@ -183,6 +186,7 @@ window.CatalogApp = {
       nav.setAttribute('aria-hidden', 'false');
       overlay?.classList.add('visible');
       btn?.classList.add('open');
+      btn?.setAttribute('aria-expanded', 'true');
       Utils.lockScroll();
       this._releaseMenuTrap = Utils.trapFocus(nav);
       Utils.focusFirst(nav);
@@ -198,6 +202,7 @@ window.CatalogApp = {
     nav.setAttribute('aria-hidden', 'true');
     overlay?.classList.remove('visible');
     btn?.classList.remove('open');
+    btn?.setAttribute('aria-expanded', 'false');
     Utils.unlockScroll();
     this._releaseMenuTrap?.();
     this._releaseMenuTrap = null;
