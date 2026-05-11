@@ -300,9 +300,7 @@
    Reutilizable en login y dashboard admin. */
 .floating-theme-toggle {
   position: fixed;
-  top: 24px;
-  right: 24px;
-  z-index: 1100;
+  z-index: 2100;
   width: 42px;
   height: 42px;
   background: var(--login-card-bg);
@@ -2294,4 +2292,16 @@ tbody tr.row-selected {
 
 [data-theme="dark"] #theme-toggle-admin {
   background: var(--bg-elevated);
+}
+
+/* Forzar posición en dashboard admin para que no tape el header */
+#theme-toggle-admin {
+  top: 85px !important;
+  right: 1.5rem !important;
+}
+
+/* En login, queremos que siga estando arriba */
+.login-wrapper .floating-theme-toggle {
+  top: 24px !important;
+  right: 24px !important;
 }
