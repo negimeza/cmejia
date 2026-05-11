@@ -54,22 +54,19 @@
 
 --admin-shadow-high: 0 30px 80px -20px rgba(0,0,0,.7), 0 10px 30px -10px rgba(0,0,0,.5);
 
-  /* Login (minimalista) */
+  /* Login (Minimalist Editorial) */
   --login-bg:           #0a0a0f;
-  --login-halo:         radial-gradient(ellipse 600px 400px at 50% 35%, rgba(232, 69, 107, 0.08) 0%, transparent 70%);
   --login-card-bg:      #14141f;
-  --login-card-border:  rgba(255, 255, 255, 0.06);
-  --login-card-shadow:  0 25px 60px -20px rgba(0, 0, 0, 0.6);
-  --login-input-bg:     #0f0f18;
-  --login-input-border: rgba(255, 255, 255, 0.08);
-  --login-input-focus:  #E8456B;
-  --login-focus-ring:   0 0 0 3px rgba(232, 69, 107, 0.15);
-  --login-text:         #faf0f5;
-  --login-label:        #9d8fa0;
-  --login-helper:       #5a4f60;
-  --login-btn-bg:       #E8456B;
-  --login-btn-hover:    #db2b56;
-  --login-btn-text:     #ffffff;
+  --login-card-border:  rgba(255, 255, 255, 0.05);
+  --login-card-shadow:  0 30px 60px rgba(0, 0, 0, 0.5);
+  --login-input-bg:     transparent;
+  --login-input-border: rgba(255, 255, 255, 0.1);
+  --login-input-focus:  var(--accent);
+  --login-text:         #ffffff;
+  --login-label:        rgba(255, 255, 255, 0.5);
+  --login-btn-bg:       #ffffff;
+  --login-btn-text:     #000000;
+  --login-btn-hover:    var(--accent);
 
   --confirm-overlay-bg: rgba(0, 0, 0, 0.85);
   --edit-overlay-bg: rgba(0, 0, 0, 0.7);
@@ -95,22 +92,19 @@
 
   --admin-shadow-high: 0 20px 60px -15px rgba(0,0,0,0.15), 0 8px 20px -8px rgba(0,0,0,0.08);
 
-  /* Login (minimalista) */
+  /* Login (Minimalist Editorial) */
   --login-bg:           #faf8f5;
-  --login-halo:         radial-gradient(ellipse 600px 400px at 50% 35%, rgba(232, 69, 107, 0.06) 0%, transparent 70%);
   --login-card-bg:      #ffffff;
-  --login-card-border:  rgba(26, 26, 46, 0.06);
-  --login-card-shadow:  0 20px 50px -15px rgba(0, 0, 0, 0.1);
-  --login-input-bg:     #faf8f5;
-  --login-input-border: rgba(26, 26, 46, 0.1);
-  --login-input-focus:  #E8456B;
-  --login-focus-ring:   0 0 0 3px rgba(232, 69, 107, 0.12);
-  --login-text:         #1a1a2e;
-  --login-label:        #5a5a6e;
-  --login-helper:       #8a8a9e;
-  --login-btn-bg:       #E8456B;
-  --login-btn-hover:    #db2b56;
+  --login-card-border:  rgba(0, 0, 0, 0.05);
+  --login-card-shadow:  0 20px 50px rgba(0, 0, 0, 0.05);
+  --login-input-bg:     transparent;
+  --login-input-border: rgba(0, 0, 0, 0.1);
+  --login-input-focus:  #000000;
+  --login-text:         #000000;
+  --login-label:        rgba(0, 0, 0, 0.5);
+  --login-btn-bg:       #000000;
   --login-btn-text:     #ffffff;
+  --login-btn-hover:    var(--accent);
 
   --confirm-overlay-bg: rgba(0, 0, 0, 0.55);
   --edit-overlay-bg: rgba(0, 0, 0, 0.4);
@@ -302,14 +296,6 @@
   overflow: hidden;
 }
 
-.login-wrapper::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--login-halo);
-  pointer-events: none;
-}
-
 /* Theme toggle flotante (fixed, top-right del viewport)
    Reutilizable en login y dashboard admin. */
 .floating-theme-toggle {
@@ -363,31 +349,37 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Brand */
+/* Brand Editorial */
 .brand-section {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
 }
 
-.brand-emoji {
-  font-size: 56px;
-  line-height: 1;
-  margin-bottom: 16px;
-}
-
-.brand-title {
-  font-family: var(--font);
-  font-size: 1.25rem;
-  font-weight: 600;
+.editorial-logo {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
   color: var(--login-text);
-  margin-bottom: 6px;
-  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
 }
 
-.brand-subtitle {
-  font-size: 13px;
-  color: var(--login-label);
+.editorial-logo em {
+  font-style: italic;
+  font-family: var(--font-serif);
+  text-transform: lowercase;
+  opacity: 0.6;
   font-weight: 400;
+}
+
+.editorial-subtitle {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5em;
+  color: var(--login-label);
+  text-transform: uppercase;
+  margin-top: 1rem;
 }
 
 /* Form */
@@ -405,24 +397,20 @@
 
 .form-input {
   width: 100%;
-  padding: 12px 16px;
-  background: var(--login-input-bg);
-  border: 1px solid var(--login-input-border);
-  border-radius: 10px;
+  padding: 14px 0; /* Solo padding vertical para estilo minimal border-bottom */
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--login-input-border);
+  border-radius: 0;
   color: var(--login-text);
-  font-size: 14px;
+  font-size: 15px;
   font-family: var(--font);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.3s ease;
   outline: none;
 }
 
-.form-input::placeholder {
-  color: var(--login-helper);
-}
-
 .form-input:focus {
-  border-color: var(--login-input-focus);
-  box-shadow: var(--login-focus-ring);
+  border-bottom-color: var(--login-input-focus);
 }
 
 /* Password wrap + toggle */
@@ -502,21 +490,27 @@
 /* Submit */
 .submit-btn {
   width: 100%;
-  padding: 12px 24px;
+  padding: 16px;
   background: var(--login-btn-bg);
   color: var(--login-btn-text);
   border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
   font-family: var(--font);
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.1s ease;
+  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
-.submit-btn:hover    { background: var(--login-btn-hover); }
-.submit-btn:active   { transform: translateY(1px); }
-.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.submit-btn:hover {
+  background: var(--login-btn-hover);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
 
 /* Footer */
 .login-footer {

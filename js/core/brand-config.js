@@ -29,7 +29,8 @@ window.BrandConfig = {
         document.getElementById('header-logo'),
         document.getElementById('mobile-nav-logo'),
         document.getElementById('admin-logo'),
-        document.getElementById('footer-logo-link')
+        document.getElementById('footer-logo-link'),
+        document.getElementById('store-name-login')
       ];
 
       logos.forEach(logo => {
