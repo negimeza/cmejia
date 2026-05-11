@@ -2292,18 +2292,6 @@ tbody tr.row-selected {
   .bulk-action-bar.visible { bottom: 1rem; }
 }
 
-/* ── ADMIN THEME TOGGLE ── 
-   Ajuste solicitado para que flote debajo de la barra superior */
-#theme-toggle-admin {
-  position: fixed;
-  top: 75px; /* Un poco más abajo del header (64px) */
-  right: 1.5rem;
-  z-index: 1000;
-  box-shadow: var(--shadow-md);
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-}
-
 [data-theme="dark"] #theme-toggle-admin {
   background: var(--bg-elevated);
 }
