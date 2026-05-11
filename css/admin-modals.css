@@ -25,7 +25,7 @@
   border-radius: 16px;
   padding: 48px 40px;
   box-shadow: var(--login-card-shadow);
-  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .brand-section {
@@ -71,11 +71,11 @@
 
 .form-input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 14px 0;
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--login-input-border);
-  border-radius: 8px;
+  border-radius: 0;
   color: var(--login-text);
   font-size: 15px;
   font-family: var(--font);
@@ -151,30 +151,30 @@
 .submit-btn {
   width: 100%;
   padding: 16px;
-  background: var(--login-btn-bg);
-  color: var(--login-btn-text);
+  background: var(--gradient-accent);
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 999px;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.25em;
   font-family: var(--font);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.25s, filter 0.25s;
   margin-top: 10px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: 0 10px 30px -12px rgba(232, 69, 107, 0.55);
 }
 
 .submit-btn:hover {
-  background: var(--login-btn-hover);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transform: scale(1.02);
+  filter: brightness(1.1);
+  box-shadow: 0 15px 40px -12px rgba(232, 69, 107, 0.6);
 }
 
 .submit-btn:disabled {
@@ -201,6 +201,17 @@
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .error-msg {
