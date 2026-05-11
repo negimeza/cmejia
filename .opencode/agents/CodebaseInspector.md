@@ -2,7 +2,7 @@
 
 description: Senior refactoring and architecture reviewer for large codebases
 mode: subagent
-model: opcode/deepseek-r1-0528
+model: nvidia/qwen/qwen2.5-coder-32b-instruct
 temperature: 0.15
 
 permission:
