@@ -40,12 +40,12 @@ function showProductToast(product) {
   }
 
   const tallaLabel = product.talla
-    ? `Talla: <strong>${product.talla}</strong>`
+    ? `Talla: <strong>${Utils.escapeHTML(product.talla)}</strong>`
     : '<span class="pt-no-size">Sin talla</span>';
 
   pt.innerHTML = `
     <div class="pt-img-wrap">
-      <img src="${product.image_url || 'https://placehold.co/56'}" alt="${Utils.escapeHTML(product.name)}">
+      <img src="${Utils.escapeAttr(product.image_url || 'https://placehold.co/56')}" alt="${Utils.escapeAttr(product.name)}" loading="lazy" decoding="async">
     </div>
     <div class="pt-info">
       <span class="pt-label">✓ Agregado al carrito</span>

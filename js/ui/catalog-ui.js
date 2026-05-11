@@ -22,8 +22,8 @@ window.CatalogUI = {
 
     container.innerHTML = `<button class="cat-filter-btn ${activeId === 'all' ? 'active' : ''}" data-id="all">Todos</button>` +
       categories.map(cat => `
-        <button class="cat-filter-btn ${activeId === cat.id ? 'active' : ''}" data-id="${cat.id}">
-          ${cat.name}
+        <button class="cat-filter-btn ${activeId === cat.id ? 'active' : ''}" data-id="${Utils.escapeAttr(cat.id)}">
+          ${Utils.escapeHTML(cat.name)}
         </button>
       `).join('');
   },
@@ -81,7 +81,7 @@ window.CatalogUI = {
             : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>`
           }
         </button>
-        <img src="${p.image_url || 'https://placehold.co/400x500?text=Sin+Imagen'}" alt="${Utils.escapeHTML(p.name)}" loading="lazy"/>
+        <img src="${Utils.escapeAttr(p.image_url || 'https://placehold.co/400x500?text=Sin+Imagen')}" alt="${Utils.escapeAttr(p.name)}" loading="lazy" decoding="async"/>
       </div>
       <div class="card-info">
         <div class="card-top">

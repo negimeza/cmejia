@@ -19,6 +19,24 @@ window.Cart = {
 
   init() {
     this.render();
+    this._bindDelegatedEvents();
+  },
+
+  _bindDelegatedEvents() {
+    if (this._listenersBound) return;
+    const list = document.getElementById('cart-list');
+    if (!list) return;
+    list.addEventListener('click', (e) => {
+      const qtyBtn = e.target.closest('[data-cart-action="qty"]');
+      if (qtyBtn) {
+        const dir = Number(qtyBtn.dataset.dir);
+        if (dir === 1 || dir === -1) this.changeQty(qtyBtn.dataset.key, dir);
+        return;
+      }
+      const removeBtn = e.target.closest('[data-cart-action="remove"]');
+      if (removeBtn) this.remove(removeBtn.dataset.key);
+    });
+    this._listenersBound = true;
   },
 
   /**
@@ -117,6 +135,7 @@ window.Cart = {
   // ── Render ───────────────────────────────────────────────────
 
   render() {
+    this._bindDelegatedEvents();
     const list     = document.getElementById('cart-list');
     const count    = document.getElementById('cart-count');
     const totalQty = document.getElementById('cart-total-qty');
@@ -166,21 +185,25 @@ window.Cart = {
         ? `<span class="price-consult">Consultar precio</span>`
         : Utils.formatCurrency(itemTotal);
 
+      const safeImg  = Utils.escapeAttr(p.image_url || 'https://placehold.co/100');
+      const safeAlt  = Utils.escapeAttr(p.name);
+      const safeKey  = Utils.escapeAttr(key);
+
       return `
         <div class="cart-item">
-          <img src="${p.image_url || 'https://placehold.co/100'}" alt="${p.name}"/>
+          <img src="${safeImg}" alt="${safeAlt}" loading="lazy" decoding="async"/>
           <div class="cart-item-info">
             <h4>${Utils.escapeHTML(p.name)}</h4>
             <p>${Utils.escapeHTML(p.categories?.name || 'Varios')}${p.talla ? ` · Talla: <b>${Utils.escapeHTML(p.talla)}</b>` : ''}</p>
             <div class="cart-item-qty-row">
               <div class="cart-qty-control">
-                <button onclick="Cart.changeQty('${key}', -1)" aria-label="Disminuir">−</button>
+                <button type="button" data-cart-action="qty" data-key="${safeKey}" data-dir="-1" aria-label="Disminuir">−</button>
                 <span>${itemQty}</span>
-                <button onclick="Cart.changeQty('${key}', 1)" aria-label="Aumentar">+</button>
+                <button type="button" data-cart-action="qty" data-key="${safeKey}" data-dir="1" aria-label="Aumentar">+</button>
               </div>
-              <span class="cart-remove" onclick="Cart.remove('${key}')" title="Eliminar">
+              <button type="button" class="cart-remove" data-cart-action="remove" data-key="${safeKey}" aria-label="Eliminar del carrito" title="Eliminar">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-              </span>
+              </button>
             </div>
           </div>
           <div class="cart-item-price">${priceDisplay}</div>
@@ -196,8 +219,8 @@ window.Cart = {
     const shipMsg = document.getElementById('shipping-msg');
     if (shipMsg) {
       const cfg = ConfigService.get();
-      const baseMsg = cfg.shippingMsg || '* Envío gratis en Medellín';
-      shipMsg.innerHTML = hasConsultationItems 
+      const baseMsg = Utils.escapeHTML(cfg.shippingMsg || '* Envío gratis en Medellín');
+      shipMsg.innerHTML = hasConsultationItems
         ? `${baseMsg}<br><span style="color:var(--accent); font-weight:600;">⚠️ El total no incluye prendas por consultar.</span>`
         : baseMsg;
     }
@@ -207,6 +230,13 @@ window.Cart = {
 
   sendOrder() {
     if (!this._items.length) return;
+
+    const btn = document.querySelector('.btn-send-wa');
+    if (btn?.hasAttribute('data-sending')) return;
+    if (btn) {
+      btn.setAttribute('data-sending', '1');
+      setTimeout(() => btn.removeAttribute('data-sending'), 1500);
+    }
 
     const cfg   = ConfigService.get();
     const waNum = cfg.waNumber || '573207101121';
@@ -250,8 +280,33 @@ window.Cart = {
   },
 
   toggle() {
-    document.getElementById('cart-panel')?.classList.toggle('open');
-    document.getElementById('cart-overlay')?.classList.toggle('open');
+    const panel = document.getElementById('cart-panel');
+    const overlay = document.getElementById('cart-overlay');
+    if (!panel) return;
+    const wasOpen = panel.classList.contains('open');
+    panel.classList.toggle('open');
+    overlay?.classList.toggle('open');
+
+    if (wasOpen) {
+      panel.setAttribute('aria-hidden', 'true');
+      Utils.unlockScroll();
+      this._releaseTrap?.();
+      this._releaseTrap = null;
+      if (this._escapeHandler) {
+        document.removeEventListener('keydown', this._escapeHandler);
+        this._escapeHandler = null;
+      }
+      this._previouslyFocused?.focus?.();
+      this._previouslyFocused = null;
+    } else {
+      this._previouslyFocused = document.activeElement;
+      panel.setAttribute('aria-hidden', 'false');
+      Utils.lockScroll();
+      this._releaseTrap = Utils.trapFocus(panel);
+      this._escapeHandler = (e) => { if (e.key === 'Escape') this.toggle(); };
+      document.addEventListener('keydown', this._escapeHandler);
+      Utils.focusFirst(panel);
+    }
   },
 
   _notifyCardState(productId, inCart) {

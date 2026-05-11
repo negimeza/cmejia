@@ -63,8 +63,8 @@
   </nav>
 
   <!-- Menú móvil overlay -->
-  <div class="mobile-nav-overlay" id="mobile-nav-overlay" onclick="AdminUI.closeMobileNav()"></div>
-  <div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay" onclick="AdminUI.closeMobileNav()" aria-hidden="true"></div>
+  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Menú del panel admin" aria-hidden="true" tabindex="-1">
     <div class="mobile-nav-header">
       <span class="nav-title">Menú</span>
       <button class="mobile-nav-close" onclick="AdminUI.closeMobileNav()">
@@ -365,8 +365,8 @@
   <!-- ── MODALS ── -->
   <div id="toast" class="toast hidden"></div>
 
-  <div id="confirm-modal" class="confirm-overlay hidden">
-    <div class="confirm-box">
+  <div id="confirm-modal" class="confirm-overlay hidden" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-msg" aria-hidden="true">
+    <div class="confirm-box" tabindex="-1">
       <h3 id="confirm-title">¿Estás seguro?</h3>
       <p id="confirm-msg">Esta acción no se puede deshacer.</p>
       <div class="confirm-actions">
@@ -377,10 +377,10 @@
   </div>
 
   <!-- ── EDIT MODAL (MIRROR OF CATALOG) ── -->
-  <div id="edit-modal-overlay" class="edit-modal-overlay hidden" onclick="if(event.target===this)closeEditModal()">
-    <div class="edit-modal-box">
+  <div id="edit-modal-overlay" class="edit-modal-overlay hidden" onclick="if(event.target===this)closeEditModal()" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title" aria-hidden="true">
+    <div class="edit-modal-box" tabindex="-1">
       <div class="edit-modal-header">
-        <h3 class="product__title">Editar Producto</h3>
+        <h3 class="product__title" id="edit-modal-title">Editar Producto</h3>
         <button class="edit-modal-close" onclick="closeEditModal()">✕</button>
       </div>
       <div class="edit-modal-body">

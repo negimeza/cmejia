@@ -4,6 +4,9 @@
 window.AdminEditor = {
   _editingId: null,
   _currentImageUrl: null,
+  _releaseTrap: null,
+  _previouslyFocused: null,
+  _escapeHandler: null,
 
   init() {
     const form = document.getElementById('product-form');
@@ -35,17 +38,21 @@ window.AdminEditor = {
     btn.innerHTML = `<svg width="18" height="18" class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Guardando...`;
 
     try {
+      const priceRaw = document.getElementById('p-price').value.trim();
+      const priceVal = priceRaw === '' ? 0 : parseFloat(priceRaw);
+      if (Number.isNaN(priceVal)) throw new Error('El precio debe ser un número válido.');
+      if (priceVal < 0) throw new Error('El precio no puede ser negativo.');
+
       const data = {
         name:        document.getElementById('p-name').value.trim(),
         description: document.getElementById('p-desc').value.trim(),
-        price:       parseFloat(document.getElementById('p-price').value) || 0,
+        price:       priceVal,
         category_id: document.getElementById('p-category').value,
         active:      document.getElementById('p-active').checked
       };
 
       if (!data.name) throw new Error('El nombre es obligatorio.');
       if (!data.category_id) throw new Error('Selecciona una categoría.');
-      if (data.price < 0) throw new Error('El precio no puede ser negativo.');
 
       const file = window.imageUpload?.getFile();
       data.image_url = file ? await StorageService.uploadImage(file) : null;
@@ -79,12 +86,12 @@ window.AdminEditor = {
     const sel = document.getElementById('edit-category');
     if (catList.length) {
       sel.innerHTML = '<option value="">Sin categoría</option>' +
-        catList.map(c => `<option value="${c.id}" ${c.id === p.category_id ? 'selected' : ''}>${c.name}</option>`).join('');
+        catList.map(c => `<option value="${Utils.escapeAttr(c.id)}" ${c.id === p.category_id ? 'selected' : ''}>${Utils.escapeHTML(c.name)}</option>`).join('');
     } else {
       sel.innerHTML = '<option value="">Sin categoría</option>' +
         Array.from(document.getElementById('p-category').options)
           .filter(o => o.value)
-          .map(o => `<option value="${o.value}" ${o.value === p.category_id ? 'selected' : ''}>${o.text}</option>`).join('');
+          .map(o => `<option value="${Utils.escapeAttr(o.value)}" ${o.value === p.category_id ? 'selected' : ''}>${Utils.escapeHTML(o.text)}</option>`).join('');
     }
 
     // Actualizar badge de categoría
@@ -95,7 +102,16 @@ window.AdminEditor = {
 
     // Imagen
     this.updatePreview(p.image_url);
-    document.getElementById('edit-modal-overlay').classList.remove('hidden');
+    const modalOverlay = document.getElementById('edit-modal-overlay');
+    const modalBox = modalOverlay.querySelector('.edit-modal-box');
+    this._previouslyFocused = document.activeElement;
+    modalOverlay.classList.remove('hidden');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+    Utils.lockScroll();
+    this._releaseTrap = Utils.trapFocus(modalBox || modalOverlay);
+    this._escapeHandler = (e) => { if (e.key === 'Escape') this.close(); };
+    document.addEventListener('keydown', this._escapeHandler);
+    Utils.focusFirst(modalBox || modalOverlay);
   },
 
   updatePreview(url) {
@@ -138,13 +154,15 @@ window.AdminEditor = {
     btn.disabled = true;
 
     try {
-      const priceVal = parseFloat(document.getElementById('edit-price').value);
+      const priceRaw = document.getElementById('edit-price').value.trim();
+      const priceVal = priceRaw === '' ? 0 : parseFloat(priceRaw);
+      if (Number.isNaN(priceVal)) throw new Error('El precio debe ser un número válido.');
       if (priceVal < 0) throw new Error('El precio no puede ser negativo.');
-      
+
       const updates = {
         name:        document.getElementById('edit-name').value.trim(),
         description: document.getElementById('edit-desc').value.trim(),
-        price:       priceVal || 0,
+        price:       priceVal,
         category_id: document.getElementById('edit-category').value,
         active:      document.getElementById('edit-active').checked,
         image_url:   this._currentImageUrl
@@ -162,7 +180,19 @@ window.AdminEditor = {
   },
 
   close() {
-    document.getElementById('edit-modal-overlay').classList.add('hidden');
+    const modalOverlay = document.getElementById('edit-modal-overlay');
+    if (!modalOverlay || modalOverlay.classList.contains('hidden')) return;
+    modalOverlay.classList.add('hidden');
+    modalOverlay.setAttribute('aria-hidden', 'true');
+    Utils.unlockScroll();
+    this._releaseTrap?.();
+    this._releaseTrap = null;
+    if (this._escapeHandler) {
+      document.removeEventListener('keydown', this._escapeHandler);
+      this._escapeHandler = null;
+    }
+    this._previouslyFocused?.focus?.();
+    this._previouslyFocused = null;
     this._editingId = null;
   }
 };

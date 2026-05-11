@@ -8,10 +8,14 @@ const DEFAULT_SIZES = ['S', 'M', 'L', 'XL', 'Única'];
 window.CatalogModal = {
   _product: null,
   _size: null,
+  _releaseTrap: null,
+  _previouslyFocused: null,
+  _escapeHandler: null,
 
   open(product) {
     this._product = product;
     this._size = null;
+    this._previouslyFocused = document.activeElement;
 
     document.getElementById('modal-img').src = product.image_url || 'https://placehold.co/400x500';
     document.getElementById('modal-name').textContent = product.name;
@@ -31,19 +35,40 @@ window.CatalogModal = {
     const sizes = product.sizes?.length ? product.sizes : DEFAULT_SIZES;
     const sizesContainer = document.getElementById('sizes-container');
     sizesContainer.innerHTML = sizes.map(s =>
-      `<button class="size-btn" data-size="${s}">${s}</button>`
+      `<button class="size-btn" data-size="${Utils.escapeAttr(s)}">${Utils.escapeHTML(s)}</button>`
     ).join('');
     sizesContainer.querySelectorAll('.size-btn').forEach(btn =>
       btn.addEventListener('click', () => this.selectSize(btn.dataset.size, btn))
     );
     
-    document.getElementById('overlay')?.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    const overlay = document.getElementById('overlay');
+    const modal = document.getElementById('modal');
+    if (overlay && !overlay.classList.contains('open')) {
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      Utils.lockScroll();
+      this._releaseTrap = Utils.trapFocus(modal);
+      this._escapeHandler = (e) => { if (e.key === 'Escape') this.close(); };
+      document.addEventListener('keydown', this._escapeHandler);
+      Utils.focusFirst(modal);
+    }
   },
 
   close() {
-    document.getElementById('overlay')?.classList.remove('open');
-    document.body.style.overflow = '';
+    const overlay = document.getElementById('overlay');
+    if (overlay?.classList.contains('open')) {
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      Utils.unlockScroll();
+      this._releaseTrap?.();
+      this._releaseTrap = null;
+      if (this._escapeHandler) {
+        document.removeEventListener('keydown', this._escapeHandler);
+        this._escapeHandler = null;
+      }
+      this._previouslyFocused?.focus?.();
+      this._previouslyFocused = null;
+    }
   },
 
   changeQty(dir) {
@@ -65,6 +90,13 @@ window.CatalogModal = {
       container?.classList.add('shake');
       setTimeout(() => container?.classList.remove('shake'), 500);
       return;
+    }
+
+    const btn = document.getElementById('btn-add-cart');
+    if (btn?.disabled) return;
+    if (btn) {
+      btn.disabled = true;
+      setTimeout(() => { btn.disabled = false; }, 600);
     }
 
     const qty  = parseInt(document.getElementById('modal-qty').textContent);

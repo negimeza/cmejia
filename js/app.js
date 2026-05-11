@@ -13,9 +13,13 @@ window.CatalogApp = {
   _observer: null,   // IntersectionObserver para infinite scroll
 
   async init() {
+    if (this._initialized) return;
+    this._initialized = true;
+
     await ConfigService.load();
     BrandConfig.apply();
     CatalogUI.init();
+    if (window.initConfirmModal) initConfirmModal();
 
     // Escuchar tecla Escape para cerrar menú móvil
     document.addEventListener('keydown', (e) => {
@@ -49,6 +53,7 @@ window.CatalogApp = {
     const sentinel = document.getElementById('scroll-sentinel');
     if (!sentinel || !('IntersectionObserver' in window)) return;
 
+    this._observer?.disconnect();
     this._observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry.isIntersecting && this._hasMore && !this._isLoading) {
@@ -151,10 +156,15 @@ window.CatalogApp = {
   setupHeaderScroll() {
     const header = document.querySelector('.header');
     if (!header) return;
+    let ticking = false;
     window.addEventListener('scroll', () => {
-      const isScrolled = window.scrollY > 50;
-      header.classList.toggle('scrolled', isScrolled);
-    });
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+        ticking = false;
+      });
+    }, { passive: true });
   },
   
   // ── Gestión Menú Móvil ──
@@ -168,10 +178,14 @@ window.CatalogApp = {
     if (isOpen) {
       this.closeMenu();
     } else {
+      this._menuPreviouslyFocused = document.activeElement;
       nav.classList.add('visible');
+      nav.setAttribute('aria-hidden', 'false');
       overlay?.classList.add('visible');
       btn?.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      Utils.lockScroll();
+      this._releaseMenuTrap = Utils.trapFocus(nav);
+      Utils.focusFirst(nav);
     }
   },
 
@@ -179,10 +193,16 @@ window.CatalogApp = {
     const nav = document.getElementById('main-mobile-nav');
     const overlay = document.getElementById('main-nav-overlay');
     const btn = document.getElementById('main-hamburger');
-    nav?.classList.remove('visible');
+    if (!nav?.classList.contains('visible')) return;
+    nav.classList.remove('visible');
+    nav.setAttribute('aria-hidden', 'true');
     overlay?.classList.remove('visible');
     btn?.classList.remove('open');
-    document.body.style.overflow = '';
+    Utils.unlockScroll();
+    this._releaseMenuTrap?.();
+    this._releaseMenuTrap = null;
+    this._menuPreviouslyFocused?.focus?.();
+    this._menuPreviouslyFocused = null;
   }
 };
 

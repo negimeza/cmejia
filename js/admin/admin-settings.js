@@ -28,12 +28,19 @@ window.AdminSettings = {
     if (btn) btn.textContent = 'Guardando...';
 
     try {
+      const igRaw = get('cfg-instagram');
+      const igClean = igRaw
+        .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '')
+        .replace(/^@/, '')
+        .replace(/\/.*$/, '')
+        .trim();
+
       await ConfigService.save({
         storeName:    get('cfg-name') || 'Mi Tienda',
         heroTitle:    get('cfg-hero-title'),
         heroSubtitle: get('cfg-hero-sub'),
         city:         get('cfg-city') || 'Tu Ciudad',
-        instagram:    get('cfg-instagram'),
+        instagram:    igClean,
         waNumber:     '57' + waRaw,
       });
 

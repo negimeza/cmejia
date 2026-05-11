@@ -63,7 +63,7 @@ list.innerHTML = this._list.map(c => `
     const sel = document.getElementById('p-category');
     if (!sel) return;
     sel.innerHTML = '<option value="">Seleccionar categoría...</option>' +
-      this._list.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      this._list.map(c => `<option value="${Utils.escapeAttr(c.id)}">${Utils.escapeHTML(c.name)}</option>`).join('');
   },
 
   async handleCreate(e) {

@@ -123,9 +123,7 @@ window.BrandConfig = {
     const hero = document.querySelector('.hero');
     if (!hero) return;
 
-    // Generamos un número del 1 al 6
     const randomNum = Math.floor(Math.random() * 6) + 1;
-    // RUTA ABSOLUTA desde la raíz del sitio para evitar errores de carpeta /css/
     const imgPath = `url("/assets/hero/hero-${randomNum}.png")`;
 
     hero.style.setProperty('--hero-bg', imgPath);

@@ -45,10 +45,14 @@ window.AdminUI = {
     if (isOpen) {
       this.closeMobileNav();
     } else {
+      this._previouslyFocused = document.activeElement;
       nav.classList.add('visible');
+      nav.setAttribute('aria-hidden', 'false');
       overlay.classList.add('visible');
       btn.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      Utils.lockScroll();
+      this._releaseTrap = Utils.trapFocus(nav);
+      Utils.focusFirst(nav);
     }
   },
 
@@ -56,10 +60,16 @@ window.AdminUI = {
     const nav = document.getElementById('mobile-nav');
     const overlay = document.getElementById('mobile-nav-overlay');
     const btn = document.getElementById('hamburger-btn');
-    if (nav) nav.classList.remove('visible');
+    if (!nav?.classList.contains('visible')) return;
+    nav.classList.remove('visible');
+    nav.setAttribute('aria-hidden', 'true');
     if (overlay) overlay.classList.remove('visible');
     if (btn) btn.classList.remove('open');
-    document.body.style.overflow = '';
+    Utils.unlockScroll();
+    this._releaseTrap?.();
+    this._releaseTrap = null;
+    this._previouslyFocused?.focus?.();
+    this._previouslyFocused = null;
   },
 
   switchTabMobile(tabId, clickedBtn) {

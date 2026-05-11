@@ -13,6 +13,9 @@ window.AdminInventory = {
   _selectedIds: new Set(),
 
   init() {
+    if (this._initialized) return;
+    this._initialized = true;
+
     // ── Búsqueda con debounce ──────────────────────────────────────
     const searchInput = document.getElementById('inventory-search');
     searchInput?.addEventListener('input', Utils.debounce(() => {
@@ -124,7 +127,7 @@ tbody.innerHTML = this._products.map(p => `
           <input type="checkbox" class="row-check" data-id="${p.id}"
             ${this._selectedIds.has(p.id) ? 'checked' : ''}>
         </td>
-        <td><img src="${p.image_url || 'https://placehold.co/48x48/1c1c2e/f472b6?text=?'}" class="p-thumb" alt="${Utils.escapeHTML(p.name)}"></td>
+        <td><img src="${Utils.escapeAttr(p.image_url || 'https://placehold.co/48x48/1c1c2e/f472b6?text=?')}" class="p-thumb" alt="${Utils.escapeAttr(p.name)}" loading="lazy" decoding="async"></td>
         <td>
           <strong class="text-primary">${Utils.escapeHTML(p.name)}</strong>
         </td>
@@ -253,7 +256,7 @@ tbody.innerHTML = this._products.map(p => `
     );
     if (!confirmed) return;
     try {
-      const results = await Promise.allSettled(ids.map(id => ProductService.update(id, { active: false })));
+      const results = await Utils.runInChunks(ids, 8, id => ProductService.update(id, { active: false }));
       const failed = results.filter(r => r.status === 'rejected').length;
       if (failed > 0) {
         showToast(`⚠️ ${ids.length - failed} ocultados, ${failed} error(es)`, true);
@@ -275,7 +278,7 @@ tbody.innerHTML = this._products.map(p => `
     );
     if (!confirmed) return;
     try {
-      const results = await Promise.allSettled(ids.map(id => ProductService.delete(id)));
+      const results = await Utils.runInChunks(ids, 8, id => ProductService.delete(id));
       const failed = results.filter(r => r.status === 'rejected').length;
       if (failed > 0) {
         showToast(`⚠️ ${ids.length - failed} eliminados, ${failed} error(es)`, true);

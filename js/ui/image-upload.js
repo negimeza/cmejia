@@ -45,7 +45,13 @@ function initImageUpload({ dropAreaId, fileInputId, previewImgId, uploadInnerId,
 
   fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (file) showPreview(file);
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      window.showToast?.('Solo se permiten imágenes.', true);
+      fileInput.value = '';
+      return;
+    }
+    showPreview(file);
   });
 
   return {
