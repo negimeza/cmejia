@@ -7,7 +7,7 @@ window.CatalogApp = {
   _activeCategory: 'all',
   _currentPage: 0,
   _pageSize: 12,
-  _hasMore: true,
+  _hasMore: false,   // se habilita tras la carga inicial real
   _totalCount: 0,
   _isLoading: false,
   _observer: null,   // IntersectionObserver para infinite scroll
@@ -37,14 +37,15 @@ window.CatalogApp = {
       if (e.target === e.currentTarget) window.CatalogModal?.close();
     });
 
-    // Infinite Scroll: observar el centinela
-    this._setupObserver();
-
-    // Carga inicial
-    this.loadInitialData();
-
-    // Renderizar carrito inicial
+    // Renderizar carrito inicial (independiente del catálogo)
     if (window.Cart) Cart.render();
+
+    // Carga inicial PRIMERO; recién luego activamos el observer de infinite
+    // scroll. Si activáramos el observer antes y el sentinel ya fuera visible
+    // (grid vacío con skeletons), dispararía loadNextPage con _hasMore=true
+    // por defecto y pediría offset=12 sin haber confirmado que hay más datos.
+    await this.loadInitialData();
+    this._setupObserver();
   },
 
   /**
@@ -104,9 +105,10 @@ window.CatalogApp = {
 
   async handleFilter(categoryId) {
     if (this._isLoading) return;
+    this._isLoading      = true;
     this._activeCategory = categoryId;
     this._currentPage    = 0;
-    this._hasMore        = true;
+    this._hasMore        = false; // se reactiva tras conocer el count real
     this._totalCount     = 0;
 
     CatalogUI.showSkeletons();
@@ -130,6 +132,8 @@ window.CatalogApp = {
           </div>
         `;
       }
+    } finally {
+      this._isLoading = false;
     }
   },
 
