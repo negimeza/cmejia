@@ -43,6 +43,7 @@ window.CatalogUI = {
     }
 
     products.forEach((p, i) => grid.appendChild(this._createCard(p, i)));
+    Utils.observeLazyImages(grid);
   },
 
   appendGrid(products) {
@@ -50,6 +51,7 @@ window.CatalogUI = {
     if (!grid) return;
     const currentCount = grid.querySelectorAll('.card').length;
     products.forEach((p, i) => grid.appendChild(this._createCard(p, currentCount + i)));
+    Utils.observeLazyImages(grid);
   },
 
   _createCard(p, index) {

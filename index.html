@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Cargando tienda...</title>
   <meta name="description" content="Moda boutique exclusiva. Prendas únicas con envío a domicilio. Haz tu pedido por WhatsApp."/>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.supabase.co https://*.supabase.io; img-src * data:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://*.supabase.io; frame-src https://js.stripe.com;"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.supabase.co https://*.supabase.io; img-src * data:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://*.supabase.io https://cdn.jsdelivr.net; frame-src https://js.stripe.com;"/>
   
   <!-- OpenGraph / WhatsApp Sharing -->
   <meta property="og:title" content="Catálogo Premium 2026"/>
@@ -31,11 +31,6 @@
         <button class="nav-btn hamburger-btn" id="main-hamburger" onclick="App.toggleMenu()" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="main-mobile-nav">
           <span></span><span></span><span></span>
         </button>
-        <a href="admin.html" class="brand-admin-icon" title="Panel de administración" aria-label="Ir al panel de administración">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-        </a>
         <a href="#" class="logo" id="header-logo"></a>
       </div>
       
@@ -46,6 +41,11 @@
       </nav>
 
       <div class="header-actions">
+        <a href="admin.html" class="brand-admin-icon hidden" data-admin-link title="Panel de administración" aria-label="Ir al panel de administración">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </a>
         <button class="theme-toggle-btn" id="theme-toggle" onclick="ThemeToggle.toggle()" title="Cambiar tema" aria-label="Cambiar tema claro/oscuro">
           <svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
@@ -243,6 +243,7 @@
     <!-- 4. Derechos Reservados (Apartado solo) -->
     <div class="footer-legal">
       <p id="footer-copy">© 2026 Lupe · Todos los derechos reservados</p>
+      <a href="admin.html" class="footer-admin-link">Acceso administrador</a>
     </div>
   </footer>
 
@@ -348,6 +349,28 @@
       <a href="#por-que-lupe" onclick="App.toggleMenu()">Por qué Lupe</a>
       <a href="#contacto" onclick="App.toggleMenu()">Contacto</a>
     </div>
+    <div class="mobile-nav-actions">
+      <button type="button" class="mobile-nav-action" onclick="ThemeToggle.toggle()" aria-label="Cambiar tema claro/oscuro">
+        <span class="theme-icon-wrap" aria-hidden="true">
+          <svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
+        <span>Cambiar tema</span>
+      </button>
+      <a href="admin.html" class="mobile-nav-action hidden" data-admin-link aria-label="Ir al panel de administración">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>Panel administrador</span>
+      </a>
+    </div>
     <div class="mobile-nav-footer">
       <p id="mobile-footer-city">Envíos en Medellín</p>
     </div>
@@ -358,6 +381,7 @@
   <script src="js/core/theme-toggle.js"></script>
   <script>window.ThemeToggle.init();</script>
   <script src="js/core/supabase-client.js"></script>
+  <script src="js/core/admin-link.js"></script>
   <script src="js/core/utils.js"></script>
   <script src="js/core/keyboard-shortcuts.js"></script>
   <script src="js/core/performance-metrics.js"></script>

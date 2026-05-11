@@ -54,8 +54,10 @@ window.PerformanceMetrics = {
       memory: this.getMemoryUsage(),
     };
 
-    // Log en consola para desarrollo
-    if (process.env.NODE_ENV !== 'production') {
+    // Log en consola solo en entorno local de desarrollo
+    const host = location.hostname;
+    const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '' || host.endsWith('.local');
+    if (isLocal) {
       this.logMetrics();
     }
 

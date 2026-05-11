@@ -304,13 +304,11 @@ html {
   color: #fff;
 }
 
-/* ── THEME TOGGLE BUTTON ── 
-   Ajuste global: botón flotante en la parte superior derecha */
+/* ── THEME TOGGLE BUTTON ──
+   Versión por defecto: inline (vive dentro del header / nav junto a otros controles).
+   Para versión flotante (solo en la vista de login admin) usar la clase .floating-theme-toggle. */
 .theme-toggle-btn {
-  position: fixed;
-  top: 85px; /* Más espacio debajo de los headers (64px) */
-  right: 1.5rem;
-  z-index: 2000;
+  position: relative;
   overflow: hidden;
   background: var(--bg-surface);
   border: 1px solid var(--border);
@@ -323,6 +321,13 @@ html {
   -webkit-backdrop-filter: blur(8px);
   transition: all 0.3s ease;
   box-shadow: var(--shadow-mid);
+}
+
+.theme-toggle-btn.floating-theme-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 2000;
 }
 .theme-toggle-btn:hover {
   background: transparent;
@@ -347,6 +352,22 @@ html {
 
 .theme-toggle-btn svg {
   position: absolute;
+  transition: transform 0.5s cubic-bezier(.165,.84,.44,1), opacity 0.3s ease;
+}
+
+/* Contenedor inline para apilar los íconos sun/moon dentro de otros botones
+   (e.g. opciones del menú hamburguesa) sin que ocupen doble espacio horizontal. */
+.theme-icon-wrap {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.theme-icon-wrap .theme-icon-sun,
+.theme-icon-wrap .theme-icon-moon {
+  position: absolute;
+  inset: 0;
   transition: transform 0.5s cubic-bezier(.165,.84,.44,1), opacity 0.3s ease;
 }
 

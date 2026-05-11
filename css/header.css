@@ -47,18 +47,43 @@
   align-items: center;
   justify-content: center;
   color: var(--white);
-  opacity: 0.35;
-  padding: 4px;
-  border-radius: 6px;
+  opacity: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.25s;
   text-decoration: none;
 }
 
 .brand-admin-icon:hover {
+  color: var(--accent);
+  background: rgba(232, 69, 107, 0.08);
+  border-color: var(--accent);
+  transform: rotate(45deg);
+}
+
+[data-theme="light"] .brand-admin-icon {
+  background: rgba(26, 26, 46, 0.05);
+  border: 1px solid rgba(26, 26, 46, 0.1);
+  color: var(--text-main);
+}
+
+.footer-admin-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  opacity: 0.5;
+  transition: opacity 0.25s, color 0.25s;
+}
+
+.footer-admin-link:hover {
   opacity: 1;
   color: var(--accent);
-  background: rgba(232, 69, 107, 0.05);
-  transform: rotate(45deg);
 }
 
 .header .logo { 
@@ -221,20 +246,20 @@
 
 .main-mobile-nav {
   position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
-  background: #0a0a0f; border-right: 1px solid rgba(255,255,255,0.05);
+  background: var(--bg-surface); border-right: 1px solid var(--border);
   z-index: 1200; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex; flex-direction: column; padding: 1.5rem;
 }
 .main-mobile-nav.visible { left: 0; }
 
 .mobile-nav-header {
-  display: flex; 
-  justify-content: space-between; 
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 1.5rem; /* Asegura espacio mínimo entre logo y botón X */
-  margin-bottom: 3rem; 
-  padding-bottom: 1rem; 
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .mobile-nav-header .nav-title { 
@@ -254,3 +279,73 @@
 .mobile-nav-links a:hover { color: var(--accent); transform: translateX(5px); }
 
 .mobile-nav-footer { margin-top: auto; padding-top: 2rem; color: var(--text-dim); font-size: 0.85rem; }
+
+/* ── ACCIONES SECUNDARIAS DENTRO DEL DRAWER ── */
+.mobile-nav-actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+[data-theme="light"] .mobile-nav-actions {
+  border-top: 1px solid rgba(26, 26, 46, 0.08);
+}
+
+.mobile-nav-action {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+
+[data-theme="light"] .mobile-nav-action {
+  background: rgba(26, 26, 46, 0.04);
+  border: 1px solid rgba(26, 26, 46, 0.08);
+  color: var(--text-main);
+}
+
+.mobile-nav-action:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+.mobile-nav-action svg {
+  flex-shrink: 0;
+}
+
+/* ── RESPONSIVE — pantallas con hamburguesa (<850px) ──
+   El toggle de tema y el acceso admin salen del header y viven solo dentro
+   del drawer (.mobile-nav-action). El carrito permanece en el header. */
+@media (max-width: 850px) {
+  .header-actions > .theme-toggle-btn,
+  .header-actions > .brand-admin-icon {
+    display: none;
+  }
+}
+
+/* ── RESPONSIVE TIGHTENING — pantallas muy pequeñas ── */
+@media (max-width: 480px) {
+  .header-inner {
+    padding: 0 1rem;
+  }
+  .header-actions {
+    gap: 0.2rem;
+  }
+  .header-actions .nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -283,34 +283,62 @@ window.Utils = {
     this._requestCache.clear();
   },
 
+  _lazyObserver: null,
+
   /**
-   * Configura lazy loading para imágenes.
+   * Configura lazy loading. Crea un IntersectionObserver singleton y observa
+   * todas las imágenes con [data-src] presentes en el DOM al momento.
+   * Para imágenes renderizadas más tarde, llamar Utils.observeLazyImages().
    */
   setupLazyLoading() {
-    if (!('IntersectionObserver' in window)) return;
+    if (!('IntersectionObserver' in window)) {
+      // Fallback: cargar todas las imágenes inmediatamente
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+      });
+      return null;
+    }
 
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          const src = img.dataset.src;
-          if (src) {
-            img.src = src;
-            img.removeAttribute('data-src');
+    if (!this._lazyObserver) {
+      this._lazyObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            const src = img.dataset.src;
+            if (src) {
+              img.src = src;
+              img.removeAttribute('data-src');
+            }
             observer.unobserve(img);
           }
-        }
+        });
+      }, {
+        rootMargin: '200px 0px',
+        threshold: 0.01,
       });
-    }, {
-      rootMargin: '50px 0px',
-      threshold: 0.01
-    });
+    }
 
-    document.querySelectorAll('img[data-src]').forEach(img => {
-      imageObserver.observe(img);
-    });
+    this.observeLazyImages();
+    return this._lazyObserver;
+  },
 
-    return imageObserver;
+  /**
+   * Observa nuevas imágenes [data-src] añadidas al DOM tras el setup inicial.
+   * @param {ParentNode} [root=document] contenedor donde buscar imágenes.
+   */
+  observeLazyImages(root = document) {
+    if (!this._lazyObserver) {
+      // Sin observer (navegador sin IntersectionObserver): cargar directo
+      root.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+      });
+      return;
+    }
+    root.querySelectorAll('img[data-src]').forEach(img => {
+      this._lazyObserver.observe(img);
+    });
   },
 
   /**
