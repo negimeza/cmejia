@@ -16,9 +16,10 @@ window.AdminAuth = {
     document.getElementById('dashboard-section').classList.remove('hidden');
     document.getElementById('admin-nav')?.classList.remove('hidden');
     document.getElementById('user-info').classList.remove('hidden');
+    document.getElementById('theme-toggle-admin')?.classList.remove('hidden');
     document.getElementById('user-email').textContent  = user.email;
     document.getElementById('user-avatar').textContent = user.email.charAt(0).toUpperCase();
-    
+
     // Disparar carga inicial de datos
     window.AdminCategories?.load();
     window.AdminInventory?.load();
@@ -29,6 +30,7 @@ window.AdminAuth = {
     document.getElementById('dashboard-section').classList.add('hidden');
     document.getElementById('admin-nav')?.classList.add('hidden');
     document.getElementById('user-info').classList.add('hidden');
+    document.getElementById('theme-toggle-admin')?.classList.add('hidden');
   },
 
   async handleLogin(e) {
