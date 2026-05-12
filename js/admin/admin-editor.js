@@ -46,7 +46,7 @@ window.AdminEditor = {
 
     try {
       const priceRaw = document.getElementById('p-price').value.trim();
-      const priceVal = priceRaw === '' ? 0 : parseFloat(priceRaw);
+      const priceVal = Utils.parseNumberFromDots(priceRaw);
       if (Number.isNaN(priceVal)) throw new Error('El precio debe ser un número válido.');
       if (priceVal < 0) throw new Error('El precio no puede ser negativo.');
 
@@ -85,7 +85,7 @@ window.AdminEditor = {
 
     document.getElementById('edit-name').value   = p.name;
     document.getElementById('edit-desc').value   = p.description;
-    document.getElementById('edit-price').value  = p.price;
+    document.getElementById('edit-price').value  = Utils.formatNumberWithDots(p.price);
     document.getElementById('edit-active').checked = p.active;
 
     // Categorías — usar variable en memoria o fallback a #p-category
@@ -169,7 +169,7 @@ window.AdminEditor = {
 
     try {
       const priceRaw = document.getElementById('edit-price').value.trim();
-      const priceVal = priceRaw === '' ? 0 : parseFloat(priceRaw);
+      const priceVal = Utils.parseNumberFromDots(priceRaw);
       if (Number.isNaN(priceVal)) throw new Error('El precio debe ser un número válido.');
       if (priceVal < 0) throw new Error('El precio no puede ser negativo.');
 

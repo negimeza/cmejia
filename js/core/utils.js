@@ -43,6 +43,51 @@ window.Utils = {
     }).format(num ?? 0);
   },
 
+  /**
+   * Formatea un número o string numérico con puntos como separador de miles.
+   */
+  formatNumberWithDots(val) {
+    if (val == null || val === '') return '';
+    // Eliminar todo lo que no sea dígito
+    const clean = String(val).replace(/\D/g, '');
+    if (!clean) return '';
+    // Añadir puntos cada 3 dígitos desde el final
+    return clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  },
+
+  /**
+   * Limpia los puntos de un string y devuelve el valor numérico.
+   */
+  parseNumberFromDots(val) {
+    if (!val) return 0;
+    const clean = String(val).replace(/\./g, '');
+    const num = parseFloat(clean);
+    return isNaN(num) ? 0 : num;
+  },
+
+  /**
+   * Busca todos los inputs con data-type="currency" y les añade 
+   * el comportamiento de formateo en tiempo real.
+   */
+  setupCurrencyInputs() {
+    const inputs = document.querySelectorAll('input[data-type="currency"]');
+    inputs.forEach(input => {
+      input.addEventListener('input', (e) => {
+        const cursorPosition = e.target.selectionStart;
+        const oldLength = e.target.value.length;
+        
+        const formatted = this.formatNumberWithDots(e.target.value);
+        e.target.value = formatted;
+
+        // Intentar mantener la posición del cursor (aproximado)
+        const newLength = formatted.length;
+        const diff = newLength - oldLength;
+        const newPosition = cursorPosition + diff;
+        e.target.setSelectionRange(newPosition, newPosition);
+      });
+    });
+  },
+
   _scrollLock: 0,
   lockScroll() {
     if (this._scrollLock === 0) {

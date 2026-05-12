@@ -14,6 +14,9 @@ window.AdminUI = {
       const label = document.getElementById('toggle-label-text');
       if (label) label.textContent = activeCheck.checked ? 'Visible' : 'Oculto';
     });
+
+    // Inicializar formateo de moneda
+    Utils.setupCurrencyInputs();
   },
 
   switchTab(tabId, btnEl) {
