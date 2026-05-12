@@ -158,7 +158,7 @@ window.AdminEditor = {
   async saveEdit() {
     if (!this._editingId) return;
 
-    const csrfToken = document.getElementById('csrf_token_product')?.value;
+    const csrfToken = document.getElementById('csrf_token_edit')?.value;
     if (!Utils.validateCSRFToken(csrfToken)) {
       showToast('❌ Error de seguridad: Token inválido', true);
       return;

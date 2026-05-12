@@ -10,12 +10,11 @@ window.AdminAuth = {
     const loginForm = document.getElementById('login-form');
     loginForm?.addEventListener('submit', (e) => this.handleLogin(e));
 
-    // Generar token CSRF
+    // Generar token CSRF y distribuirlo a TODOS los formularios
     const csrfToken = Utils.generateCSRFToken();
-    const csrfInput = document.getElementById('csrf_token');
-    if (csrfInput) {
-      csrfInput.value = csrfToken;
-    }
+    document.querySelectorAll('.csrf-token-input').forEach(input => {
+      input.value = csrfToken;
+    });
   },
 
   showDashboard(user) {

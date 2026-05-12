@@ -112,7 +112,7 @@
             <p class="editorial-subtitle">ADMINISTRATION</p>
           </div>
 <form id="login-form">
-            <input type="hidden" name="csrf_token" id="csrf_token">
+            <input type="hidden" name="csrf_token" id="csrf_token" class="csrf-token-input">
             <div class="form-group">
               <label for="email" class="form-label">Correo electrónico</label>
               <div class="input-with-icon">
@@ -188,7 +188,7 @@
         </div>
         <div class="admin-card form-card">
           <form id="product-form" novalidate>
-            <input type="hidden" name="csrf_token" id="csrf_token_product">
+            <input type="hidden" name="csrf_token" id="csrf_token_product" class="csrf-token-input">
             <div class="input-group">
               <label>Foto del producto</label>
               <div class="file-upload" id="drop-area">
@@ -260,7 +260,7 @@
           <div class="admin-card cat-form-card">
             <h3>Nueva Categoría</h3>
             <form id="category-form" novalidate>
-              <input type="hidden" name="csrf_token" id="csrf_token_category">
+              <input type="hidden" name="csrf_token" id="csrf_token_category" class="csrf-token-input">
               <div class="input-group">
                 <label for="cat-name">Nombre</label>
                 <div class="cat-form-row">
@@ -427,6 +427,7 @@
         </div>
         <div class="edit-modal-fields-col">
           <div class="edit-modal-content">
+            <input type="hidden" name="csrf_token" id="csrf_token_edit" class="csrf-token-input">
             <div class="input-group">
               <label for="edit-name">NOMBRE DEL PRODUCTO</label>
               <input type="text" id="edit-name" class="form-input" required>
